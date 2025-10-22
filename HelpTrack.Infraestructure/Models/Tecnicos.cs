@@ -7,7 +7,7 @@ public partial class Tecnicos
 {
     public int IdTecnico { get; set; }
 
-    public string Alias { get; set; }
+    public string? Alias { get; set; }
 
     public bool Disponible { get; set; }
 

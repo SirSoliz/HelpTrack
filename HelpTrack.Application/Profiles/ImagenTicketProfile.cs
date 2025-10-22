@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace HelpTrack.Application.Profiles
 {
-    public class TecnicoProfile : Profile
+    public class ImagenTicketProfile : Profile
     {
-        public TecnicoProfile()
+        public ImagenTicketProfile()
         {
-            CreateMap<TecnicoDTO, Tecnicos>().ReverseMap();
+            CreateMap<ImagenTicketDTO, ImagenesTicket>().ReverseMap();
         }
     }
 }
