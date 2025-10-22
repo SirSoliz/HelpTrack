@@ -17,9 +17,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
-    <Folder Include="Profiles\" />
-    <Folder Include="Services\Implementations\" />
-    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
 </Project>

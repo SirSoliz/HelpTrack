@@ -17,6 +17,6 @@ namespace HelpTrack.Application.DTOs
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "{0} es un dato requerido")]
         public string Nombre { get; set; } = null!;
-        //public virtual List<Tecnico> Tecnico { get; set; } = new List<Tecnico>();
+        public virtual List<Tecnicos> Tecnico { get; set; } = new List<Tecnicos>();
     }
 }
