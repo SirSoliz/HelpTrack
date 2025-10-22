@@ -25,7 +25,6 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
         }
         public async Task<ICollection<Tecnicos>> ListAsync()
         {
-            //Select * from Autor
             var collection = await _context.Set<Tecnicos>().ToListAsync();
             return collection;
         }

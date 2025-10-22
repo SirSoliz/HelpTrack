@@ -12,11 +12,17 @@ namespace HelpTrack.Application.DTOs
     {
         [Display(Name = "Id Tecnico")]
         [ValidateNever]
+
         public int IdTecnico { get; set; }
 
-        [Display(Name = "Nombre")]
+        [Display(Name = "Usuario")]
         [Required(ErrorMessage = "{0} es un dato requerido")]
-        public string Nombre { get; set; } = null!;
-        // public virtual List<Tecnicos> Tecnico { get; set; } = new List<Tecnicos>();
+
+        public string? Alias { get; set; }
+
+        public bool Disponible { get; set; }
+
+        public byte NivelCarga { get; set; }
+
     }
 }

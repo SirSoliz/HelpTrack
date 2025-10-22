@@ -11,10 +11,15 @@ namespace HelpTrack.Application.DTOs
 {
     public record CategoriaDTO
     {
-        public int IdCategoria { get; set; }
+        public short IdCategoria { get; set; }
 
         public string Nombre { get; set; } = null!;
 
+        public string? Descripcion { get; set; }
+
+        public short IdSla { get; set; }
+
         public virtual List<TicketDTO> idTicket { get; set; } = null!;
+
     }
 }

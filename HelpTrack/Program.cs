@@ -19,10 +19,12 @@ builder.Services.AddControllersWithViews();
 
 // Configurar D.I.
 //Repository
-builder.Services.AddTransient<IRepositoryTecnico, RepositoryTecnico>();
+builder.Services.AddTransient<IRepositoryTecnico, RepositoryTecnico>(); 
+builder.Services.AddTransient<IRepositoryCategoria, RepositoryCategoria>();
 
 //Services
 builder.Services.AddTransient<IServiceTecnico, ServiceTecnico>();
+builder.Services.AddTransient<IServiceCategoria, ServiceCategoria>();
 
 //Configurar Automapper
 builder.Services.AddAutoMapper(config =>

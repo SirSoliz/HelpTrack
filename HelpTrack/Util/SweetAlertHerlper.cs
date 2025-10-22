@@ -1,4 +1,4 @@
-﻿namespace Libreria.Web.Util
+﻿namespace HelpTrackWeb.Web.Util
 {
     public class SweetAlertHelper
     {
