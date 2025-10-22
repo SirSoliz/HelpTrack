@@ -1,0 +1,47 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IEnumerable<HelpTrack.Application.DTOs.TicketDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Tickets</h1>
+
+<p>
+    <a asp-action="Create">Nuevo Ticket</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTicket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdTicket)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = item.IdTicket })" class="btn btn-info">
+                        <i class="bg-info bi-search"></i>
+                    </a>
+                    <a href="@Url.Action("Edit", new { id = item.Titulo })" class="btn btn-primary">
+                        <i class="bg-primary bi-pencil-fill"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
