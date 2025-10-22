@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpTrack.Web", "HelpTrack\HelpTrack.Web.csproj", "{D283420D-B7F8-4A13-92DA-58F29B36C3B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpTrackWeb", "HelpTrack\HelpTrackWeb.csproj", "{D283420D-B7F8-4A13-92DA-58F29B36C3B8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{221AD622-C5FB-40DD-86CA-915483FF8E1A} = {221AD622-C5FB-40DD-86CA-915483FF8E1A}
 		{9CF2CAF2-F001-4AC3-9952-933469235ABA} = {9CF2CAF2-F001-4AC3-9952-933469235ABA}

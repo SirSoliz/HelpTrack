@@ -27,8 +27,10 @@ builder.Services.AddTransient<IServiceTecnico, ServiceTecnico>();
 //Configurar Automapper
 builder.Services.AddAutoMapper(config =>
 {
-    config.AddProfile<TecnicoProfile>();
-  
+    config.AddProfile<TecnicoProfile>(); 
+    config.AddProfile<CategoriaProfile>();
+
+
 
 });
 // Configuar Conexión a la Base de Datos SQL 
