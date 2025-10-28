@@ -22,11 +22,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRepositoryTecnico, RepositoryTecnico>(); 
 builder.Services.AddTransient<IRepositoryCategoria, RepositoryCategoria>();
 builder.Services.AddTransient<IRepositoryTicket, RepositoryTicket>();
+builder.Services.AddTransient<IRepositoryUsuario, RepositoryUsuario>();
 
 //Services
 builder.Services.AddTransient<IServiceTecnico, ServiceTecnico>();
 builder.Services.AddTransient<IServiceCategoria, ServiceCategoria>();
 builder.Services.AddTransient<IServiceTicket, ServiceTicket>();
+builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 
 //Configurar Automapper
 builder.Services.AddAutoMapper(config =>
@@ -34,6 +36,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<TecnicoProfile>(); 
     config.AddProfile<CategoriaProfile>();
     config.AddProfile<TicketProfile>();
+    config.AddProfile<UsuarioProfile>();
 
 
 

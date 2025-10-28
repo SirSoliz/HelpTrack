@@ -13,5 +13,6 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<TecnicoDTO> FindByIdAsync(int id);
         Task<int> AddAsync(TecnicoDTO dto);
         Task UpdateAsync(int id, TecnicoDTO  dto);
+        Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm);
     }
 }

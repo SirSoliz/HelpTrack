@@ -13,7 +13,24 @@ namespace HelpTrack.Application.Profiles
     {
         public TecnicoProfile()
         {
-            CreateMap<TecnicoDTO, Tecnicos>().ReverseMap();
+            // Mapeo de TecnicoDTO a Tecnicos
+            CreateMap<TecnicoDTO, Tecnicos>()
+                .ForMember(dest => dest.IdTecnico, opt => opt.MapFrom(src => src.IdTecnico))
+                .ForMember(dest => dest.Alias, opt => opt.MapFrom(src => src.Alias))
+                .ForMember(dest => dest.Disponible, opt => opt.MapFrom(src => src.Disponible))
+                .ForMember(dest => dest.NivelCarga, opt => opt.MapFrom(src => src.NivelCarga))
+                .ForMember(dest => dest.IdTecnicoNavigation, opt => opt.MapFrom(src => src.Usuario));
+
+            // Mapeo inverso de Tecnicos a TecnicoDTO
+            CreateMap<Tecnicos, TecnicoDTO>()
+                .ForMember(dest => dest.IdTecnico, opt => opt.MapFrom(src => src.IdTecnico))
+                .ForMember(dest => dest.Alias, opt => opt.MapFrom(src => src.Alias))
+                .ForMember(dest => dest.Disponible, opt => opt.MapFrom(src => src.Disponible))
+                .ForMember(dest => dest.NivelCarga, opt => opt.MapFrom(src => src.NivelCarga))
+                .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.IdTecnicoNavigation));
+
+            // Mapeo entre UsuarioDTO y Usuarios
+            CreateMap<UsuarioDTO, Usuarios>().ReverseMap();
         }
     }
 }

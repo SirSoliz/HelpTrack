@@ -2,56 +2,56 @@
 using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Models;
-using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace  HelpTrack.Application.Services.Implementations
+
+namespace HelpTrack.Application.Services.Implementations
 {
     public class ServiceTecnico : IServiceTecnico
     {
-        private readonly IRepositoryTecnico _repository;
+        private readonly IRepositoryTecnico _repositoryTecnico;
         private readonly IMapper _mapper;
-        public ServiceTecnico(IRepositoryTecnico repository, IMapper mapper)
+
+        public ServiceTecnico(IRepositoryTecnico repositoryTecnico, IMapper mapper)
         {
-            _repository = repository;
+            _repositoryTecnico = repositoryTecnico;
             _mapper = mapper;
         }
+
         public async Task<TecnicoDTO> FindByIdAsync(int id)
         {
-            var @object = await _repository.FindByIdAsync(id);
+            var @object = await _repositoryTecnico.FindByIdAsync(id);
             var objectMapped = _mapper.Map<TecnicoDTO>(@object);
             return objectMapped;
         }
+
         public async Task<ICollection<TecnicoDTO>> ListAsync()
         {
-            //Obtener datos del repositorio
-            var list = await _repository.ListAsync();
-            // Map List<Autor> a ICollection<BodegaDTO>
-            var collection = _mapper.Map<ICollection<TecnicoDTO>>(list);
-            // Return lista
-            return collection;
+            var tecnicos = await _repositoryTecnico.ListAsync();
+            return _mapper.Map<ICollection<TecnicoDTO>>(tecnicos);
         }
 
         public async Task<int> AddAsync(TecnicoDTO dto)
         {
-            // Map AutorDTO a Autor
             var entity = _mapper.Map<Tecnicos>(dto);
-            // Return ID Generado
-            return await _repository.AddAsync(entity);
+            return await _repositoryTecnico.AddAsync(entity);
         }
+
         public async Task UpdateAsync(int id, TecnicoDTO dto)
         {
-            //Obtenga el modelo original a actualizar
-            var @object = await _repository.FindByIdAsync(id);
-            //       source, destination
+            var @object = await _repositoryTecnico.FindByIdAsync(id);
             var entity = _mapper.Map(dto, @object!);
+            await _repositoryTecnico.UpdateAsync(entity);
+        }
 
-
-            await _repository.UpdateAsync(entity);
+        public async Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm)
+        {
+            var tecnicos = await _repositoryTecnico.SearchAsync(searchTerm);
+            return _mapper.Map<ICollection<TecnicoDTO>>(tecnicos);
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelpTrack.Application.Profiles
 {
@@ -13,7 +8,10 @@ namespace HelpTrack.Application.Profiles
     {
         public UsuarioProfile()
         {
-            CreateMap<UsuarioDTO, Usuarios>().ReverseMap();
+            CreateMap<UsuarioDTO, Usuarios>()
+                .ForMember(dest => dest.IdUsuario, opt => opt.Ignore()) // Se ignora porque es generado por la base de datos
+                .ForMember(dest => dest.Contrasena, opt => opt.Ignore()) // La contraseña se maneja por separado
+                .ReverseMap();
         }
     }
 }

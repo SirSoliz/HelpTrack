@@ -15,7 +15,7 @@ namespace HelpTrack.Application.DTOs
 
         public int IdTecnico { get; set; }
 
-        [Display(Name = "Usuario")]
+        [Display(Name = "Alias")]
         [Required(ErrorMessage = "{0} es un dato requerido")]
 
         public string? Alias { get; set; }
@@ -24,5 +24,7 @@ namespace HelpTrack.Application.DTOs
 
         public byte NivelCarga { get; set; }
 
+        // Propiedad de navegación al usuario relacionado
+        public virtual UsuarioDTO? Usuario { get; set; }
     }
 }

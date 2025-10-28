@@ -1,4 +1,5 @@
-﻿using HelpTrack.Application.Services.Interfaces;
+﻿using HelpTrack.Application.DTOs;
+using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using X.PagedList.Extensions;
@@ -16,12 +17,32 @@ namespace HelpTrack.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, string searchString)
         {
-            int pageNumber = page ?? 1;
-            var collection = await _serviceTecnico.ListAsync();
-            var pagedList = collection.ToPagedList(pageNumber, PageSize);
-            return View(pagedList);
+            try
+            {
+                int pageNumber = page ?? 1;
+                ICollection<TecnicoDTO> tecnicos;
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    tecnicos = await _serviceTecnico.SearchAsync(searchString);
+                    ViewData["CurrentFilter"] = searchString; // Mantener el término de búsqueda
+                }
+                else
+                {
+                    tecnicos = await _serviceTecnico.ListAsync();
+                }
+
+                var pagedList = tecnicos.ToPagedList(pageNumber, PageSize);
+                return View(pagedList);
+            }
+            catch (Exception ex)
+            {
+                // Manejar el error apropiadamente
+                ModelState.AddModelError("", "Error al cargar los técnicos.");
+                return View(new PagedList<TecnicoDTO>(new List<TecnicoDTO>(), 1, 1));
+            }
         }
 
         public async Task<IActionResult> Details(int id)

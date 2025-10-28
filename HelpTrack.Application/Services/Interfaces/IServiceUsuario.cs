@@ -1,0 +1,17 @@
+using HelpTrack.Application.DTOs;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace HelpTrack.Application.Services.Interfaces
+{
+    public interface IServiceUsuario
+    {
+        Task<UsuarioDTO> FindByIdAsync(int id);
+        Task<ICollection<UsuarioDTO>> ListAsync();
+        Task<int> AddAsync(UsuarioDTO dto);
+        Task UpdateAsync(int id, UsuarioDTO dto);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> ExistsAsync(int id);
+        Task<bool> UpdateLastLoginAsync(int id);
+    }
+}

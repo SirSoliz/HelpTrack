@@ -9,8 +9,9 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
     public interface IRepositoryTecnico
     {
         Task<ICollection<Tecnicos>> ListAsync();
-        Task<Tecnicos> FindByIdAsync(int id);
+        Task<Tecnicos?> FindByIdAsync(int id);
         Task<int> AddAsync(Tecnicos entity);
         Task UpdateAsync(Tecnicos entity);
+        Task<ICollection<Tecnicos>> SearchAsync(string searchTerm);
     }
 }
