@@ -1,93 +1,70 @@
-﻿using HelpTrack.Application.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using HelpTrack.Application.DTOs;
+using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using X.PagedList;
+using X.PagedList.Extensions;
 
-namespace HelpTrackWeb.Controllers
+namespace HelpTrack.Web.Controllers
 {
     public class CategoriaController : Controller
     {
         private readonly IServiceCategoria _serviceCategoria;
+        private const int PageSize = 10;
+
         public CategoriaController(IServiceCategoria serviceCategoria)
         {
-            _serviceCategoria = serviceCategoria;
+            _serviceCategoria = serviceCategoria ??
+                throw new ArgumentNullException(nameof(serviceCategoria));
         }
+
         [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var collection = await _serviceCategoria.ListAsync();
-            return View(collection);
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            var @object = await _serviceCategoria.FindByIdAsync(id);
-            ViewBag.NotificationMessage = HelpTrackWeb.Web.Util.SweetAlertHelper.Mensaje("Exito",
-                "Se ha cargado la informacion del autor " + id + ".",
-                HelpTrackWeb.Web.Util.SweetAlertMessageType.info);
-            return View(@object);
-        }
-
-        // GET: CategoriaController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CategoriaController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Index(int? page, string searchString)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                int pageNumber = page ?? 1;
+                var categorias = await _serviceCategoria.ListAsync();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    categorias = categorias
+                        .Where(c => c.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                  (c.Descripcion != null &&
+                                   c.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                        .ToList();
+                }
+
+                var pagedList = categorias.ToPagedList(pageNumber, PageSize);
+                return View(pagedList);
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                ModelState.AddModelError("", "Error al cargar las categorías.");
+                return View(new PagedList<CategoriaDTO>(new List<CategoriaDTO>(), 1, 1));
             }
         }
 
-        // GET: CategoriaController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
-        }
+            if (id == null) return NotFound();
 
-        // POST: CategoriaController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var categoria = await _serviceCategoria.FindByIdAsync(id.Value);
+                return categoria == null ? NotFound() : View(categoria);
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                TempData["ErrorMessage"] = "Error al cargar los detalles de la categoría.";
+                return RedirectToAction(nameof(Index));
             }
         }
 
-        // GET: CategoriaController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CategoriaController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        // Métodos sin implementación (solo para mostrar los botones)
+        public IActionResult Edit(int? id) => RedirectToAction(nameof(Index));
+        public IActionResult Delete(int? id) => RedirectToAction(nameof(Index));
     }
 }
