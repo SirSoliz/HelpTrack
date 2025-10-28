@@ -6,7 +6,6 @@ using HelpTrack.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HelpTrack.Application.Services.Implementations
@@ -24,9 +23,12 @@ namespace HelpTrack.Application.Services.Implementations
 
         public async Task<TecnicoDTO> FindByIdAsync(int id)
         {
-            var @object = await _repositoryTecnico.FindByIdAsync(id);
-            var objectMapped = _mapper.Map<TecnicoDTO>(@object);
-            return objectMapped;
+            var tecnico = await _repositoryTecnico.FindByIdAsync(id);
+            if (tecnico == null)
+            {
+                throw new KeyNotFoundException($"No se encontró el técnico con ID {id}");
+            }
+            return _mapper.Map<TecnicoDTO>(tecnico);
         }
 
         public async Task<ICollection<TecnicoDTO>> ListAsync()
@@ -43,9 +45,14 @@ namespace HelpTrack.Application.Services.Implementations
 
         public async Task UpdateAsync(int id, TecnicoDTO dto)
         {
-            var @object = await _repositoryTecnico.FindByIdAsync(id);
-            var entity = _mapper.Map(dto, @object!);
-            await _repositoryTecnico.UpdateAsync(entity);
+            var existingTecnico = await _repositoryTecnico.FindByIdAsync(id);
+            if (existingTecnico == null)
+            {
+                throw new KeyNotFoundException($"No se encontró el técnico con ID {id} para actualizar");
+            }
+
+            _mapper.Map(dto, existingTecnico);
+            await _repositoryTecnico.UpdateAsync(existingTecnico);
         }
 
         public async Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm)

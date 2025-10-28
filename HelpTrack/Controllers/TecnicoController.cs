@@ -47,11 +47,12 @@ namespace HelpTrack.Web.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var @object = await _serviceTecnico.FindByIdAsync(id);
-            ViewBag.NotificationMessage = HelpTrackWeb.Web.Util.SweetAlertHelper.Mensaje("Exito",
-                "Se ha cargado la informacion del técnico " + id + ".",
-                HelpTrackWeb.Web.Util.SweetAlertMessageType.info);
-            return View(@object);
+            var tecnico = await _serviceTecnico.FindByIdAsync(id);
+            if (tecnico == null)
+            {
+                return NotFound();
+            }
+            return View(tecnico);
         }
     }
 }

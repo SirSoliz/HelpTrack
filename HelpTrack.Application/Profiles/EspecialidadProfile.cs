@@ -1,11 +1,7 @@
-﻿using AutoMapper;
+﻿// HelpTrack.Application/Profiles/EspecialidadProfile.cs
+using AutoMapper;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HelpTrack.Application.Profiles
 {
@@ -13,7 +9,8 @@ namespace HelpTrack.Application.Profiles
     {
         public EspecialidadProfile()
         {
-            CreateMap<EspecialidadDTO, Especialidades>().ReverseMap();
+            CreateMap<Especialidades, EspecialidadDTO>()
+                .ReverseMap();
         }
     }
 }

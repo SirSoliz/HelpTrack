@@ -1,42 +1,134 @@
 ﻿@model HelpTrack.Application.DTOs.TecnicoDTO
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Técnico";
 }
 
-<h1>Detalles</h1>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">@Model.Alias</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4>Información Personal</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">ID Técnico:</dt>
+                        <dd class="col-sm-8">@Model.IdTecnico</dd>
 
-<div>
-    <h4>Tecnico</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdTecnico)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdTecnico)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Alias)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Alias)
-        </dd>        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Disponible)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Disponible)
-        </dd>        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NivelCarga)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NivelCarga)
-        </dd>
-    </dl>
+                        <dt class="col-sm-4">Alias:</dt>
+                        <dd class="col-sm-8">@Model.Alias</dd>
+
+                       
+                        @if (Model.Usuario != null)
+                        {
+                            <div class="form-group">
+                                <dt class="col-sm-4">Nombre completo:</dt>
+                                <dd class="col-sm-8">@Model.Usuario.Nombre</dd>
+                              
+                            </div>
+                            <div class="form-group">
+                                <dt class="col-sm-4">Correo Electrónico:</dt>
+                                <dd class="col-sm-8">@Model.Usuario.Email</dd>
+
+                            </div>
+                        }
+                        
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <h4>Estado y Carga de Trabajo</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-5">Estado:</dt>
+                        <dd class="col-sm-7">
+                            @if (Model.Disponible)
+                            {
+                                <span class="badge bg-success">Disponible</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">No Disponible</span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-5">Nivel de Carga:</dt>
+                        <dd class="col-sm-7">
+                            <div class="progress" style="height: 20px;">
+                                @{
+                                    int cargaWidth = Math.Min(Model.NivelCarga * 10, 100);
+                                    string progressBarClass = Model.NivelCarga switch
+                                    {
+                                        <= 3 => "bg-success",
+                                        <= 7 => "bg-warning",
+                                        _ => "bg-danger"
+                                    };
+                                }
+                                <div class="progress-bar @progressBarClass" role="progressbar"
+                                     style="width: @(cargaWidth)%;"
+                                     aria-valuenow="@Model.NivelCarga"
+                                     aria-valuemin="0"
+                                     aria-valuemax="10">
+                                    @Model.NivelCarga/10
+                                </div>
+                            </div>
+                            <small class="text-muted">@GetCargaTrabajoText(Model.NivelCarga)</small>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <h4>Especialidades</h4>
+                    <hr />
+                    @if (Model.Especialidades != null && Model.Especialidades.Any())
+                    {
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var especialidad in Model.Especialidades)
+                            {
+                                <span class="badge bg-info text-dark p-2">@especialidad.Nombre</span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            Este técnico no tiene especialidades asignadas.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.IdTecnico" class="btn btn-primary">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary">Volver al Listado</a>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Editar", "Editar", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Detalles">Volver</a>
-</div>
+
+@functions {
+    private string GetCargaTrabajoText(byte nivelCarga)
+    {
+        return nivelCarga switch
+        {
+            <= 3 => "Carga de trabajo baja",
+            <= 7 => "Carga de trabajo media",
+            _ => "Carga de trabajo alta"
+        };
+    }
+}
+
+@section Styles {
+    <style>
+        .progress {
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        .progress-bar {
+            transition: width 0.6s ease;
+        }
+    </style>
+}
