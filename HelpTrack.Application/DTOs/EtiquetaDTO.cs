@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HelpTrack.Application.DTOs
 {
-    public record EtiquetaDTO
+    public class EtiquetaDTO
     {
-        public int IdEtiqueta { get; set; }
-
-        public string Nombre { get; set; } = null!;
+        public short IdEtiqueta { get; set; }
+        public string Nombre { get; set; }
+        public string? Descripcion { get; set; }
     }
 }

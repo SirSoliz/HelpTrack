@@ -11,7 +11,7 @@ public partial class Categorias
 
     public string? Descripcion { get; set; }
 
-    public short IdSla { get; set; }
+    public short? IdSla { get; set; }
 
     public virtual Sla IdSlaNavigation { get; set; } = null!;
 

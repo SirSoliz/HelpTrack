@@ -2,6 +2,7 @@
 using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Models;
+using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,12 @@ namespace HelpTrack.Application.Services.Implementations
             var entity = _mapper.Map(dto, @object!);
 
             await _repository.UpdateAsync(entity);
+        }
+
+        public async Task<CategoriaDTO> GetByIdWithDetailsAsync(short id)
+        {
+            var categoria = await _repository.FindByIdAsync(id);
+            return _mapper.Map<CategoriaDTO>(categoria);
         }
     }
 }

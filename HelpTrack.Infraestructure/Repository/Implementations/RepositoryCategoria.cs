@@ -23,20 +23,28 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             return entity.IdCategoria;
         }
 
-        public async Task<Categorias> FindByIdAsync(int id)
+        public async Task<Categorias?> FindByIdAsync(int id)
         {
-            var @object = await _context.Set<Categorias>().FindAsync(id);
-            return @object!;
+            short key = (short)id;
+            return await _context.Categorias
+               .Include(c => c.IdSlaNavigation)
+               .Include(c => c.IdEspecialidad)
+               .Include(c => c.IdEtiqueta)
+               .FirstOrDefaultAsync(c => c.IdCategoria == key);
         }
+
 
         public async Task<ICollection<Categorias>> ListAsync()
         {
-            var collection = await _context.Set<Categorias>().ToListAsync();
-            return collection;
+            return await _context.Categorias
+                .Include(c => c.IdSlaNavigation)  // Incluir datos del SLA
+                .Include(c => c.IdEspecialidad)  // Incluir especialidades
+                .Include(c => c.IdEtiqueta)  // Incluir etiquetas
+                .ToListAsync();
         }
-
         public async Task UpdateAsync(Categorias entity)
         {
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
     }

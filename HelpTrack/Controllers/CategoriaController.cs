@@ -47,20 +47,21 @@ namespace HelpTrack.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(short? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            try
+            var categoria = await _serviceCategoria.GetByIdWithDetailsAsync(id.Value);
+
+            if (categoria == null)
             {
-                var categoria = await _serviceCategoria.FindByIdAsync(id.Value);
-                return categoria == null ? NotFound() : View(categoria);
+                return NotFound();
             }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Error al cargar los detalles de la categoría.";
-                return RedirectToAction(nameof(Index));
-            }
+
+            return View(categoria);
         }
 
         // Métodos sin implementación (solo para mostrar los botones)

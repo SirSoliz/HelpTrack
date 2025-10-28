@@ -1,18 +1,25 @@
-﻿using AutoMapper;
+﻿// CategoriaProfile.cs
+using AutoMapper;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HelpTrack.Application.Profiles
+public class CategoriaProfile : Profile
 {
-    public class CategoriaProfile:Profile
+    public CategoriaProfile()
     {
-        public CategoriaProfile() {
-            CreateMap<CategoriaDTO, Categorias>().ReverseMap();
-        }
+        // Mapas para elementos de colección (si no existen en otro perfil)
+        CreateMap<Especialidades, EspecialidadDTO>();
+        CreateMap<Etiquetas, EtiquetaDTO>();
+
+        CreateMap<Categorias, CategoriaDTO>()
+            .ForMember(dest => dest.TiempoMaxRespuestaHoras,
+                       opt => opt.MapFrom(src => src.IdSlaNavigation != null ? src.IdSlaNavigation.TiempoRespuestaMax : 0))
+            .ForMember(dest => dest.TiempoMaxResolucionHoras,
+                       opt => opt.MapFrom(src => src.IdSlaNavigation != null ? src.IdSlaNavigation.TiempoResolucionMax : 0))
+            .ForMember(dest => dest.Especialidades,
+                       opt => opt.MapFrom(src => src.IdEspecialidad))
+            .ForMember(dest => dest.Etiquetas,
+                       opt => opt.MapFrom(src => src.IdEtiqueta))
+            .ReverseMap();
     }
 }
