@@ -5,9 +5,9 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class HistorialTicket
 {
-    public long IdHistorial { get; set; }
+    public int IdHistorial { get; set; }
 
-    public long IdTicket { get; set; }
+    public int IdTicket { get; set; }
 
     public int IdEstado { get; set; }
 

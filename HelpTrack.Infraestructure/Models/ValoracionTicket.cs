@@ -5,13 +5,13 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class ValoracionTicket
 {
-    public long IdValoracion { get; set; }
+    public int IdValoracion { get; set; }
 
-    public long IdTicket { get; set; }
+    public int IdTicket { get; set; }
 
     public int IdUsuario { get; set; }
 
-    public byte Calificacion { get; set; }
+    public int Calificacion { get; set; }
 
     public string? Comentario { get; set; }
 

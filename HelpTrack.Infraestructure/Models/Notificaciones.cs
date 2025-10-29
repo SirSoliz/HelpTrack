@@ -5,7 +5,7 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Notificaciones
 {
-    public long IdNotificacion { get; set; }
+    public int IdNotificacion { get; set; }
 
     public int IdTipo { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Notificaciones
 
     public int IdDestinatario { get; set; }
 
-    public long? IdTicket { get; set; }
+    public int? IdTicket { get; set; }
 
     public string Titulo { get; set; } = null!;
 

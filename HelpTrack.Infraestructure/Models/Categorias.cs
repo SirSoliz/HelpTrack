@@ -5,13 +5,13 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Categorias
 {
-    public short IdCategoria { get; set; }
+    public int IdCategoria { get; set; }
 
     public string Nombre { get; set; } = null!;
 
     public string? Descripcion { get; set; }
 
-    public short? IdSla { get; set; }
+    public int IdSla { get; set; }
 
     public virtual Sla IdSlaNavigation { get; set; } = null!;
 

@@ -123,8 +123,8 @@ public partial class HelpTrackContext : DbContext
                     {
                         j.HasKey("IdCategoria", "IdEspecialidad").HasName("PK__categori__E149AF2CA9FA0B94");
                         j.ToTable("categoria_especialidad");
-                        j.IndexerProperty<short>("IdCategoria").HasColumnName("id_categoria");
-                        j.IndexerProperty<short>("IdEspecialidad").HasColumnName("id_especialidad");
+                        j.IndexerProperty<int>("IdCategoria").HasColumnName("id_categoria");
+                        j.IndexerProperty<int>("IdEspecialidad").HasColumnName("id_especialidad");
                     });
 
             entity.HasMany(d => d.IdEtiqueta).WithMany(p => p.IdCategoria)
@@ -142,7 +142,7 @@ public partial class HelpTrackContext : DbContext
                     {
                         j.HasKey("IdCategoria", "IdEtiqueta").HasName("PK__categori__02F4617080DCCEBF");
                         j.ToTable("categoria_etiqueta");
-                        j.IndexerProperty<short>("IdCategoria").HasColumnName("id_categoria");
+                        j.IndexerProperty<int>("IdCategoria").HasColumnName("id_categoria");
                         j.IndexerProperty<int>("IdEtiqueta").HasColumnName("id_etiqueta");
                     });
         });
@@ -434,7 +434,7 @@ public partial class HelpTrackContext : DbContext
                         j.HasKey("IdTecnico", "IdEspecialidad").HasName("PK__tecnico___F94D8441A0C2BE3A");
                         j.ToTable("tecnico_especialidad");
                         j.IndexerProperty<int>("IdTecnico").HasColumnName("id_tecnico");
-                        j.IndexerProperty<short>("IdEspecialidad").HasColumnName("id_especialidad");
+                        j.IndexerProperty<int>("IdEspecialidad").HasColumnName("id_especialidad");
                     });
         });
 
@@ -514,7 +514,7 @@ public partial class HelpTrackContext : DbContext
                     {
                         j.HasKey("IdTicket", "IdEtiqueta").HasName("PK__ticket_e__8766280909E77B72");
                         j.ToTable("ticket_etiquetas");
-                        j.IndexerProperty<long>("IdTicket").HasColumnName("id_ticket");
+                        j.IndexerProperty<int>("IdTicket").HasColumnName("id_ticket");
                         j.IndexerProperty<int>("IdEtiqueta").HasColumnName("id_etiqueta");
                     });
         });

@@ -5,9 +5,9 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class AsignacionesTicket
 {
-    public long IdAsignacion { get; set; }
+    public int IdAsignacion { get; set; }
 
-    public long IdTicket { get; set; }
+    public int IdTicket { get; set; }
 
     public int IdTecnico { get; set; }
 

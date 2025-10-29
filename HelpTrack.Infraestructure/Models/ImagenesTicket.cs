@@ -7,7 +7,7 @@ public partial class ImagenesTicket
 {
     public long IdImagen { get; set; }
 
-    public long IdTicket { get; set; }
+    public int IdTicket { get; set; }
 
     public int IdUsuario { get; set; }
 

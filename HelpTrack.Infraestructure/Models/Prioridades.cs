@@ -9,7 +9,7 @@ public partial class Prioridades
 
     public string Nombre { get; set; } = null!;
 
-    public byte ValorPrioridad { get; set; }
+    public int ValorPrioridad { get; set; }
 
     public virtual ICollection<Tickets> Tickets { get; set; } = new List<Tickets>();
 }

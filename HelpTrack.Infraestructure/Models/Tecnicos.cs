@@ -11,7 +11,7 @@ public partial class Tecnicos
 
     public bool Disponible { get; set; }
 
-    public byte NivelCarga { get; set; }
+    public int NivelCarga { get; set; }
 
     public virtual ICollection<AsignacionesTicket> AsignacionesTicket { get; set; } = new List<AsignacionesTicket>();
 

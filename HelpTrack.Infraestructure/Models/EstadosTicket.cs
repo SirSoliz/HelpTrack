@@ -9,7 +9,7 @@ public partial class EstadosTicket
 
     public string Nombre { get; set; } = null!;
 
-    public byte OrdenFlujo { get; set; }
+    public int OrdenFlujo { get; set; }
 
     public virtual ICollection<HistorialTicket> HistorialTicket { get; set; } = new List<HistorialTicket>();
 

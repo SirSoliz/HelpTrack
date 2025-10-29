@@ -5,7 +5,7 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Especialidades
 {
-    public short IdEspecialidad { get; set; }
+    public int IdEspecialidad { get; set; }
 
     public string Nombre { get; set; } = null!;
 

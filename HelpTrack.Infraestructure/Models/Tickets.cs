@@ -5,7 +5,7 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Tickets
 {
-    public long IdTicket { get; set; }
+    public int IdTicket { get; set; }
 
     public string Titulo { get; set; } = null!;
 
@@ -19,13 +19,13 @@ public partial class Tickets
 
     public int IdUsuarioCreacion { get; set; }
 
-    public short IdCategoria { get; set; }
+    public int IdCategoria { get; set; }
 
     public int IdPrioridad { get; set; }
 
     public int IdEstadoActual { get; set; }
 
-    public short IdSla { get; set; }
+    public int IdSla { get; set; }
 
     public int IdEtiqueta { get; set; }
 

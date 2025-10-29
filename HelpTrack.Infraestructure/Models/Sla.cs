@@ -5,7 +5,7 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Sla
 {
-    public short IdSla { get; set; }
+    public int IdSla { get; set; }
 
     public string Nombre { get; set; } = null!;
 
