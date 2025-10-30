@@ -1,54 +1,47 @@
 ﻿@model HelpTrack.Application.DTOs.TicketDTO
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de Ticket";
 }
 
-<h1>Detalles</h1>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>@Model.Titulo</h2>
+        </div>
+        <div class="card-body">
+            <!-- Información Básica -->
+            <div class="mb-4">
+                <h4>Información General</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Descripcion)</dd>
 
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdTicket)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdTicket)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdPrioridad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdPrioridad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEstadoActual)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEstadoActual)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUsuarioCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdUsuarioCreacion)
-        </dd>
-    </dl>
+                    <dt class="col-sm-3">Numero de Prioridad</dt>
+                    <dd class="col-sm-9">@Model.IdPrioridad</dd>
+
+                    <dt class="col-sm-3">Estado Actual</dt>
+                    <dd class="col-sm-9">@Model.IdEstadoActual</dd>
+
+                    <dt class="col-sm-3">Codigo de Usuario</dt>
+                    <dd class="col-sm-9">@Model.IdUsuarioCreacion</dd>
+
+                    <dt class="col-sm-3">Imagen</dt>
+                    <dd class="col-sm-9">@Model.ImagenesTicket</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.IdCategoria" class="btn btn-primary">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Editar", "Editar", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Detalles">Volver</a>
-</div>
+
+<style>
+    .badge {
+        font-size: 1em;
+        padding: 0.5em 1em;
+    }
+</style>
