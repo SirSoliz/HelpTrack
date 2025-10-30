@@ -25,10 +25,10 @@
                 <div class="col-md-6">
                     <form asp-action="Index" method="get" class="form-inline">
                         <div class="input-group w-100">
-                            <input type="text" 
-                                   name="searchString" 
-                                   class="form-control" 
-                                   placeholder="Buscar por alias, nombre o email..." 
+                            <input type="text"
+                                   name="searchString"
+                                   class="form-control"
+                                   placeholder="Buscar por alias, nombre o email..."
                                    value="@currentFilter" />
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
@@ -66,7 +66,7 @@
                                     <div class="text-muted small mb-2">@item.Usuario.Nombre</div>
                                 }
                                 <div class="mt-2">
-                                   
+
                                     <span class="badge badge-info ml-1">
                                         <i class="fas fa-tasks mr-1"></i> Nivel: @item.NivelCarga
                                     </span>
@@ -129,7 +129,7 @@
         $(document).ready(function() {
             // Variable para manejar el timeout de la búsqueda
             let searchTimeout;
-            
+
             // Función para realizar la búsqueda
             function performSearch(searchTerm) {
                 if (searchTerm.length > 0) {
@@ -137,7 +137,7 @@
                     const url = new URL(window.location.href);
                     url.searchParams.set('searchString', searchTerm);
                     url.searchParams.delete('page'); // Resetear a la primera página
-                    
+
                     // Navegar a la nueva URL
                     window.location.href = url.toString();
                 } else if (searchTerm.length === 0 && '@(!string.IsNullOrEmpty(currentFilter))' === 'True') {
@@ -145,20 +145,20 @@
                     window.location.href = '@Url.Action("Index")';
                 }
             }
-            
+
             // Manejador de evento para el input de búsqueda
             $('input[name="searchString"]').on('input', function() {
                 const searchTerm = $(this).val();
-                
+
                 // Limpiar el timeout anterior si existe
                 clearTimeout(searchTimeout);
-                
+
                 // Configurar un nuevo timeout para realizar la búsqueda después de 500ms sin escribir
                 searchTimeout = setTimeout(function() {
                     performSearch(searchTerm);
                 }, 500);
             });
-            
+
             // Manejar la tecla Enter para búsqueda inmediata
             $('input[name="searchString"]').on('keypress', function(e) {
                 if (e.which === 13) { // Código de tecla Enter
@@ -167,7 +167,7 @@
                     performSearch($(this).val());
                 }
             });
-            
+
             // Manejar el botón de limpiar
             $('.btn-clear-search').on('click', function(e) {
                 e.preventDefault();

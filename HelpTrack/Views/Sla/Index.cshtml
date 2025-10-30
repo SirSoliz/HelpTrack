@@ -3,14 +3,14 @@
 @model IPagedList<HelpTrack.Application.DTOs.SlaDTO>
 
 @{
-    ViewData["Title"] = "Gestión de Sla";
+    ViewData["Title"] = "Gestión de SLA";
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo Sla
+            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo SLA
         </a>
     </div>
 
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- Lista de Categorías -->
+    <!-- Lista de Sla -->
     <div class="row" id="ticketsContainer">
         @foreach (var item in Model)
         {
@@ -45,12 +45,12 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Ticket #@item.IdSla
+                                    SLA #@item.IdSla
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">@item.Nombre</div>
                                 @if (!string.IsNullOrEmpty(item.Nombre))
                                 {
-                                    <div class="text-muted small mt-1">Activo: @item.Activo</div>
+                                    <div class="text-muted small mt-1">Estado: @item.Activo</div>
                                 }
                             </div>
                             <div class="col-auto">

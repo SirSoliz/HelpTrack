@@ -13,7 +13,11 @@ namespace HelpTrack.Application.Profiles
     {
         public SlaProfile()
         {
-            CreateMap<SlaDTO, Sla>().ReverseMap();
-        }
+            CreateMap<Sla, SlaDTO>()
+                .ForMember(dest => dest.TiempoMaxRespuestaHoras, opt => opt.MapFrom(src => src.TiempoRespuestaMax))
+                .ForMember(dest => dest.TiempoMaxResolucionHoras, opt => opt.MapFrom(src => src.TiempoResolucionMax))
+                .ReverseMap();
+        
+         }
     }
 }
