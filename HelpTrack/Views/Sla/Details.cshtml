@@ -1,0 +1,48 @@
+﻿@model HelpTrack.Application.DTOs.SlaDTO
+
+@{
+    ViewData["Title"] = "Detalles del Sla";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Sla</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdSla)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdSla)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TiempoMaxRespuestaHoras)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TiempoMaxRespuestaHoras)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TiempoMaxResolucionHoras)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TiempoMaxResolucionHoras)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Editar", "Editar", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Detalles">Volver</a>
+</div>

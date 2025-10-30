@@ -1,20 +1,18 @@
 ﻿using HelpTrack.Application.DTOs;
-using HelpTrack.Application.Services.Implementations;
 using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
 using X.PagedList;
 using X.PagedList.Extensions;
 
-namespace HelpTrack.Web.Controllers
+namespace HelpTrackWeb.Controllers
 {
-    public class TicketController : Controller
+    public class SlaController : Controller
     {
-        private readonly IServiceTicket _serviceTicket;
+        private readonly IServiceSla _serviceSla;
         private const int PageSize = 10;
-        public TicketController(IServiceTicket serviceTicket)
+        public SlaController(IServiceSla serviceSla)
         {
-            _serviceTicket = serviceTicket;
+            _serviceSla = serviceSla;
         }
         [HttpGet]
         public async Task<IActionResult> Index(int? page, string searchString)
@@ -22,30 +20,30 @@ namespace HelpTrack.Web.Controllers
             try
             {
                 int pageNumber = page ?? 1;
-                var categorias = await _serviceTicket.ListAsync();
+                var slas = await _serviceSla.ListAsync();
 
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    categorias = categorias
-                        .Where(c => c.Titulo.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
-                                  (c.Descripcion != null &&
-                                   c.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
+                    slas = slas
+                        .Where(c => c.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                  (c.Nombre != null &&
+                                   c.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
                         .ToList();
                 }
 
-                var pagedList = categorias.ToPagedList(pageNumber, PageSize);
+                var pagedList = slas.ToPagedList(pageNumber, PageSize);
                 return View(pagedList);
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", "Error al cargar las categorías.");
-                return View(new PagedList<CategoriaDTO>(new List<CategoriaDTO>(), 1, 1));
+                return View(new PagedList<SlaDTO>(new List<SlaDTO>(), 1, 1));
             }
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var @object = await _serviceTicket.FindByIdAsync(id);
+            var @object = await _serviceSla.FindByIdAsync(id);
             ViewBag.NotificationMessage = HelpTrackWeb.Web.Util.SweetAlertHelper.Mensaje("Exito",
                 "Se ha cargado la informacion del autor " + id + ".",
                 HelpTrackWeb.Web.Util.SweetAlertMessageType.info);
@@ -53,3 +51,4 @@ namespace HelpTrack.Web.Controllers
         }
     }
 }
+

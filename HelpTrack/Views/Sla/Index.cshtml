@@ -1,16 +1,16 @@
 ﻿@using X.PagedList
 @using X.PagedList.Mvc.Core
-@model IPagedList<HelpTrack.Application.DTOs.TicketDTO>
+@model IPagedList<HelpTrack.Application.DTOs.SlaDTO>
 
 @{
-    ViewData["Title"] = "Gestión de Tickets";
+    ViewData["Title"] = "Gestión de Sla";
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo Ticket
+            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo Sla
         </a>
     </div>
 
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group mb-3">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar ticket...">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar sla...">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" id="searchButton">
                                 <i class="fas fa-search"></i> Buscar
@@ -45,12 +45,12 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Ticket #@item.IdTicket
+                                    Ticket #@item.IdSla
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@item.Titulo</div>
-                                @if (!string.IsNullOrEmpty(item.Descripcion))
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@item.Nombre</div>
+                                @if (!string.IsNullOrEmpty(item.Nombre))
                                 {
-                                    <div class="text-muted small mt-1">@item.Descripcion</div>
+                                    <div class="text-muted small mt-1">Activo: @item.Activo</div>
                                 }
                             </div>
                             <div class="col-auto">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="mt-3 d-flex justify-content-end">
                             <!-- Botón Ver Detalles -->
-                            <a href="@Url.Action("Details", new { id = item.IdTicket })"
+                            <a href="@Url.Action("Details", new { id = item.IdSla })"
                                class="btn btn-sm btn-outline-info mr-1"
                                data-toggle="tooltip"
                                title="Ver detalles">
@@ -67,7 +67,7 @@
                             </a>
 
                             <!-- Botón Editar -->
-                            <a href="@Url.Action("Edit", new { id = item.IdTicket })"
+                            <a href="@Url.Action("Edit", new { id = item.IdSla })"
                                class="btn btn-sm btn-outline-primary mr-1"
                                data-toggle="tooltip"
                                title="Editar"
@@ -118,10 +118,10 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             // Búsqueda en tiempo real
-            $('#searchButton').click(filterTickets);
-            $('#searchInput').keyup(filterTickets);
+            $('#searchButton').click(filterSlas);
+            $('#searchInput').keyup(filterSlas);
 
-            function filterTickets() {
+            function filterSlas() {
                 const searchTerm = $('#searchInput').val().trim().toLowerCase();
                 const $cards = $('.card').parent(); // Selecciona el div padre que contiene la tarjeta
                 let hasResults = false;
