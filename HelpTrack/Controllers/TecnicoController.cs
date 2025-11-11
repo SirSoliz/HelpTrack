@@ -54,5 +54,50 @@ namespace HelpTrack.Web.Controllers
             }
             return View(tecnico);
         }
+
+        // GET: Tecnico/Edit/IdTecnico
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tecnico = await _serviceTecnico.FindByIdAsync(id.Value);
+            if (tecnico == null)
+            {
+                return NotFound();
+            }
+
+            return View(tecnico);
+        }
+
+        // POST: Tecnico/Edit/IdTecnico
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("IdTecnico,Alias,Disponible,NivelCarga")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
+        {
+            if (id != tecnico.IdTecnico)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceTecnico.UpdateAsync(id, tecnico, EspecialidadesSeleccionadas ?? Array.Empty<string>()); ;
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al actualizar el técnico. Por favor, intente nuevamente.");
+                }
+            }
+            // Si llegamos aquí, algo falló, recargar las especialidades
+            tecnico = await _serviceTecnico.FindByIdAsync(id);
+            return View(tecnico);
+        }
+
     }
 }

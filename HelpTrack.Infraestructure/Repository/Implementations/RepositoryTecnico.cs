@@ -52,10 +52,68 @@ public class RepositoryTecnico : IRepositoryTecnico
         return entity.IdTecnico;
     }
 
-    public async Task UpdateAsync(Tecnicos entity)
+    public async Task UpdateAsync(Tecnicos entity, string[] selectedCategorias)
     {
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        // Obtener el técnico actual con sus relaciones
+        var tecnicoActual = await _context.Tecnicos
+            .Include(t => t.IdEspecialidad)
+            .FirstOrDefaultAsync(t => t.IdTecnico == entity.IdTecnico);
+
+        if (tecnicoActual == null)
+        {
+            throw new KeyNotFoundException($"No se encontró el técnico con ID {entity.IdTecnico}");
+        }
+
+        // Actualizar propiedades escalares
+        _context.Entry(tecnicoActual).CurrentValues.SetValues(entity);
+
+        // Actualizar especialidades
+        if (selectedCategorias != null)
+        {
+            var especialidadesSeleccionadasHS = new HashSet<string>(selectedCategorias);
+            var especialidadesTecnico = new HashSet<int>(tecnicoActual.IdEspecialidad.Select(e => e.IdEspecialidad));
+
+            foreach (var especialidad in _context.Especialidades)
+            {
+                if (especialidadesSeleccionadasHS.Contains(especialidad.IdEspecialidad.ToString()))
+                {
+                    if (!especialidadesTecnico.Contains(especialidad.IdEspecialidad))
+                    {
+                        tecnicoActual.IdEspecialidad.Add(especialidad);
+                    }
+                }
+                else
+                {
+                    if (especialidadesTecnico.Contains(especialidad.IdEspecialidad))
+                    {
+                        var especialidadToRemove = tecnicoActual.IdEspecialidad
+                            .Single(e => e.IdEspecialidad == especialidad.IdEspecialidad);
+                        tecnicoActual.IdEspecialidad.Remove(especialidadToRemove);
+                    }
+                }
+            }
+        }
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!TecnicoExists(entity.IdTecnico))
+            {
+                throw new KeyNotFoundException($"No se encontró el técnico con ID {entity.IdTecnico}");
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
+    private bool TecnicoExists(int id)
+    {
+        return _context.Tecnicos.Any(e => e.IdTecnico == id);
     }
 
     public async Task<ICollection<Tecnicos>> SearchAsync(string searchTerm)

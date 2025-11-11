@@ -1,0 +1,133 @@
+﻿@model HelpTrack.Application.DTOs.TecnicoDTO
+
+@{
+    ViewData["Title"] = "Editar Técnico";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>Editar Técnico</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                <input type="hidden" asp-for="IdTecnico" />
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label asp-for="Alias" class="form-label fw-bold">Alias *</label>
+                            <input asp-for="Alias" class="form-control" required />
+                            <span asp-validation-for="Alias" class="text-danger"></span>
+                            <div class="invalid-feedback">
+                                Por favor ingrese un alias para el técnico.
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="NivelCarga" class="form-label fw-bold">Nivel de Carga (0-10) *</label>
+                            <input type="number" asp-for="NivelCarga" class="form-control" min="0" max="10" required />
+                            <span asp-validation-for="NivelCarga" class="text-danger"></span>
+                            <div class="invalid-feedback">
+                                El nivel de carga debe estar entre 0 y 10.
+                            </div>
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" asp-for="Disponible" id="disponibleSwitch">
+                            <label class="form-check-label fw-bold" for="disponibleSwitch">Disponible</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        @if (Model.Usuario != null)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Información del Usuario</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-1"><strong>Nombre:</strong> @Model.Usuario.Nombre</p>
+                                    <p class="mb-1"><strong>Email:</strong> @Model.Usuario.Email</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="fw-bold mb-3">Especialidades *</h5>
+                    @if (ViewBag.Especialidades != null)
+                    {
+                        <div class="row">
+                            @foreach (var especialidad in ViewBag.Especialidades)
+                            {
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="EspecialidadesSeleccionadas"
+                                               value="@especialidad.IdEspecialidad"
+                                               id="especialidad_@especialidad.IdEspecialidad"
+                                               @(Model.Especialidades?.Any(e => e.IdEspecialidad == especialidad.IdEspecialidad) == true ? "checked" : "")>
+                                        <label class="form-check-label" for="especialidad_@especialidad.IdEspecialidad">
+                                            @especialidad.Nombre
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="EspecialidadesSeleccionadas" data-valmsg-replace="true"></span>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">No hay especialidades disponibles.</div>
+                    }
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Volver al listado
+                    </a>
+                    <div>
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-save me-1"></i> Guardar cambios
+                        </button>
+                        <a asp-action="Details" asp-route-id="@Model.IdTecnico" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Validación del lado del cliente
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

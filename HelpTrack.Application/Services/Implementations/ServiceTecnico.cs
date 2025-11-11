@@ -43,16 +43,20 @@ namespace HelpTrack.Application.Services.Implementations
             return await _repositoryTecnico.AddAsync(entity);
         }
 
-        public async Task UpdateAsync(int id, TecnicoDTO dto)
+        public async Task UpdateAsync(int id, TecnicoDTO dto, string[] selectedCategorias)
         {
-            var existingTecnico = await _repositoryTecnico.FindByIdAsync(id);
-            if (existingTecnico == null)
+            var tecnico = await _repositoryTecnico.FindByIdAsync(id);
+            if (tecnico == null)
             {
-                throw new KeyNotFoundException($"No se encontró el técnico con ID {id} para actualizar");
+                throw new KeyNotFoundException($"No se encontró el técnico con ID {id}");
             }
 
-            _mapper.Map(dto, existingTecnico);
-            await _repositoryTecnico.UpdateAsync(existingTecnico);
+            // Actualizar propiedades básicas
+            tecnico.Alias = dto.Alias;
+            tecnico.Disponible = dto.Disponible;
+            tecnico.NivelCarga = dto.NivelCarga;
+
+            await _repositoryTecnico.UpdateAsync(tecnico, selectedCategorias);
         }
 
         public async Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm)
