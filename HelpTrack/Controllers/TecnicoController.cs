@@ -9,11 +9,14 @@ namespace HelpTrack.Web.Controllers
     public class TecnicoController : Controller
     {
         private readonly IServiceTecnico _serviceTecnico;
+        private readonly IServiceEspecialidad _especialidadService;  
         private const int PageSize = 10; // Número de elementos por página
 
-        public TecnicoController(IServiceTecnico serviceTecnico)
+        public TecnicoController(IServiceTecnico serviceTecnico, IServiceEspecialidad especialidadService)
         {
             _serviceTecnico = serviceTecnico;
+            _especialidadService = especialidadService;
+
         }
 
         [HttpGet]
@@ -55,7 +58,6 @@ namespace HelpTrack.Web.Controllers
             return View(tecnico);
         }
 
-        // GET: Tecnico/Edit/IdTecnico
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,6 +70,9 @@ namespace HelpTrack.Web.Controllers
             {
                 return NotFound();
             }
+
+            // Cargar las especialidades disponibles
+            ViewBag.Especialidades = await _especialidadService.ListAsync();
 
             return View(tecnico);
         }
