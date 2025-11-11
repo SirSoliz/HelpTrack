@@ -56,6 +56,13 @@ namespace HelpTrack.Application.Services.Implementations
             tecnico.Disponible = dto.Disponible;
             tecnico.NivelCarga = dto.NivelCarga;
 
+            // Actualizar datos del usuario 
+            if (tecnico.IdTecnicoNavigation != null && dto.Usuario != null)
+            {
+                tecnico.IdTecnicoNavigation.Nombre = dto.Usuario.Nombre;
+                tecnico.IdTecnicoNavigation.Email = dto.Usuario.Email;
+            }
+
             await _repositoryTecnico.UpdateAsync(tecnico, selectedCategorias);
         }
 

@@ -57,6 +57,7 @@ public class RepositoryTecnico : IRepositoryTecnico
         // Obtener el técnico actual con sus relaciones
         var tecnicoActual = await _context.Tecnicos
             .Include(t => t.IdEspecialidad)
+            .Include(t => t.IdTecnicoNavigation)
             .FirstOrDefaultAsync(t => t.IdTecnico == entity.IdTecnico);
 
         if (tecnicoActual == null)
@@ -64,8 +65,15 @@ public class RepositoryTecnico : IRepositoryTecnico
             throw new KeyNotFoundException($"No se encontró el técnico con ID {entity.IdTecnico}");
         }
 
-        // Actualizar propiedades escalares
+        // Actualizar propiedades del técnico
         _context.Entry(tecnicoActual).CurrentValues.SetValues(entity);
+
+        // Actualizar propiedades del usuario asociado
+        if (entity.IdTecnicoNavigation != null)
+        {
+            _context.Entry(tecnicoActual.IdTecnicoNavigation).CurrentValues.SetValues(entity.IdTecnicoNavigation);
+        }
+
 
         // Actualizar especialidades
         if (selectedCategorias != null)

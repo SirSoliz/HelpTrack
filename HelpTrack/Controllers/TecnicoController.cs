@@ -80,7 +80,7 @@ namespace HelpTrack.Web.Controllers
         // POST: Tecnico/Edit/IdTecnico
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTecnico,Alias,Disponible,NivelCarga")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTecnico,Alias,Disponible,NivelCarga, Usuario.Nombre, Usuario.Email")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
         {
             if (id != tecnico.IdTecnico)
             {
