@@ -167,6 +167,31 @@ namespace HelpTrack.Web.Controllers
             return View(tecnico);
         }
 
+        //Metodo para eliminar un técnico
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _serviceTecnico.DeleteAsync(id);
+                if (!result)
+                {
+                    TempData["Error"] = "No se pudo eliminar el técnico o no se encontró.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                TempData["Success"] = "Técnico eliminado correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                TempData["Error"] = "Ocurrió un error al intentar eliminar el técnico.";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
 
     }
 }

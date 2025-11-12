@@ -137,5 +137,19 @@ namespace HelpTrack.Application.Services.Implementations
                 .AnyAsync(u => u.Email.ToLower() == email.ToLower());
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            try
+            {
+                return await _repositoryTecnico.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error en ServiceTecnico.DeleteAsync: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }

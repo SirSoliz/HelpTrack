@@ -13,5 +13,6 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm);
 
         Task<bool> ExisteEmailAsync(string email);
+        Task<bool> DeleteAsync(int id);
     }
 }

@@ -135,4 +135,50 @@ public class RepositoryTecnico : IRepositoryTecnico
             )
             .ToListAsync();
     }
+
+    // En RepositoryTecnico.cs
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var tecnico = await _context.Tecnicos
+            .Include(t => t.IdTecnicoNavigation)  // Incluir el usuario asociado
+            .Include(t => t.IdEspecialidad)       // Incluir las especialidades
+            .FirstOrDefaultAsync(t => t.IdTecnico == id);
+
+        if (tecnico == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // Eliminar las relaciones de especialidades
+            if (tecnico.IdEspecialidad != null && tecnico.IdEspecialidad.Any())
+            {
+                // Eliminar las relaciones de especialidades
+                foreach (var especialidad in tecnico.IdEspecialidad.ToList())
+                {
+                    tecnico.IdEspecialidad.Remove(especialidad);
+                }
+            }
+
+            // Eliminar el técnico
+            _context.Tecnicos.Remove(tecnico);
+
+            // Eliminar el usuario asociado
+            if (tecnico.IdTecnicoNavigation != null)
+            {
+                _context.Usuarios.Remove(tecnico.IdTecnicoNavigation);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            // Log the error
+            Console.WriteLine($"Error al eliminar el técnico: {ex.Message}");
+            return false;
+        }
+    }
+
 }
