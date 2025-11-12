@@ -13,13 +13,16 @@ namespace HelpTrack.Application.DTOs
 
         [Required(ErrorMessage = "El correo electrónico es requerido")]
         [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido")]
+        [StringLength(100, ErrorMessage = "El correo no puede tener más de 100 caracteres")]
         [Display(Name = "Correo Electrónico")]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El nombre es requerido")]
-        [StringLength(100, ErrorMessage = "El nombre no puede exceder los 100 caracteres")]
+        [Required(ErrorMessage = "El nombre completo es requerido")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "El nombre debe tener entre 5 y 100 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$",
+        ErrorMessage = "El nombre solo puede contener letras y espacios")]
         [Display(Name = "Nombre Completo")]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
 
         [Display(Name = "Activo")]
         public bool Activo { get; set; } = true;
