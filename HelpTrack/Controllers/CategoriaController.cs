@@ -17,7 +17,7 @@ namespace HelpTrack.Web.Controllers
         public CategoriaController(IServiceCategoria serviceCategoria)
         {
             _serviceCategoria = serviceCategoria ??
-                throw new ArgumentNullException(nameof(serviceCategoria));
+            throw new ArgumentNullException(nameof(serviceCategoria));
         }
 
         [HttpGet]
@@ -104,7 +104,32 @@ namespace HelpTrack.Web.Controllers
             }
             return View(categoriaDTO);
         }
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            return View(new CategoriaDTO());
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CategoriaDTO categoriaDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceCategoria.AddAsync(categoriaDTO);
+                    TempData["SuccessMessage"] = "Categoría creada exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
+                }
+            }
+            // Si hay error, vuelve a mostrar el formulario con los datos ingresados
+            return View(categoriaDTO);
+        }
         public IActionResult Delete(int? id) => RedirectToAction(nameof(Index));
     }
 }

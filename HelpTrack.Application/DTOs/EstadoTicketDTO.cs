@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace HelpTrack.Application.DTOs
 {
-    internal class EstadoTicketDTO
+    public class EstadoTicketDTO
     {
+        public int IdEstado { get; set; }
+        public string Nombre { get; set; } = null!;
     }
 }

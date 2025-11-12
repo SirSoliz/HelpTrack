@@ -14,13 +14,15 @@ namespace HelpTrack.Application.DTOs
 
         public string Titulo { get; set; } = null!;
 
-        public string Descripcion { get; set; } = null!; 
+        public string Descripcion { get; set; } = null!;
 
         public int IdPrioridad { get; set; }
 
         public int IdEstadoActual { get; set; }
 
-        public int IdUsuarioCreacion { get; set; }
+        public int IdUsuarioCreacion { get; set; } 
+
+        public EstadoTicketDTO? EstadoActual { get; set; }
 
         public virtual EstadosTicket IdEstadoActualNavigation { get; set; } = null!;
 

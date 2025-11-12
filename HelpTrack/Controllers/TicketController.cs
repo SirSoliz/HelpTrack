@@ -2,6 +2,8 @@
 using HelpTrack.Application.Services.Implementations;
 using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
 using X.PagedList;
 using X.PagedList.Extensions;
@@ -11,10 +13,12 @@ namespace HelpTrack.Web.Controllers
     public class TicketController : Controller
     {
         private readonly IServiceTicket _serviceTicket;
+        private readonly IServiceEstadoTicket _serviceEstadoTicket;
         private const int PageSize = 10;
-        public TicketController(IServiceTicket serviceTicket)
+        public TicketController(IServiceTicket serviceTicket, IServiceEstadoTicket serviceEstadoTicket)
         {
             _serviceTicket = serviceTicket;
+            _serviceEstadoTicket = serviceEstadoTicket;
         }
         [HttpGet]
         public async Task<IActionResult> Index(int? page, string searchString)
@@ -50,6 +54,75 @@ namespace HelpTrack.Web.Controllers
                 "Se ha cargado la informacion del autor " + id + ".",
                 HelpTrackWeb.Web.Util.SweetAlertMessageType.info);
             return View(@object);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tecnico = await _serviceTicket.FindByIdAsync(id.Value);
+            if (tecnico == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(tecnico);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, TicketDTO ticketDTO)  // Cambiado de short a int
+        {
+            if (id != ticketDTO.IdTicket)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceTicket.UpdateAsync(id, ticketDTO);
+                    return RedirectToAction(nameof(Details), new { id = ticketDTO.IdTicket });
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el ticket.");
+                }
+            }
+            return View(ticketDTO);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+
+            return View(new TicketDTO());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(TicketDTO ticketDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceTicket.AddAsync(ticketDTO);
+                    TempData["SuccessMessage"] = "Categoría creada exitosamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
+                }
+            }
+            // Si hay error, vuelve a mostrar el formulario con los datos ingresados
+            return View(ticketDTO);
         }
     }
 }

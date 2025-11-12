@@ -25,6 +25,7 @@ builder.Services.AddTransient<IRepositoryTicket, RepositoryTicket>();
 builder.Services.AddTransient<IRepositoryUsuario, RepositoryUsuario>();
 builder.Services.AddTransient<IRepositoryEspecialidad, RepositoryEspecialidad>();
 builder.Services.AddTransient<IRepositorySla, RepositorySla>();
+builder.Services.AddTransient<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
 
 
 //Services
@@ -34,6 +35,7 @@ builder.Services.AddTransient<IServiceTicket, ServiceTicket>();
 builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
 builder.Services.AddTransient<IServiceEspecialidad, ServiceEspecialidad>();
 builder.Services.AddTransient<IServiceSla, ServiceSla>();
+builder.Services.AddTransient<IServiceEstadoTicket, ServiceEstadoTicket>();
 
 
 //Configurar Automapper
@@ -45,6 +47,7 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<UsuarioProfile>();
     config.AddProfile<EspecialidadProfile>();
     config.AddProfile<SlaProfile>();
+    config.AddProfile<EstadoTicketProfile>();
 
 
 
