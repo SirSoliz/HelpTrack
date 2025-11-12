@@ -1,0 +1,80 @@
+﻿@model HelpTrack.Application.DTOs.TecnicoDTO
+
+@{
+    ViewData["Title"] = "Crear Nuevo Técnico";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <h4>Información del Usuario</h4>
+            <div class="form-group">
+                <label asp-for="Usuario.Nombre" class="control-label">Nombre Completo *</label>
+                <input asp-for="Usuario.Nombre" class="form-control" required />
+                <span asp-validation-for="Usuario.Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Usuario.Email" class="control-label">Correo Electrónico *</label>
+                <input asp-for="Usuario.Email" type="email" class="form-control" required />
+                <span asp-validation-for="Usuario.Email" class="text-danger"></span>
+            </div>
+
+            <h4>Información del Técnico</h4>
+            <div class="form-group">
+                <label asp-for="Alias" class="control-label"></label>
+                <input asp-for="Alias" class="form-control" />
+                <span asp-validation-for="Alias" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NivelCarga" class="control-label">Nivel de Carga</label>
+                <input asp-for="NivelCarga" class="form-control" />
+                <span asp-validation-for="NivelCarga" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Disponible" /> @Html.DisplayNameFor(model => model.Disponible)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Especialidades</label>
+                <div class="row">
+                    @foreach (var especialidad in ViewBag.Especialidades)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="EspecialidadesSeleccionadas"
+                                       value="@especialidad.IdEspecialidad"
+                                       id="especialidad_@especialidad.IdEspecialidad" />
+                                <label class="form-check-label" for="especialidad_@especialidad.IdEspecialidad">
+                                    @especialidad.Nombre
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

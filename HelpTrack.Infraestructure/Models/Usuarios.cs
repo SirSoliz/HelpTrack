@@ -17,8 +17,7 @@ public partial class Usuarios
 
     public DateTime FechaCreacion { get; set; }
 
-    public DateTime UltimoInicioSesion { get; set; }
-
+    public DateTime? UltimoInicioSesion { get; set; }
     public virtual ICollection<HistorialTicket> HistorialTicket { get; set; } = new List<HistorialTicket>();
 
     public virtual ICollection<ImagenesTicket> ImagenesTicket { get; set; } = new List<ImagenesTicket>();

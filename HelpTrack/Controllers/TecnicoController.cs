@@ -104,5 +104,69 @@ namespace HelpTrack.Web.Controllers
             return View(tecnico);
         }
 
+        // GET: Tecnico/Create
+        public async Task<IActionResult> Create()
+        {
+            // Cargar las especialidades disponibles
+            ViewBag.Especialidades = await _especialidadService.ListAsync();
+            return View(new TecnicoDTO
+            {
+                Usuario = new UsuarioDTO(),
+                Disponible = true,
+                NivelCarga = 0
+            });
+        }
+
+        // POST: Tecnico/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Alias,Disponible,NivelCarga,Usuario")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Validar que el usuario y su email no sean nulos
+                    if (tecnico.Usuario == null || string.IsNullOrWhiteSpace(tecnico.Usuario.Email))
+                    {
+                        ModelState.AddModelError("", "El correo electrónico es requerido");
+                        ViewBag.Especialidades = await _especialidadService.ListAsync();
+                        return View(tecnico);
+                    }
+
+                    // Verificar si ya existe un usuario con ese email
+                    var emailExiste = await _serviceTecnico.ExisteEmailAsync(tecnico.Usuario.Email);
+                    if (emailExiste)
+                    {
+                        ModelState.AddModelError("Usuario.Email", "Ya existe un usuario con este correo electrónico");
+                        ViewBag.Especialidades = await _especialidadService.ListAsync();
+                        return View(tecnico);
+                    }
+
+                    var idTecnico = await _serviceTecnico.AddAsync(tecnico);
+
+                    if (EspecialidadesSeleccionadas != null && EspecialidadesSeleccionadas.Length > 0)
+                    {
+                        await _serviceTecnico.UpdateAsync(idTecnico, tecnico, EspecialidadesSeleccionadas);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Error al crear el técnico: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        ModelState.AddModelError("", $"Detalles: {ex.InnerException.Message}");
+                    }
+                }
+            }
+
+            // Si llegamos aquí, algo falló, recargar las especialidades
+            ViewBag.Especialidades = await _especialidadService.ListAsync();
+            return View(tecnico);
+        }
+
+
     }
 }

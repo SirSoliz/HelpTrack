@@ -11,5 +11,7 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<int> AddAsync(TecnicoDTO dto);
         Task UpdateAsync(int id, TecnicoDTO dto, string[] selectedCategorias);
         Task<ICollection<TecnicoDTO>> SearchAsync(string searchTerm);
+
+        Task<bool> ExisteEmailAsync(string email);
     }
 }
