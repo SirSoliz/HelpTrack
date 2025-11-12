@@ -34,7 +34,8 @@
 
             <div class="form-group">
                 <label asp-for="NivelCarga" class="control-label">Nivel de Carga</label>
-                <input asp-for="NivelCarga" class="form-control" />
+                <input asp-for="NivelCarga" class="form-control" value="0" readonly />
+                <small class="form-text text-muted">Este campo es de solo lectura </small>
                 <span asp-validation-for="NivelCarga" class="text-danger"></span>
             </div>
 

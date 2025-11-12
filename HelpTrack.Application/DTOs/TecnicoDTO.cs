@@ -18,9 +18,10 @@ namespace HelpTrack.Application.DTOs
 
         [Display(Name = "Nivel de Carga")]
         [Range(0, 10, ErrorMessage = "El nivel de carga debe estar entre 0 y 10")]
-        public byte NivelCarga { get; set; }
+        public byte NivelCarga { get; set; } = 0;
 
-        
+      
+
         // Propiedad de navegación al usuario relacionado
         public virtual UsuarioDTO? Usuario { get; set; }
 
