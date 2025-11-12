@@ -64,8 +64,47 @@ namespace HelpTrack.Web.Controllers
             return View(categoria);
         }
 
-        // Métodos sin implementación (solo para mostrar los botones)
-        public IActionResult Edit(int? id) => RedirectToAction(nameof(Index));
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)  // Cambiado de short? a int?
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var categoria = await _serviceCategoria.GetByIdWithDetailsAsync(id.Value);
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoria);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CategoriaDTO categoriaDTO)  // Cambiado de short a int
+        {
+            if (id != categoriaDTO.IdCategoria)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _serviceCategoria.UpdateAsync(id, categoriaDTO);
+                    return RedirectToAction(nameof(Details), new { id = categoriaDTO.IdCategoria });
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar la categoría.");
+                }
+            }
+            return View(categoriaDTO);
+        }
+
         public IActionResult Delete(int? id) => RedirectToAction(nameof(Index));
     }
 }

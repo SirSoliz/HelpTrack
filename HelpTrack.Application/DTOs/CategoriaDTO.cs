@@ -6,7 +6,7 @@ namespace HelpTrack.Application.DTOs
 {
     public class CategoriaDTO
     {
-        public short IdCategoria { get; set; }
+        public int IdCategoria { get; set; }
 
         [Display(Name = "Nombre")]
         public string Nombre { get; set; } = null!;

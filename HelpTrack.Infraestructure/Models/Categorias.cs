@@ -20,4 +20,6 @@ public partial class Categorias
     public virtual ICollection<Especialidades> IdEspecialidad { get; set; } = new List<Especialidades>();
 
     public virtual ICollection<Etiquetas> IdEtiqueta { get; set; } = new List<Etiquetas>();
+
+
 }

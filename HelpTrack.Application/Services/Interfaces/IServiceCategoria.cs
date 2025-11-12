@@ -13,6 +13,6 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<CategoriaDTO> FindByIdAsync(int id);
         Task<int> AddAsync(CategoriaDTO dto);
         Task UpdateAsync(int id, CategoriaDTO dto);
-        Task<CategoriaDTO> GetByIdWithDetailsAsync(short id);
+        Task<CategoriaDTO> GetByIdWithDetailsAsync(int id);
     }
 }

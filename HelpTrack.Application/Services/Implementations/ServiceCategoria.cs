@@ -55,7 +55,7 @@ namespace HelpTrack.Application.Services.Implementations
             await _repository.UpdateAsync(entity);
         }
 
-        public async Task<CategoriaDTO> GetByIdWithDetailsAsync(short id)
+        public async Task<CategoriaDTO> GetByIdWithDetailsAsync(int id)
         {
             var categoria = await _repository.FindByIdAsync(id);
             return _mapper.Map<CategoriaDTO>(categoria);

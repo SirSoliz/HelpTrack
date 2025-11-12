@@ -143,6 +143,7 @@ namespace HelpTrack.Web.Controllers
                         return View(tecnico);
                     }
 
+
                     var idTecnico = await _serviceTecnico.AddAsync(tecnico);
 
                     if (EspecialidadesSeleccionadas != null && EspecialidadesSeleccionadas.Length > 0)
@@ -150,6 +151,8 @@ namespace HelpTrack.Web.Controllers
                         await _serviceTecnico.UpdateAsync(idTecnico, tecnico, EspecialidadesSeleccionadas);
                     }
 
+                    // Agregar mensaje de éxito
+                    TempData["SuccessMessage"] = "Técnico creado exitosamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
