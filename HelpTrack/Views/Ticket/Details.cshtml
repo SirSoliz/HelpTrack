@@ -19,10 +19,17 @@
                     <dd class="col-sm-9">@Html.DisplayFor(model => model.Descripcion)</dd>
 
                     <dt class="col-sm-3">Prioridad</dt>
-                    <dd class="col-sm-9">@Model.IdPrioridad</dd>
+                    <dd class="col-sm-9">
+                        <select class="form-control" disabled>
+                            @foreach (var item in ViewBag.Prioridades as List<SelectListItem>)
+                            {
+                                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                            }
+                        </select>
+                    </dd>
 
                     <dt class="col-sm-3">Estado Actual</dt>
-                    <dd class="col-sm-9">@Model.IdEstadoActual</dd>
+                    <dd class="col-sm-9">@Model.EstadoActual</dd>
 
                     <dt class="col-sm-3">Codigo de Usuario</dt>
                     <dd class="col-sm-9">@Model.IdUsuarioCreacion</dd>

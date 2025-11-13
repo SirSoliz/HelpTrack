@@ -14,26 +14,23 @@ namespace HelpTrack.Application.DTOs
     public record TicketDTO
     {
         [Display(Name = "Id Ticket")]
-        [ValidateEnumeratedItems(typeof(TicketDTO))]
+        [ValidateNever]
         public int IdTicket { get; set; }
 
-        [Display(Name = "Titulo")]
-        [Required(ErrorMessage = "{0} es un dato requerido")]
-        [ValidateEnumeratedItems(typeof(TicketDTO))]
+        [Required(ErrorMessage = "El título es obligatorio.")]
+        [StringLength(150)]
         public string Titulo { get; set; } = null!;
 
         [Display(Name = "Descripcion")]
-        [Required(ErrorMessage = "{0} es un dato requerido")]
+        [Required(ErrorMessage = "La descripción es obligatoria.")]
         public string Descripcion { get; set; } = null!;
-
+        [Required]
         public int IdPrioridad { get; set; }
 
-        public int IdEstadoActual { get; set; }
-
-        public int IdUsuarioCreacion { get; set; } 
-
+        public int IdUsuarioCreacion { get; set; }
+        [ValidateNever]
         public EstadoTicketDTO? EstadoActual { get; set; }
-
+        [ValidateEnumeratedItems]
         public virtual ICollection<ImagenesTicket> ImagenesTicket { get; set; } = new List<ImagenesTicket>();
         [ValidateNever]
         public virtual List<CategoriaDTO> IdCategoria { get; set; } = null!;

@@ -14,11 +14,13 @@ namespace HelpTrack.Web.Controllers
     {
         private readonly IServiceTicket _serviceTicket;
         private readonly IServiceEstadoTicket _serviceEstadoTicket;
+        private readonly IServicePrioridades _servicePrioridades;
         private const int PageSize = 10;
-        public TicketController(IServiceTicket serviceTicket, IServiceEstadoTicket serviceEstadoTicket)
+        public TicketController(IServiceTicket serviceTicket, IServiceEstadoTicket serviceEstadoTicket, IServicePrioridades servicePrioridades)
         {
             _serviceTicket = serviceTicket;
             _serviceEstadoTicket = serviceEstadoTicket;
+            _servicePrioridades = servicePrioridades;
         }
         [HttpGet]
         public async Task<IActionResult> Index(int? page, string searchString)
@@ -49,28 +51,45 @@ namespace HelpTrack.Web.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var @object = await _serviceTicket.FindByIdAsync(id);
+            var ticketDTO = await _serviceTicket.FindByIdAsync(id);
+            if (ticketDTO == null) return NotFound();
+
+            var prioridades = await _servicePrioridades.ListAsync();
+            ViewBag.Prioridades = prioridades
+                .Select(p => new SelectListItem
+                {
+                    Value = p.IdPrioridad.ToString(),
+                    Text = p.Nombre,
+                    Selected = p.IdPrioridad == ticketDTO.IdPrioridad
+                })
+                .ToList();
+
+            // Mensaje de notificación (si querés mantenerlo)
             ViewBag.NotificationMessage = HelpTrackWeb.Web.Util.SweetAlertHelper.Mensaje("Exito",
-                "Se ha cargado la informacion del autor " + id + ".",
+                "Se ha cargado la información del ticket " + id + ".",
                 HelpTrackWeb.Web.Util.SweetAlertMessageType.info);
-            return View(@object);
+
+            return View(ticketDTO);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var tecnico = await _serviceTicket.FindByIdAsync(id.Value);
-            if (tecnico == null)
-            {
-                return NotFound();
-            }
+            var ticketDTO = await _serviceTicket.FindByIdAsync(id.Value);
+            if (ticketDTO == null) return NotFound();
 
+            var prioridades = await _servicePrioridades.ListAsync();
+            ViewBag.Prioridades = prioridades
+                .Select(p => new SelectListItem
+                {
+                    Value = p.IdPrioridad.ToString(),
+                    Text = p.Nombre,
+                    Selected = p.IdPrioridad == ticketDTO.IdPrioridad
+                })
+                .ToList();
 
-            return View(tecnico);
+            return View(ticketDTO);
         }
 
 
@@ -78,10 +97,7 @@ namespace HelpTrack.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, TicketDTO ticketDTO)  // Cambiado de short a int
         {
-            if (id != ticketDTO.IdTicket)
-            {
-                return NotFound();
-            }
+            if (id != ticketDTO.IdTicket) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -92,17 +108,38 @@ namespace HelpTrack.Web.Controllers
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError("", "Ocurrió un error al actualizar el ticket.");
+                    ModelState.AddModelError("", "Error al actualizar el ticket.");
                 }
             }
+
+            var prioridades = await _servicePrioridades.ListAsync();
+            ViewBag.Prioridades = prioridades
+                .Select(p => new SelectListItem
+                {
+                    Value = p.IdPrioridad.ToString(),
+                    Text = p.Nombre,
+                    Selected = p.IdPrioridad == ticketDTO.IdPrioridad
+                })
+                .ToList();
+
             return View(ticketDTO);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var ticketDTO = new TicketDTO();
 
-            return View(new TicketDTO());
+            var prioridades = await _servicePrioridades.ListAsync();
+            ViewBag.Prioridades = prioridades
+                .Select(p => new SelectListItem
+                {
+                    Value = p.IdPrioridad.ToString(),
+                    Text = p.Nombre
+                })
+                .ToList();
+
+            return View(ticketDTO);
         }
 
         [HttpPost]
@@ -122,7 +159,16 @@ namespace HelpTrack.Web.Controllers
                     ModelState.AddModelError("", $"Error al crear el ticket: {ex.Message}");
                 }
             }
-            // Si hay error, vuelve a mostrar el formulario con los datos ingresados
+
+            var prioridades = await _servicePrioridades.ListAsync();
+            ViewBag.Prioridades = prioridades
+                .Select(p => new SelectListItem
+                {
+                    Value = p.IdPrioridad.ToString(),
+                    Text = p.Nombre
+                })
+                .ToList();
+
             return View(ticketDTO);
         }
     }

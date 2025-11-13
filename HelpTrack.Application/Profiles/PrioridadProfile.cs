@@ -13,7 +13,7 @@ namespace HelpTrack.Application.Profiles
     {
         public PrioridadProfile()
         {
-            CreateMap<PrioridadProfile, Prioridades>().ReverseMap();
+            CreateMap<Prioridades, PrioridadDTO>().ReverseMap();
         }
     }
 }
