@@ -3,6 +3,7 @@ using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Models;
 using HelpTrack.Infraestructure.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace HelpTrack.Application.Services.Implementations
         }
         public async Task<int> AddAsync(TicketDTO dto)
         {
+
             var entity = _mapper.Map<Tickets>(dto);
             // Return ID Generado
             return await _repository.AddAsync(entity);

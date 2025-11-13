@@ -26,24 +26,24 @@ namespace HelpTrack.Web.Controllers
             try
             {
                 int pageNumber = page ?? 1;
-                var categorias = await _serviceTicket.ListAsync();
+                var tickets = await _serviceTicket.ListAsync();
 
                 if (!string.IsNullOrEmpty(searchString))
                 {
-                    categorias = categorias
+                    tickets = tickets
                         .Where(c => c.Titulo.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
                                   (c.Descripcion != null &&
                                    c.Descripcion.Contains(searchString, StringComparison.OrdinalIgnoreCase)))
                         .ToList();
                 }
 
-                var pagedList = categorias.ToPagedList(pageNumber, PageSize);
+                var pagedList = tickets.ToPagedList(pageNumber, PageSize);
                 return View(pagedList);
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Error al cargar las categorías.");
-                return View(new PagedList<CategoriaDTO>(new List<CategoriaDTO>(), 1, 1));
+                ModelState.AddModelError("", "Error al cargar los tickets.");
+                return View(new PagedList<TicketDTO>(new List<TicketDTO>(), 1, 1));
             }
         }
 
@@ -104,6 +104,7 @@ namespace HelpTrack.Web.Controllers
 
             return View(new TicketDTO());
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TicketDTO ticketDTO)
@@ -113,12 +114,12 @@ namespace HelpTrack.Web.Controllers
                 try
                 {
                     await _serviceTicket.AddAsync(ticketDTO);
-                    TempData["SuccessMessage"] = "Categoría creada exitosamente";
+                    TempData["SuccessMessage"] = "Ticket creado exitosamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
+                    ModelState.AddModelError("", $"Error al crear el ticket: {ex.Message}");
                 }
             }
             // Si hay error, vuelve a mostrar el formulario con los datos ingresados

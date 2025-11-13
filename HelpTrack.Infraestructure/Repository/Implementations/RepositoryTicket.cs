@@ -19,7 +19,20 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
         }
         public async Task<int> AddAsync(Tickets entity)
         {
-            await _context.Set<Tickets>().AddAsync(entity);
+            if (entity.IdTicket == 0)
+            {
+                var lastId = await _context.Tickets
+                    .OrderByDescending(t => t.IdTicket)
+                    .Select(t => t.IdTicket)
+                    .FirstOrDefaultAsync();
+
+                entity.IdTicket = lastId + 1;
+            }
+
+            await _context.Tickets.AddAsync(entity);
+
+            await _context.SaveChangesAsync();
+
             return (int)entity.IdTicket;
         }
 

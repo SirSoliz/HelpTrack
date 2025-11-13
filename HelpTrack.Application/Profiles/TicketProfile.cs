@@ -22,8 +22,6 @@ namespace HelpTrack.Application.Profiles
             .ForMember(dest => dest.Titulo, orig => orig.MapFrom(o => o.Titulo))
             .ForMember(dest => dest.Descripcion, orig => orig.MapFrom(o => o.Descripcion))
             .ForMember(dest => dest.ImagenesTicket, orig => orig.MapFrom(o => o.ImagenesTicket))
-            .ForMember(dest => dest.IdEstadoActualNavigation, orig => orig.MapFrom(o => o.IdEstadoActualNavigation))
-            .ForMember(dest => dest.IdEtiquetaNavigation, orig => orig.MapFrom(o => o.IdEtiquetaNavigation))
             .ForMember(dest => dest.IdCategoria, orig => orig.MapFrom(o => o.IdCategoria));
 
         }
