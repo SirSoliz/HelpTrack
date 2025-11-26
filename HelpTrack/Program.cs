@@ -1,79 +1,62 @@
-
-using HelpTrack.Application.Profiles;
-using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Application.Services.Implementations;
+using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Data;
 using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
-using HelpTrackWeb.Middleware;
-using Humanizer;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using System.Text;
+using HelpTrackWeb.Middleware;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Configurar D.I.
-//Repository
-builder.Services.AddTransient<IRepositoryTecnico, RepositoryTecnico>(); 
-builder.Services.AddTransient<IRepositoryCategoria, RepositoryCategoria>();
-builder.Services.AddTransient<IRepositoryTicket, RepositoryTicket>();
-builder.Services.AddTransient<IRepositoryUsuario, RepositoryUsuario>();
-builder.Services.AddTransient<IRepositoryEspecialidad, RepositoryEspecialidad>();
-builder.Services.AddTransient<IRepositorySla, RepositorySla>();
-builder.Services.AddTransient<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
-builder.Services.AddTransient<IRepositoryPrioridades, RepositoryPrioridades>();
-
-
-//Services
-builder.Services.AddTransient<IServiceTecnico, ServiceTecnico>();
-builder.Services.AddTransient<IServiceCategoria, ServiceCategoria>();
-builder.Services.AddTransient<IServiceTicket, ServiceTicket>();
-builder.Services.AddTransient<IServiceUsuario, ServiceUsuario>();
-builder.Services.AddTransient<IServiceEspecialidad, ServiceEspecialidad>();
-builder.Services.AddTransient<IServiceSla, ServiceSla>();
-builder.Services.AddTransient<IServiceEstadoTicket, ServiceEstadoTicket>();
-builder.Services.AddTransient<IServicePrioridades, ServicePrioridades>();
-
+// Configurar Autenticación por Cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
 
 //Configurar Automapper
-builder.Services.AddAutoMapper(config =>
-{
-    config.AddProfile<TecnicoProfile>(); 
-    config.AddProfile<CategoriaProfile>();
-    config.AddProfile<TicketProfile>();
-    config.AddProfile<UsuarioProfile>();
-    config.AddProfile<EspecialidadProfile>();
-    config.AddProfile<SlaProfile>();
-    config.AddProfile<EstadoTicketProfile>();
-    config.AddProfile<PrioridadProfile>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
-
-});
-// Configuar Conexión a la Base de Datos SQL 
+//Configurar la conexion a la base de datos
 builder.Services.AddDbContext<HelpTrackContext>(options =>
-{
-    // it read appsettings.json file 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDataBase"));
-    if (builder.Environment.IsDevelopment())
-        options.EnableSensitiveDataLogging();
-});
-//Configuración Serilog
-// Logger. P.E. Verbose = muestra SQl Statement
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Inyeccion de dependencias
+builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
+builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
+builder.Services.AddScoped<IRepositoryTecnico, RepositoryTecnico>();
+builder.Services.AddScoped<IServiceTecnico, ServiceTecnico>();
+builder.Services.AddScoped<IRepositoryCategoria, RepositoryCategoria>();
+builder.Services.AddScoped<IServiceCategoria, ServiceCategoria>();
+builder.Services.AddScoped<IRepositoryTicket, RepositoryTicket>();
+builder.Services.AddScoped<IServiceTicket, ServiceTicket>();
+builder.Services.AddScoped<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
+builder.Services.AddScoped<IServiceEstadoTicket, ServiceEstadoTicket>();
+builder.Services.AddScoped<IRepositoryPrioridades, RepositoryPrioridades>();
+builder.Services.AddScoped<IServicePrioridades, ServicePrioridades>();
+builder.Services.AddScoped<IRepositorySla, RepositorySla>();
+builder.Services.AddScoped<IServiceSla, ServiceSla>();
+builder.Services.AddScoped<IRepositoryEspecialidad, RepositoryEspecialidad>();
+builder.Services.AddScoped<IServiceEspecialidad, ServiceEspecialidad>();
+
+//Configuracion de Serilog
 var logger = new LoggerConfiguration()
-// Limitar la información de depuración
-.MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+.ReadFrom.Configuration(builder.Configuration)
 .Enrich.FromLogContext()
-// Log LogEventLevel.Verbose muestra mucha información, pero no es necesaria solo para el proceso de depuración
-.WriteTo.Console(LogEventLevel.Information)
+.WriteTo.Console()
 .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information).WriteTo.File(@"Logs\Info-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug).WriteTo.File(@"Logs\Debug-.log", shared: true, encoding: System.Text.Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning).WriteTo.File(@"Logs\Warning-.log", shared: true, encoding: System.Text.Encoding.ASCII, rollingInterval: RollingInterval.Day))
+.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning).WriteTo.File(@"Logs\Warning-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
 .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error).WriteTo.File(@"Logs\Error-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
 .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Fatal).WriteTo.File(@"Logs\Fatal-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
 .CreateLogger();
@@ -92,12 +75,12 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    // Error control Middleware 
+    // Error control Middleware
     app.UseMiddleware<ErrorHandlingMiddleware>();
 
 
 }
-//Activar soporte a la solicitud de registro con SERILOG 
+//Activar soporte a la solicitud de registro con SERILOG
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
@@ -105,9 +88,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Activar Antiforgery  
+// Activar Antiforgery
 app.UseAntiforgery();
 
 app.MapControllerRoute(

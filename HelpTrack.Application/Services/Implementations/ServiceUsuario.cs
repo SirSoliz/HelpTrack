@@ -58,6 +58,11 @@ namespace HelpTrack.Application.Services.Implementations
             return await _repositoryUsuario.ExistsAsync(id);
         }
 
+        public async Task<Usuarios?> FindByEmailAsync(string email)
+        {
+            return await _repositoryUsuario.FindByEmailAsync(email);
+        }
+
         public async Task<bool> UpdateLastLoginAsync(int id)
         {
             var usuario = await _repositoryUsuario.FindByIdAsync(id);
@@ -65,6 +70,54 @@ namespace HelpTrack.Application.Services.Implementations
                 return false;
 
             usuario.UltimoInicioSesion = DateTime.Now;
+            await _repositoryUsuario.UpdateAsync(usuario);
+            return true;
+        }
+
+        public async Task<UsuarioDTO?> LoginAsync(string email, string password)
+        {
+            var usuario = await _repositoryUsuario.FindByEmailAsync(email);
+            if (usuario == null) return null;
+
+            if (VerifyPassword(password, usuario.Contrasena))
+            {
+                return _mapper.Map<UsuarioDTO>(usuario);
+            }
+            return null;
+        }
+
+        public async Task<UsuarioDTO> RegisterAsync(UsuarioDTO userDto, string password)
+        {
+            var usuario = _mapper.Map<Usuarios>(userDto);
+            usuario.Contrasena = HashPassword(password);
+            usuario.FechaCreacion = DateTime.Now;
+            usuario.Activo = true;
+
+            await _repositoryUsuario.AddAsync(usuario);
+            return _mapper.Map<UsuarioDTO>(usuario);
+        }
+
+        private byte[] HashPassword(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                return sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPassword(string password, byte[]? storedHash)
+        {
+            if (storedHash == null || storedHash.Length == 0) return false;
+            var hash = HashPassword(password);
+            return hash.SequenceEqual(storedHash);
+        }
+
+        public async Task<bool> UpdatePasswordAsync(string email, string newPassword)
+        {
+            var usuario = await _repositoryUsuario.FindByEmailAsync(email);
+            if (usuario == null) return false;
+
+            usuario.Contrasena = HashPassword(newPassword);
             await _repositoryUsuario.UpdateAsync(usuario);
             return true;
         }

@@ -1,0 +1,155 @@
+@model HelpTrack.Application.DTOs.UsuarioDTO
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-user-circle"></i> Mi Perfil
+        </h1>
+    </div>
+
+    <div class="row">
+        <!-- Perfil Card -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Información Personal</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-id-badge text-primary"></i> ID Usuario:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="badge bg-secondary">#@Model.IdUsuario</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-user text-primary"></i> Nombre Completo:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @Model.Nombre
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-envelope text-primary"></i> Correo Electrónico:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @Model.Email
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-toggle-on text-primary"></i> Estado:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @if (Model.Activo)
+                            {
+                                <span class="badge bg-success"><i class="fas fa-check"></i> Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger"><i class="fas fa-times"></i> Inactivo</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-calendar-plus text-primary"></i> Fecha de Creación:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                    </div>
+
+                    @if (Model.UltimoInicioSesion.HasValue)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong><i class="fas fa-sign-in-alt text-primary"></i> Último Inicio de Sesión:</strong>
+                            </div>
+                            <div class="col-md-8">
+                                @Model.UltimoInicioSesion.Value.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones Rápidas Card -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Account" asp-action="ResetPassword" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            <span class="text">Cambiar Contraseña</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-home"></i>
+                            </span>
+                            <span class="text">Volver al Inicio</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted mb-0">
+                        <i class="fas fa-info-circle"></i> 
+                        Tu perfil contiene tu información personal registrada en el sistema HelpTrack.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-icon-split {
+            padding: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .btn-icon-split .icon {
+            background: rgba(0, 0, 0, .15);
+            display: inline-block;
+            padding: .375rem .75rem;
+        }
+
+        .btn-icon-split .text {
+            display: inline-block;
+            padding: .375rem .75rem;
+        }
+    </style>
+}

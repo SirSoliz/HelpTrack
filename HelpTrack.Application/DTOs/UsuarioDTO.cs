@@ -32,5 +32,7 @@ namespace HelpTrack.Application.DTOs
 
         [Display(Name = "Último Inicio de Sesión")]
         public DateTime? UltimoInicioSesion { get; set; }
+
+        public string? Password { get; set; }
     }
 }
