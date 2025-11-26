@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Detalles de Ticket";
+    var categorias = ViewBag.Categorias as List<SelectListItem>;
+    var categoriaNombre = categorias?.FirstOrDefault(c => c.Value == Model.IdCategoria.ToString())?.Text ?? "Desconocida";
 }
 
 <div class="container mt-4">
@@ -21,21 +23,43 @@
                     <dt class="col-sm-3">Prioridad</dt>
                     <dd class="col-sm-9">
                         <select class="form-control" disabled>
-                            @foreach (var item in ViewBag.Prioridades as List<SelectListItem>)
+                            @if (ViewBag.Prioridades != null)
                             {
-                                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                @foreach (var item in ViewBag.Prioridades as List<SelectListItem>)
+                                {
+                                    <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                }
                             }
                         </select>
                     </dd>
 
+                    <dt class="col-sm-3">Categoría</dt>
+                    <dd class="col-sm-9">@categoriaNombre</dd>
+
                     <dt class="col-sm-3">Estado Actual</dt>
-                    <dd class="col-sm-9">@Model.EstadoActual</dd>
+                    <dd class="col-sm-9">@Model.EstadoActual?.Nombre</dd>
 
-                    <dt class="col-sm-3">Codigo de Usuario</dt>
-                    <dd class="col-sm-9">@Model.IdUsuarioCreacion</dd>
+                    <dt class="col-sm-3">Creado por</dt>
+                    <dd class="col-sm-9">@Model.NombreUsuarioCreacion</dd>
 
-                    <dt class="col-sm-3">Imagen</dt>
-                    <dd class="col-sm-9">@Model.ImagenesTicket</dd>
+                    <dt class="col-sm-3">Imágenes</dt>
+                    <dd class="col-sm-9">
+                        <div class="d-flex flex-wrap gap-2">
+                            @if (Model.ImagenesTicket != null && Model.ImagenesTicket.Any())
+                            {
+                                @foreach (var img in Model.ImagenesTicket)
+                                {
+                                    <div class="position-relative me-2 mb-2">
+                                        <img src="@Url.Content(img.UrlArchivo)" alt="Imagen del ticket" class="img-thumbnail" style="width:150px; height:auto;" />
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-muted">Sin imágenes</span>
+                            }
+                        </div>
+                    </dd>
                 </dl>
             </div>
         </div>

@@ -22,16 +22,12 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
         public async Task<EstadosTicket?> FindByIdAsync(short id)
         {
             return await _context.EstadosTicket
-                .Include(e => e.IdEstado)
-                .Include(e => e.Nombre)
                 .FirstOrDefaultAsync(e => e.IdEstado == id);
         }
 
         public async Task<ICollection<EstadosTicket>> ListAsync()
         {
             return await _context.EstadosTicket
-                .Include(e => e.IdEstado)
-                .Include(e => e.Nombre)
                 .ToListAsync();
         }
 

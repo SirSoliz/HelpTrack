@@ -23,8 +23,18 @@ namespace HelpTrack.Application.Services.Implementations
         }
         public async Task<int> AddAsync(TicketDTO dto)
         {
-
             var entity = _mapper.Map<Tickets>(dto);
+            
+            // Asignar valores por defecto y fechas
+            entity.FechaCreacion = DateTime.Now;
+            entity.FechaAsignacion = DateTime.Now; 
+            
+            // Valores por defecto si no vienen en el DTO (o si son 0)
+            // Asumiendo IDs válidos en la base de datos:
+            if (entity.IdEstadoActual == 0) entity.IdEstadoActual = 1; // 1 = Abierto/Nuevo
+            if (entity.IdSla == 0) entity.IdSla = 1; 
+            if (entity.IdEtiqueta == 0) entity.IdEtiqueta = 1; 
+            
             // Return ID Generado
             return await _repository.AddAsync(entity);
         }

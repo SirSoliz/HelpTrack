@@ -19,16 +19,7 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
         }
         public async Task<int> AddAsync(Tickets entity)
         {
-            if (entity.IdTicket == 0)
-            {
-                var lastId = await _context.Tickets
-                    .OrderByDescending(t => t.IdTicket)
-                    .Select(t => t.IdTicket)
-                    .FirstOrDefaultAsync();
-
-                entity.IdTicket = lastId + 1;
-            }
-
+            // Removed manual ID assignment logic to allow DB auto-increment
             await _context.Tickets.AddAsync(entity);
 
             await _context.SaveChangesAsync();
@@ -38,19 +29,35 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
 
         public async Task<Tickets> FindByIdAsync(int id)
         {
-            //throw new NotImplementedException();
-            var @object = await _context.Set<Tickets>().FindAsync(id);
+            var @object = await _context.Tickets
+                .Include(t => t.ImagenesTicket)
+                .Include(t => t.IdPrioridadNavigation)
+                .Include(t => t.IdCategoriaNavigation)
+                .Include(t => t.IdEstadoActualNavigation)
+                .Include(t => t.IdUsuarioCreacionNavigation)
+                .FirstOrDefaultAsync(t => t.IdTicket == id);
             return @object!;
         }
 
         public async Task<ICollection<Tickets>> ListAsync()
         {
-            var collection = await _context.Set<Tickets>().ToListAsync();
+            var collection = await _context.Tickets
+                .Include(t => t.IdPrioridadNavigation)
+                .Include(t => t.IdEstadoActualNavigation)
+                .ToListAsync();
             return collection;
         }
 
         public async Task UpdateAsync(Tickets entity)
         {
+            // For updates, we need to ensure the context is tracking the entity correctly.
+            // If the entity was detached or created from a DTO, we might need to attach it.
+            // However, since we are using AutoMapper to map ONTO the existing entity in the Service,
+            // the entity passed here should already be tracked if it came from FindByIdAsync.
+            
+            // If it's a new context instance or detached entity, we might need:
+            // _context.Entry(entity).State = EntityState.Modified;
+            
             await _context.SaveChangesAsync();
         }
     }

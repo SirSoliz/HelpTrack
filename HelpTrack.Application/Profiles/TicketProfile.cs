@@ -19,14 +19,15 @@ namespace HelpTrack.Application.Profiles
                 .ForMember(dest => dest.Titulo, opt => opt.MapFrom(src => src.Titulo))
                 .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Descripcion))
                 .ForMember(dest => dest.IdUsuarioCreacion, opt => opt.MapFrom(src => src.IdUsuarioCreacion))
-                .ForMember(dest => dest.ImagenesTicket, opt => opt.MapFrom(src => src.ImagenesTicket))
+                .ForMember(dest => dest.ImagenesTicket, opt => opt.Ignore()) // Handled manually in controller or separate map
                 .ForMember(dest => dest.IdCategoria, opt => opt.MapFrom(src => src.IdCategoria))
-    .ForMember(dest => dest.IdCategoria, opt => opt.Ignore())
-    .ForMember(dest => dest.IdEstadoActual, opt => opt.Ignore())
-    .ForMember(dest => dest.IdSla, opt => opt.Ignore())
-    .ForMember(dest => dest.IdEtiqueta, opt => opt.Ignore());
+                .ForMember(dest => dest.IdEstadoActual, opt => opt.MapFrom(src => src.IdEstadoActual))
+                .ForMember(dest => dest.IdSla, opt => opt.Ignore())
+                .ForMember(dest => dest.IdEtiqueta, opt => opt.Ignore());
 
-            CreateMap<Tickets, TicketDTO>().ReverseMap();
+            CreateMap<Tickets, TicketDTO>()
+                .ForMember(dest => dest.EstadoActual, opt => opt.MapFrom(src => src.IdEstadoActualNavigation))
+                .ForMember(dest => dest.NombreUsuarioCreacion, opt => opt.MapFrom(src => src.IdUsuarioCreacionNavigation.Nombre));
         }
     }
 }
