@@ -30,7 +30,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //Configurar la conexion a la base de datos
 builder.Services.AddDbContext<HelpTrackContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDataBase")));
 
 //Inyeccion de dependencias
 builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
