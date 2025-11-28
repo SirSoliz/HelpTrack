@@ -110,12 +110,12 @@ namespace HelpTrack.Application.Services.Implementations
                 throw new KeyNotFoundException($"No se encontró el técnico con ID {id}");
             }
 
-            // Actualizar propiedades básicas
+            // Update basic properties
             tecnico.Alias = dto.Alias;
             tecnico.Disponible = dto.Disponible;
             tecnico.NivelCarga = dto.NivelCarga;
 
-            // Actualizar datos del usuario 
+            // Update user data
             if (tecnico.IdTecnicoNavigation != null && dto.Usuario != null)
             {
                 tecnico.IdTecnicoNavigation.Nombre = dto.Usuario.Nombre;

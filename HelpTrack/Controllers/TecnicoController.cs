@@ -80,7 +80,7 @@ namespace HelpTrack.Web.Controllers
         // POST: Tecnico/Edit/IdTecnico
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdTecnico,Alias,Disponible,NivelCarga, Usuario.Nombre, Usuario.Email")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
+        public async Task<IActionResult> Edit(int id, [Bind("IdTecnico,Alias,Disponible,NivelCarga,Usuario")] TecnicoDTO tecnico, string[] EspecialidadesSeleccionadas)
         {
             if (id != tecnico.IdTecnico)
             {
@@ -91,16 +91,40 @@ namespace HelpTrack.Web.Controllers
             {
                 try
                 {
-                    await _serviceTecnico.UpdateAsync(id, tecnico, EspecialidadesSeleccionadas ?? Array.Empty<string>()); ;
+                    // Get the current technician to preserve any user data that's not in the form
+                    var existingTecnico = await _serviceTecnico.FindByIdAsync(id);
+                    if (existingTecnico == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the user data
+                    if (tecnico.Usuario != null)
+                    {
+                        // Preserve the user ID
+                        tecnico.Usuario.IdUsuario = existingTecnico.Usuario.IdUsuario;
+
+                        // Update the user data in the database
+                        await _serviceTecnico.UpdateAsync(id, tecnico, EspecialidadesSeleccionadas ?? Array.Empty<string>());
+                    }
+                    else
+                    {
+                        // If no user data was provided, just update the technician data
+                        await _serviceTecnico.UpdateAsync(id, tecnico, EspecialidadesSeleccionadas ?? Array.Empty<string>());
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Error al actualizar el técnico. Por favor, intente nuevamente.");
+                    // Log the error
+                    Console.WriteLine($"Error al actualizar técnico: {ex.Message}");
                 }
             }
-            // Si llegamos aquí, algo falló, recargar las especialidades
-            tecnico = await _serviceTecnico.FindByIdAsync(id);
+
+            // If we got this far, something failed, redisplay form with errors
+            ViewBag.Especialidades = await _especialidadService.ListAsync();
             return View(tecnico);
         }
 
