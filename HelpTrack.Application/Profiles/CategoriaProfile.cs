@@ -6,27 +6,25 @@ using HelpTrack.Infraestructure.Models;
 public class CategoriaProfile : Profile
 {
     // CategoriaProfile.cs
-    public CategoriaProfile()
-    {
-        // Mapeo de Categorias a CategoriaDTO
-        CreateMap<Categorias, CategoriaDTO>()
-            .ForMember(dest => dest.TiempoMaxRespuestaHoras,
-                       opt => opt.MapFrom(src => src.IdSlaNavigation != null ? src.IdSlaNavigation.TiempoRespuestaMax : 0))
-            .ForMember(dest => dest.TiempoMaxResolucionHoras,
-                       opt => opt.MapFrom(src => src.IdSlaNavigation != null ? src.IdSlaNavigation.TiempoResolucionMax : 0))
-            .ForMember(dest => dest.Especialidades,
-                       opt => opt.MapFrom(src => src.IdEspecialidad))
-            .ForMember(dest => dest.Etiquetas,
-                       opt => opt.MapFrom(src => src.IdEtiqueta));
+        public CategoriaProfile() { 
+            // Mapeo de Categorias a CategoriaDTO
+            CreateMap<Categorias, CategoriaDTO>()
+                .ForMember(dest => dest.TiempoMaxRespuestaHoras,
+                         opt => opt.MapFrom(src => src.IdSlaNavigation != null ?
+                             src.IdSlaNavigation.TiempoRespuestaMax : 0))
+                .ForMember(dest => dest.TiempoMaxResolucionHoras,
+                         opt => opt.MapFrom(src => src.IdSlaNavigation != null ?
+                             src.IdSlaNavigation.TiempoResolucionMax : 0))
+                .ForMember(dest => dest.EtiquetasSeleccionadas,
+                         opt => opt.MapFrom(src => src.IdEtiqueta.Select(e => e.IdEtiqueta).ToList()))
+                .ForMember(dest => dest.EspecialidadesSeleccionadas,
+                         opt => opt.MapFrom(src => src.IdEspecialidad.Select(e => e.IdEspecialidad).ToList()));
 
-        // Mapeo de CategoriaDTO a Categorias
-        CreateMap<CategoriaDTO, Categorias>()
-            .ForMember(dest => dest.IdSlaNavigation, opt => opt.Ignore()) // Ignoramos el mapeo de IdSlaNavigation
-            .ForMember(dest => dest.IdEspecialidad, opt => opt.Ignore())  // Ignoramos el mapeo de IdEspecialidad
-            .ForMember(dest => dest.IdEtiqueta, opt => opt.Ignore());     // Ignoramos el mapeo de IdEtiqueta
-
-        // Mapeos adicionales
-        CreateMap<Especialidades, EspecialidadDTO>().ReverseMap();
-        CreateMap<Etiquetas, EtiquetaDTO>().ReverseMap();
-    }
+            // Mapeo de CategoriaDTO a Categorias
+            CreateMap<CategoriaDTO, Categorias>()
+                .ForMember(dest => dest.IdSlaNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.IdEtiqueta, opt => opt.Ignore())
+                .ForMember(dest => dest.IdEspecialidad, opt => opt.Ignore());
+        }
+    
 }

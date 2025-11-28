@@ -7,7 +7,9 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
 {
     public interface IRepositoryEspecialidad
     {
-        Task<Especialidades?> FindByIdAsync(short id);
+        Task<ICollection<Especialidades>> FindByIdsAsync(IEnumerable<int> ids);
+
+        Task<Especialidades?> FindByIdAsync(int id);
         Task<ICollection<Especialidades>> ListAsync();
         Task<int> AddAsync(Especialidades entity);
         Task UpdateAsync(Especialidades entity);

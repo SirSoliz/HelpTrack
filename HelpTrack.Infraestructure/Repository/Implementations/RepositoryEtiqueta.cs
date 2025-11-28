@@ -17,11 +17,17 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             _context = context;
         }
 
-        public async Task<Etiquetas?> FindByIdAsync(short id)
+        public async Task<Etiquetas?> FindByIdAsync(int id)
         {
             return await _context.Etiquetas
                 .Include(e => e.IdCategoria)
                 .FirstOrDefaultAsync(e => e.IdEtiqueta == id);
+        }
+        public async Task<ICollection<Etiquetas>> FindByIdsAsync(IEnumerable<int> ids)
+        {
+            return await _context.Etiquetas
+                .Where(e => ids.Contains(e.IdEtiqueta))
+                .ToListAsync();
         }
 
         public async Task<ICollection<Etiquetas>> ListAsync()

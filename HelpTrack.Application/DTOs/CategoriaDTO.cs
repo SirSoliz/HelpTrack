@@ -24,11 +24,15 @@ namespace HelpTrack.Application.DTOs
         [Display(Name = "Tiempo máximo de resolución (horas)")]
         public int TiempoMaxResolucionHoras { get; set; }
 
-        // Relaciones
+        [Display(Name = "Etiquetas")]
+        public List<int> EtiquetasSeleccionadas { get; set; } = new List<int>();
+
         [Display(Name = "Especialidades")]
+        public List<int> EspecialidadesSeleccionadas { get; set; } = new List<int>();
+
+        // Relaciones
         public ICollection<EspecialidadDTO> Especialidades { get; set; } = new List<EspecialidadDTO>();
 
-        [Display(Name = "Etiquetas")]
         public ICollection<EtiquetaDTO> Etiquetas { get; set; } = new List<EtiquetaDTO>();
     }
 }

@@ -17,12 +17,18 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             _context = context;
         }
 
-        public async Task<Especialidades?> FindByIdAsync(short id)
+        public async Task<Especialidades?> FindByIdAsync(int id)
         {
             return await _context.Especialidades
                 .Include(e => e.IdCategoria)
                 .Include(e => e.IdTecnico)
                 .FirstOrDefaultAsync(e => e.IdEspecialidad == id);
+        }
+        public async Task<ICollection<Especialidades>> FindByIdsAsync(IEnumerable<int> ids)
+        {
+            return await _context.Especialidades
+                .Where(e => ids.Contains(e.IdEspecialidad))
+                .ToListAsync();
         }
 
         public async Task<ICollection<Especialidades>> ListAsync()

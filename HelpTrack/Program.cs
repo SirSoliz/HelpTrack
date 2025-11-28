@@ -48,6 +48,7 @@ builder.Services.AddScoped<IServicePrioridades, ServicePrioridades>();
 builder.Services.AddScoped<IRepositorySla, RepositorySla>();
 builder.Services.AddScoped<IServiceSla, ServiceSla>();
 builder.Services.AddScoped<IRepositoryEspecialidad, RepositoryEspecialidad>();
+builder.Services.AddScoped<IRepositoryEtiqueta, RepositoryEtiqueta>();
 builder.Services.AddScoped<IServiceEspecialidad, ServiceEspecialidad>();
 
 //Configuracion de Serilog

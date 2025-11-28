@@ -22,11 +22,25 @@
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdSla" class="control-label"></label>
+                <label asp-for="IdSla" class="control-label">SLA</label>
                 <select asp-for="IdSla" class="form-control" asp-items="ViewBag.SLAs">
                     <option value="">-- Seleccionar SLA --</option>
                 </select>
                 <span asp-validation-for="IdSla" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EtiquetasSeleccionadas" class="control-label">Etiquetas</label>
+                <select asp-for="EtiquetasSeleccionadas" class="form-control" multiple="multiple"
+                        asp-items="ViewBag.Etiquetas"></select>
+                <span asp-validation-for="EtiquetasSeleccionadas" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EspecialidadesSeleccionadas" class="control-label">Especialidades</label>
+                <select asp-for="EspecialidadesSeleccionadas" class="form-control" multiple="multiple"
+                        asp-items="ViewBag.Especialidades"></select>
+                <span asp-validation-for="EspecialidadesSeleccionadas" class="text-danger"></span>
             </div>
             
 

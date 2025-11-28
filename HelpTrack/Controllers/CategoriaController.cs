@@ -1,5 +1,7 @@
-﻿using HelpTrack.Application.DTOs;
+﻿using AutoMapper;
+using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
+using HelpTrack.Infraestructure.Models;
 using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +18,22 @@ namespace HelpTrack.Web.Controllers
     {
         private readonly IServiceCategoria _serviceCategoria;
         private readonly IRepositorySla _repositorySla;
+        private readonly IRepositoryEtiqueta _repositoryEtiqueta;
+        private readonly IRepositoryEspecialidad _repositoryEspecialidad;
+        private readonly IMapper _mapper;
+
+
 
         private const int PageSize = 10;
 
-        public CategoriaController(IServiceCategoria serviceCategoria, IRepositorySla repositorySla)
+        public CategoriaController(IServiceCategoria serviceCategoria, IRepositorySla repositorySla, 
+           IRepositoryEtiqueta repositoryEtiqueta, IRepositoryEspecialidad repositoryEspecialidad, IMapper mapper)
         {
             _serviceCategoria = serviceCategoria ?? throw new ArgumentNullException(nameof(serviceCategoria));
             _repositorySla = repositorySla ?? throw new ArgumentNullException(nameof(repositorySla));
-
+            _repositoryEtiqueta = repositoryEtiqueta;
+            _repositoryEspecialidad = repositoryEspecialidad;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -115,7 +125,13 @@ namespace HelpTrack.Web.Controllers
         {
             // Obtener la lista de SLAs
             var slas = await _repositorySla.ListAsync();
+            var etiquetas = await _repositoryEtiqueta.ListAsync();
+            var especialidades = await _repositoryEspecialidad.ListAsync();
+
             ViewBag.SLAs = new SelectList(slas, "IdSla", "Nombre");
+            ViewBag.Etiquetas = new MultiSelectList(etiquetas, "IdEtiqueta", "Nombre");
+            ViewBag.Especialidades = new MultiSelectList(especialidades, "IdEspecialidad", "Nombre");
+
             return View(new CategoriaDTO());
         }
 
@@ -127,18 +143,47 @@ namespace HelpTrack.Web.Controllers
             {
                 try
                 {
+                    // Mapear las etiquetas y especialidades seleccionadas
+                    if (categoriaDTO.EtiquetasSeleccionadas != null && categoriaDTO.EtiquetasSeleccionadas.Any())
+                    {
+                        var etiquetas = await _repositoryEtiqueta
+                            .FindByIdsAsync(categoriaDTO.EtiquetasSeleccionadas);
+                        categoriaDTO.Etiquetas = _mapper.Map<ICollection<EtiquetaDTO>>(etiquetas);
+                    }
+
+                    if (categoriaDTO.EspecialidadesSeleccionadas != null && categoriaDTO.EspecialidadesSeleccionadas.Any())
+                    {
+                        var especialidades = await _repositoryEspecialidad
+                            .FindByIdsAsync(categoriaDTO.EspecialidadesSeleccionadas);
+                        categoriaDTO.Especialidades = _mapper.Map<ICollection<EspecialidadDTO>>(especialidades);
+                    }
+
                     await _serviceCategoria.AddAsync(categoriaDTO);
                     TempData["SuccessMessage"] = "Categoría creada exitosamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    var slas = await _repositorySla.ListAsync();
-                    ViewBag.SLAs = new SelectList(slas, "IdSla", "Nombre", categoriaDTO.IdSla);
+                    await CargarListasDesplegables();
                     ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
                 }
             }
+            else
+            {
+                await CargarListasDesplegables();
+            }
             return View(categoriaDTO);
+        }
+
+        private async Task CargarListasDesplegables()
+        {
+            var slas = await _repositorySla.ListAsync();
+            var etiquetas = await _repositoryEtiqueta.ListAsync();
+            var especialidades = await _repositoryEspecialidad.ListAsync();
+
+            ViewBag.SLAs = new SelectList(slas, "IdSla", "Nombre");
+            ViewBag.Etiquetas = new MultiSelectList(etiquetas, "IdEtiqueta", "Nombre");
+            ViewBag.Especialidades = new MultiSelectList(especialidades, "IdEspecialidad", "Nombre");
         }
         public IActionResult Delete(int? id) => RedirectToAction(nameof(Index));
     }

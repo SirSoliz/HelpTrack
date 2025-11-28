@@ -5,6 +5,12 @@ namespace HelpTrack.Infraestructure.Models;
 
 public partial class Categorias
 {
+    public Categorias()
+    {
+        IdEtiqueta = new HashSet<Etiquetas>();
+        IdEspecialidad = new HashSet<Especialidades>();
+    }
+
     public int IdCategoria { get; set; }
 
     public string Nombre { get; set; } = null!;
