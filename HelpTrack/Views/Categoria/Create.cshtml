@@ -26,16 +26,7 @@
                 <input asp-for="IdSla" class="form-control" type="number" min="1" placeholder="ID de SLA" />
                 <span asp-validation-for="IdSla" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TiempoMaxRespuestaHoras" class="control-label"></label>
-                <input asp-for="TiempoMaxRespuestaHoras" class="form-control" type="number" min="0" placeholder="Horas máximas de respuesta" />
-                <span asp-validation-for="TiempoMaxRespuestaHoras" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TiempoMaxResolucionHoras" class="control-label"></label>
-                <input asp-for="TiempoMaxResolucionHoras" class="form-control" type="number" min="0" placeholder="Horas máximas de resolución" />
-                <span asp-validation-for="TiempoMaxResolucionHoras" class="text-danger"></span>
-            </div>
+            
 
             <div class="form-group mt-3">
                 <a asp-action="Index" class="btn btn-secondary">Cancelar</a>

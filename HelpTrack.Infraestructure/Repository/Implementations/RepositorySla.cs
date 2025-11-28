@@ -23,11 +23,10 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             return (int)entity.IdSla;
         }
 
-        public async Task<Sla> FindByIdAsync(int id)
+        public async Task<Sla?> FindByIdAsync(int id)
         {
-            //throw new NotImplementedException();
-            var @object = await _context.Set<Sla>().FindAsync(id);
-            return @object!;
+            return await _context.Sla.FindAsync(id);
+
         }
 
         public async Task<ICollection<Sla>> ListAsync()

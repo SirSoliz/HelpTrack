@@ -10,7 +10,7 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
     public interface IRepositorySla
     {
         Task<ICollection<Sla>> ListAsync();
-        Task<Sla> FindByIdAsync(int id);
+        Task<Sla?> FindByIdAsync(int id);
         Task<int> AddAsync(Sla entity);
         Task UpdateAsync(Sla entity);
     }

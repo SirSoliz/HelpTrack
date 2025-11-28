@@ -4,6 +4,7 @@ using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Models;
 using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +17,29 @@ namespace HelpTrack.Application.Services.Implementations
     {
         private readonly IRepositoryCategoria _repository;
         private readonly IMapper _mapper;
-        public ServiceCategoria(IRepositoryCategoria repository, IMapper mapper)
+        private readonly IRepositorySla _repositorySla;
+
+        public ServiceCategoria(IRepositoryCategoria repository, IMapper mapper, IRepositorySla repositorySla)
         {
             _repository = repository;
             _mapper = mapper;
+            _repositorySla = repositorySla;
         }
         public async Task<int> AddAsync(CategoriaDTO dto)
         {
             var entity = _mapper.Map<Categorias>(dto);
 
+            // Cargar el SLA relacionado
+            var sla = await _repositorySla.FindByIdAsync(dto.IdSla);
+            if (sla == null)
+            {
+                throw new ArgumentException($"No se encontró un SLA con el ID {dto.IdSla}");
+            }
+
+            entity.IdSlaNavigation = sla;
+
             return await _repository.AddAsync(entity);
         }
-
         public async Task<CategoriaDTO> FindByIdAsync(int id)
         {
             var @object = await _repository.FindByIdAsync(id);

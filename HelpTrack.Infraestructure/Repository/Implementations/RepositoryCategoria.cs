@@ -20,6 +20,7 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
         public async Task<int> AddAsync(Categorias entity)
         {
             await _context.Set<Categorias>().AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity.IdCategoria;
         }
 
