@@ -23,7 +23,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdSla" class="control-label"></label>
-                <input asp-for="IdSla" class="form-control" type="number" min="1" placeholder="ID de SLA" />
+                <select asp-for="IdSla" class="form-control" asp-items="ViewBag.SLAs">
+                    <option value="">-- Seleccionar SLA --</option>
+                </select>
                 <span asp-validation-for="IdSla" class="text-danger"></span>
             </div>
             

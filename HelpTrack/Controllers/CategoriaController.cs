@@ -1,6 +1,9 @@
 ﻿using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
+using HelpTrack.Infraestructure.Repository.Implementations;
+using HelpTrack.Infraestructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,12 +15,15 @@ namespace HelpTrack.Web.Controllers
     public class CategoriaController : Controller
     {
         private readonly IServiceCategoria _serviceCategoria;
+        private readonly IRepositorySla _repositorySla;
+
         private const int PageSize = 10;
 
-        public CategoriaController(IServiceCategoria serviceCategoria)
+        public CategoriaController(IServiceCategoria serviceCategoria, IRepositorySla repositorySla)
         {
-            _serviceCategoria = serviceCategoria ??
-            throw new ArgumentNullException(nameof(serviceCategoria));
+            _serviceCategoria = serviceCategoria ?? throw new ArgumentNullException(nameof(serviceCategoria));
+            _repositorySla = repositorySla ?? throw new ArgumentNullException(nameof(repositorySla));
+
         }
 
         [HttpGet]
@@ -107,6 +113,9 @@ namespace HelpTrack.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            // Obtener la lista de SLAs
+            var slas = await _repositorySla.ListAsync();
+            ViewBag.SLAs = new SelectList(slas, "IdSla", "Nombre");
             return View(new CategoriaDTO());
         }
 
@@ -124,10 +133,11 @@ namespace HelpTrack.Web.Controllers
                 }
                 catch (Exception ex)
                 {
+                    var slas = await _repositorySla.ListAsync();
+                    ViewBag.SLAs = new SelectList(slas, "IdSla", "Nombre", categoriaDTO.IdSla);
                     ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
                 }
             }
-            // Si hay error, vuelve a mostrar el formulario con los datos ingresados
             return View(categoriaDTO);
         }
         public IActionResult Delete(int? id) => RedirectToAction(nameof(Index));

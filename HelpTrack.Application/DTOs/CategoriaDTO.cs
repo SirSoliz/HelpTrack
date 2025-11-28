@@ -14,6 +14,7 @@ namespace HelpTrack.Application.DTOs
         [Display(Name = "Descripción")]
         public string? Descripcion { get; set; }
 
+        [Required(ErrorMessage = "El campo SLA es obligatorio")]
         [Display(Name = "SLA")]
         public short IdSla { get; set; }
 
