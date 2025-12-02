@@ -1,0 +1,83 @@
+﻿@model HelpTrack.Application.DTOs.AsignacionTicketDTO
+
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Asignación Actual</h5>
+        @if (User.IsInRole("Administrador"))
+        {
+            <div>
+                <a asp-controller="AsignacionTicket" asp-action="Asignar" asp-route-id="@Model.IdTicket"
+                   class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-user-edit"></i> Reasignar
+                </a>
+                <a asp-controller="AsignacionTicket" asp-action="Historial" asp-route-id="@Model.IdTicket"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-history"></i> Ver Historial
+                </a>
+            </div>
+        }
+    </div>
+    <div class="card-body">
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Técnico Asignado:</strong> @Model.Tecnico?.Alias</p>
+                    <p><strong>Fecha de Asignación:</strong> @Model.FechaAsignacion.ToString("g")</p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <strong>Prioridad:</strong>
+                        @switch (Model.Prioridad)
+                        {
+                            case 1:
+                                <span class="badge bg-secondary">Baja</span>
+                                break;
+                            case 2:
+
+                                <span class="badge bg-info">Media</span>
+                                break;
+                            case 3:
+
+                                <span class="badge bg-primary">Normal</span>
+                                break;
+                            case 4:
+
+                                <span class="badge bg-warning">Alta</span>
+                                break;
+                            case 5:
+
+                                <span class="badge bg-danger">Crítica</span>
+                                break;
+                            default:
+
+                                <span class="badge bg-secondary">@Model.Prioridad</span>
+                                break;
+                        }
+                    </p>
+                    <p><strong>Método:</strong> @Model.Metodo</p>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Justificacion))
+                {
+                    <div class="col-12 mt-2">
+                        <div class="alert alert-light">
+                            <strong>Justificación:</strong> @Model.Justificacion
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mb-0">
+                Este ticket no tiene una asignación activa.
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-controller="AsignacionTicket" asp-action="Asignar" asp-route-id="@ViewBag.TicketId" class="alert-link">
+                        Asignar ahora
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
