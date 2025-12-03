@@ -36,6 +36,10 @@ namespace HelpTrack.Application.DTOs
         [ValidateNever]
         public SelectList? TecnicosDisponibles { get; set; }
 
+        // Propiedad para el SelectList de prioridades disponibles
+        [ValidateNever]
+        public SelectList? PrioridadesDisponibles { get; set; }
+
         // Navigation properties
         [ValidateNever]
         public virtual TicketDTO? Ticket { get; set; }

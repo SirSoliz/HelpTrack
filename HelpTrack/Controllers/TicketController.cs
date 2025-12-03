@@ -310,15 +310,19 @@ namespace HelpTrack.Web.Controllers
             if (ticket == null) return NotFound();
 
             var tecnicos = await _serviceTecnico.ListAsync();
+            var prioridades = await _servicePrioridades.ListAsync();
+            
             var model = new AsignacionTicketDTO
             {
                 IdTicket = ticket.IdTicket,
                 Ticket = ticket,
+                Prioridad = ticket.IdPrioridad,
                 TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
                 {
                     IdTecnico = t.IdTecnico,
                     NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
-                }), "IdTecnico", "NombreCompleto")
+                }), "IdTecnico", "NombreCompleto"),
+                PrioridadesDisponibles = new SelectList(prioridades, "IdPrioridad", "Nombre", ticket.IdPrioridad)
             };
 
             return View(model);
@@ -349,11 +353,14 @@ namespace HelpTrack.Web.Controllers
             var ticket = await _serviceTicket.FindByIdAsync(model.IdTicket);
             model.Ticket = ticket;
             var tecnicos = await _serviceTecnico.ListAsync();
+            var prioridades = await _servicePrioridades.ListAsync();
+            
             model.TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
             {
                 IdTecnico = t.IdTecnico,
                 NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
             }), "IdTecnico", "NombreCompleto");
+            model.PrioridadesDisponibles = new SelectList(prioridades, "IdPrioridad", "Nombre");
 
             return View(model);
 
