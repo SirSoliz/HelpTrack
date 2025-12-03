@@ -10,6 +10,8 @@ namespace HelpTrack.Application.Services.Interfaces
     public interface IServiceTicket
     {
         Task<ICollection<TicketDTO>> ListAsync();
+        Task<ICollection<TicketHistoryDTO>> GetHistoryAsync();
+        Task<ICollection<HistorialTicketDTO>> GetTicketHistoryLogAsync(int ticketId);
         Task<TicketDTO> FindByIdAsync(int id);
         Task<int> AddAsync(TicketDTO dto);
         Task UpdateAsync(int id, TicketDTO dto);

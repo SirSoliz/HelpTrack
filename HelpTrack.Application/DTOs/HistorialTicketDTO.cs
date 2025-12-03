@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace HelpTrack.Application.DTOs
 {
-    internal class HistorialTicketDTO
+    public class HistorialTicketDTO
     {
+        public int IdHistorial { get; set; }
+        public int IdTicket { get; set; }
+        public string? Estado { get; set; }
+        public string? UsuarioAccion { get; set; }
+        public string? Observacion { get; set; }
+        public DateTime FechaEvento { get; set; }
     }
 }

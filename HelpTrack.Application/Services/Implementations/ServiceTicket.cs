@@ -56,6 +56,20 @@ namespace HelpTrack.Application.Services.Implementations
             return collection;
         }
 
+        public async Task<ICollection<TicketHistoryDTO>> GetHistoryAsync()
+        {
+            var list = await _repository.GetHistoryListAsync();
+            var collection = _mapper.Map<ICollection<TicketHistoryDTO>>(list);
+            return collection;
+        }
+
+        public async Task<ICollection<HistorialTicketDTO>> GetTicketHistoryLogAsync(int ticketId)
+        {
+            var list = await _repository.GetHistoryLogAsync(ticketId);
+            var collection = _mapper.Map<ICollection<HistorialTicketDTO>>(list);
+            return collection;
+        }
+
         public async Task UpdateAsync(int id, TicketDTO dto)
         {
             //Obtenga el modelo original a actualizar

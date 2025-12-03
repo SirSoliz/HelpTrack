@@ -13,7 +13,9 @@ namespace HelpTrack.Application.Profiles
     {
         public HistorialTicketProfile()
         {
-            CreateMap<HistorialTicketDTO, HistorialTicket>().ReverseMap();
+            CreateMap<HistorialTicket, HistorialTicketDTO>()
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.IdEstadoNavigation.Nombre))
+                .ForMember(dest => dest.UsuarioAccion, opt => opt.MapFrom(src => src.IdUsuarioAccionNavigation.Nombre));
         }
     }
 }

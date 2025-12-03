@@ -48,16 +48,30 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             return collection;
         }
 
+        public async Task<ICollection<Tickets>> GetHistoryListAsync()
+        {
+            var collection = await _context.Tickets
+                .Include(t => t.IdEstadoActualNavigation)
+                .Include(t => t.AsignacionesTicket)
+                    .ThenInclude(a => a.IdTecnicoNavigation)
+                        .ThenInclude(tec => tec.IdTecnicoNavigation) // Usuario
+                .ToListAsync();
+            return collection;
+        }
+
+        public async Task<ICollection<HistorialTicket>> GetHistoryLogAsync(int ticketId)
+        {
+            return await _context.HistorialTicket
+                .Include(h => h.IdEstadoNavigation)
+                .Include(h => h.IdUsuarioAccionNavigation)
+                .Where(h => h.IdTicket == ticketId)
+                .OrderByDescending(h => h.FechaEvento)
+                .ToListAsync();
+        }
+
         public async Task UpdateAsync(Tickets entity)
         {
-            // For updates, we need to ensure the context is tracking the entity correctly.
-            // If the entity was detached or created from a DTO, we might need to attach it.
-            // However, since we are using AutoMapper to map ONTO the existing entity in the Service,
-            // the entity passed here should already be tracked if it came from FindByIdAsync.
-            
-            // If it's a new context instance or detached entity, we might need:
-            // _context.Entry(entity).State = EntityState.Modified;
-            
+            _context.Tickets.Update(entity);
             await _context.SaveChangesAsync();
         }
 

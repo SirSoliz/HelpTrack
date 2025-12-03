@@ -1,0 +1,205 @@
+@model HelpTrack.Web.ViewModels.TicketHistoryDetailsViewModel
+
+@{
+    ViewData["Title"] = "Historial del Ticket";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            <i class="fas fa-history"></i> Historial del Ticket
+        </h1>
+    </div>
+
+    <div class="row">
+        <!-- Información del Ticket Card -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Información del Ticket</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-id-badge text-primary"></i> ID Ticket:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="badge bg-secondary">#@Model.TicketInfo.IdTicket</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-heading text-primary"></i> Título:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @Model.TicketInfo.Titulo
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-calendar-plus text-primary"></i> Fecha de Creación:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @Model.TicketInfo.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                    </div>
+
+                    @if (Model.TicketInfo.FechaAsignacion.HasValue)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong><i class="fas fa-user-check text-primary"></i> Fecha de Asignación:</strong>
+                            </div>
+                            <div class="col-md-8">
+                                @Model.TicketInfo.FechaAsignacion.Value.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-user-tie text-primary"></i> Técnico Asignado:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @if (!string.IsNullOrEmpty(Model.TicketInfo.NombreTecnico) && Model.TicketInfo.NombreTecnico != "Sin Asignar")
+                            {
+                                @Model.TicketInfo.NombreTecnico
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Sin Asignar</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <strong><i class="fas fa-toggle-on text-primary"></i> Estado Actual:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            @if (Model.TicketInfo.Estado == "Abierto" || Model.TicketInfo.Estado == "Nuevo")
+                            {
+                                <span class="badge bg-success"><i class="fas fa-check"></i> @Model.TicketInfo.Estado</span>
+                            }
+                            else if (Model.TicketInfo.Estado == "Asignado" || Model.TicketInfo.Estado == "En Proceso")
+                            {
+                                <span class="badge bg-warning text-dark"><i class="fas fa-spinner"></i> @Model.TicketInfo.Estado</span>
+                            }
+                            else if (Model.TicketInfo.Estado == "Cerrado" || Model.TicketInfo.Estado == "Resuelto")
+                            {
+                                <span class="badge bg-secondary"><i class="fas fa-times"></i> @Model.TicketInfo.Estado</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info text-dark">@Model.TicketInfo.Estado</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historial de Cambios Card -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Historial de Cambios</h6>
+                </div>
+                <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                    @if (Model.HistoryLog != null && Model.HistoryLog.Any())
+                    {
+                        <div class="timeline">
+                            @foreach (var item in Model.HistoryLog)
+                            {
+                                <div class="mb-3 pb-3 border-bottom">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="badge bg-info text-dark mb-1">@item.Estado</span>
+                                            <p class="small text-muted mb-1">
+                                                <i class="fas fa-user"></i> @item.UsuarioAccion
+                                            </p>
+                                            <p class="small text-muted mb-0">
+                                                <i class="fas fa-clock"></i> @item.FechaEvento.ToString("dd/MM/yyyy HH:mm:ss")
+                                            </p>
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(item.Observacion))
+                                    {
+                                        <p class="small mt-2 mb-0">
+                                            <i class="fas fa-comment"></i> @item.Observacion
+                                        </p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="small text-muted mb-0">
+                            <i class="fas fa-info-circle"></i>
+                            No hay registros de historial para este ticket.
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <!-- Acciones Card -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Details" asp-route-id="@Model.TicketInfo.IdTicket" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                            <span class="text">Ver Detalles</span>
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span class="text">Volver al Listado</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-icon-split {
+            padding: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: stretch;
+            -ms-flex-align: stretch;
+            align-items: stretch;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .btn-icon-split .icon {
+            background: rgba(0, 0, 0, .15);
+            display: inline-block;
+            padding: .375rem .75rem;
+        }
+
+        .btn-icon-split .text {
+            display: inline-block;
+            padding: .375rem .75rem;
+        }
+
+        .timeline {
+            position: relative;
+        }
+    </style>
+}

@@ -252,6 +252,54 @@ namespace HelpTrack.Web.Controllers
             }
         }
 
+        // GET: Ticket/History
+        [HttpGet]
+        public async Task<IActionResult> History()
+        {
+            try
+            {
+                var history = await _serviceTicket.GetHistoryAsync();
+                return View(history);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cargar el historial de tickets");
+                return View(new List<TicketHistoryDTO>());
+            }
+        }
+
+        // GET: Ticket/HistoryDetails/5
+        [HttpGet]
+        public async Task<IActionResult> HistoryDetails(int? id)
+        {
+            if (id == null) return NotFound();
+
+            try
+            {
+                // Obtener información general del ticket (reutilizando el servicio existente)
+                var allHistory = await _serviceTicket.GetHistoryAsync();
+                var ticketInfo = allHistory.FirstOrDefault(t => t.IdTicket == id.Value);
+
+                if (ticketInfo == null) return NotFound();
+
+                // Obtener el log de cambios del ticket
+                var historyLog = await _serviceTicket.GetTicketHistoryLogAsync(id.Value);
+
+                var model = new HelpTrack.Web.ViewModels.TicketHistoryDetailsViewModel
+                {
+                    TicketInfo = ticketInfo,
+                    HistoryLog = historyLog
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cargar los detalles del historial del ticket");
+                return NotFound();
+            }
+        }
+
         // GET: Ticket/Assign/5
         [HttpGet]
         public async Task<IActionResult> Assign(int? id)

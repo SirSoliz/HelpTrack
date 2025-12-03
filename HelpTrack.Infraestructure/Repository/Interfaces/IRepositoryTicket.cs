@@ -11,6 +11,8 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
     public interface IRepositoryTicket
     {
         Task<ICollection<Tickets>> ListAsync();
+        Task<ICollection<Tickets>> GetHistoryListAsync();
+        Task<ICollection<HistorialTicket>> GetHistoryLogAsync(int ticketId);
         Task<Tickets> FindByIdAsync(int id);
         Task<int> AddAsync(Tickets entity);
         Task UpdateAsync(Tickets entity);
