@@ -66,8 +66,17 @@
         <div class="card-footer">
             <a asp-action="Edit" asp-route-id="@Model.IdTicket" class="btn btn-primary">Editar</a>
             <a asp-action="Assign" asp-route-id="@Model.IdTicket" class="btn btn-info text-white ml-2">Asignar</a>
-            <a asp-action="HistoryDetails" asp-route-id="@Model.IdTicket" class="btn btn-secondary ml-2">Ver Historial</a>
-            <a asp-action="Index" class="btn btn-secondary ml-2">Volver al listado</a>
+            
+            @if (Model.EstadoActual?.Nombre != "Cerrado" && Model.EstadoActual?.Nombre != "Resuelto")
+            {
+                <form asp-action="Close" asp-route-id="@Model.IdTicket" method="post" class="d-inline ms-2" onsubmit="return confirm('¿Está seguro de que desea cerrar este ticket?');">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Cerrar Ticket</button>
+                </form>
+            }
+
+            <a asp-action="HistoryDetails" asp-route-id="@Model.IdTicket" class="btn btn-secondary ms-2">Ver Historial</a>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Volver al listado</a>
         </div>
     </div>
 </div>

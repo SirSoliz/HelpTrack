@@ -224,6 +224,40 @@ namespace HelpTrack.Web.Controllers
             return View(ticketDTO);
         }
 
+        // POST: Ticket/Close/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Close(int id)
+        {
+            var ticket = await _serviceTicket.FindByIdAsync(id);
+            if (ticket == null) return NotFound();
+
+            try 
+            {
+                // Buscar el estado "Cerrado"
+                var estados = await _serviceEstadoTicket.SearchAsync("Cerrado");
+                var estadoCerrado = estados.FirstOrDefault();
+                
+                if (estadoCerrado != null)
+                {
+                    ticket.IdEstadoActual = estadoCerrado.IdEstado;
+                    await _serviceTicket.UpdateAsync(id, ticket);
+                    TempData["SuccessMessage"] = "Ticket cerrado exitosamente";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No se pudo encontrar el estado 'Cerrado' en el sistema.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cerrar el ticket");
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar cerrar el ticket.";
+            }
+
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
         // GET: Ticket/Index
         [HttpGet]
         public async Task<IActionResult> Index(int? page, string searchString)
