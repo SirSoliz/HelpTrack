@@ -105,7 +105,7 @@ namespace HelpTrack.Web.Controllers
                         TipoContenido = file.ContentType,
                         UrlArchivo = $"/imagenes/tickets/{fileName}",
                         FechaCreacion = DateTime.Now,
-                        IdUsuario = 1 
+                        IdUsuario = 1
                     });
                 }
             }
@@ -204,7 +204,7 @@ namespace HelpTrack.Web.Controllers
                         //Por ahora, los agregamos a la colección del DTO.
                         foreach (var img in imagenes)
                         {
-                            img.IdTicket = id; 
+                            img.IdTicket = id;
                             ticketDTO.ImagenesTicket.Add(img);
                         }
                     }
@@ -331,32 +331,32 @@ namespace HelpTrack.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                    try
-                    {
-                        await _serviceTicket.AssignAsync(model);
-                        TempData["SuccessMessage"] = "Ticket asignado exitosamente";
-                        return RedirectToAction(nameof(Details), new { id = model.IdTicket });
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Error al asignar el ticket");
-                        var innerMessage = ex.InnerException != null ? ex.InnerException.Message : "";
-                        ModelState.AddModelError("", $"Error al asignar el ticket: {ex.Message} -> {innerMessage}");
-                    }
+                try
+                {
+                    await _serviceTicket.AssignAsync(model);
+                    TempData["SuccessMessage"] = "Ticket asignado exitosamente";
+                    return RedirectToAction(nameof(Details), new { id = model.IdTicket });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al asignar el ticket");
+                    var innerMessage = ex.InnerException != null ? ex.InnerException.Message : "";
+                    ModelState.AddModelError("", $"Error al asignar el ticket: {ex.Message} -> {innerMessage}");
+                }
             }
 
-                // Recargar datos si falla la validación
-                var ticket = await _serviceTicket.FindByIdAsync(model.IdTicket);
-                model.Ticket = ticket;
-                var tecnicos = await _serviceTecnico.ListAsync();
-                model.TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
-                {
-                    IdTecnico = t.IdTecnico,
-                    NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
-                }), "IdTecnico", "NombreCompleto");
+            // Recargar datos si falla la validación
+            var ticket = await _serviceTicket.FindByIdAsync(model.IdTicket);
+            model.Ticket = ticket;
+            var tecnicos = await _serviceTecnico.ListAsync();
+            model.TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
+            {
+                IdTecnico = t.IdTecnico,
+                NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
+            }), "IdTecnico", "NombreCompleto");
 
-                return View(model);
-            
+            return View(model);
+
         }
     }
 }

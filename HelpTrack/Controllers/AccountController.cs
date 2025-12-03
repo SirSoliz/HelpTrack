@@ -40,6 +40,7 @@ namespace HelpTrack.Controllers
                 {
                     if (!user.Activo)
                     {
+                        TempData["ErrorMessage"] = "Su cuenta está inactiva. Por favor contacte al administrador.";
                         ModelState.AddModelError(string.Empty, "Su cuenta está inactiva.");
                         return View(model);
                     }
@@ -60,9 +61,11 @@ namespace HelpTrack.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
                     await _serviceUsuario.UpdateLastLoginAsync(user.IdUsuario);
 
+                    TempData["SuccessMessage"] = $"¡Bienvenido de nuevo, {user.Nombre}!";
                     return RedirectToAction("Index", "Home");
                 }
 
+                TempData["ErrorMessage"] = "Correo o contraseña incorrectos. Por favor, verifica tus credenciales.";
                 ModelState.AddModelError(string.Empty, "Correo o contraseña incorrectos.");
             }
             return View(model);
@@ -83,6 +86,7 @@ namespace HelpTrack.Controllers
                 var existingUser = await _serviceUsuario.FindByEmailAsync(model.Email);
                 if (existingUser != null)
                 {
+                    TempData["ErrorMessage"] = "El correo electrónico ya está registrado. Por favor usa otro correo.";
                     ModelState.AddModelError("Email", "El correo electrónico ya está registrado.");
                     return View(model);
                 }
@@ -97,6 +101,7 @@ namespace HelpTrack.Controllers
                 await _serviceUsuario.RegisterAsync(newUser, model.Password);
 
                 // Auto login after register
+                TempData["SuccessMessage"] = "¡Cuenta creada exitosamente!";
                 return await Login(new LoginViewModel { Email = model.Email, Password = model.Password });
             }
             return View(model);
@@ -128,6 +133,7 @@ namespace HelpTrack.Controllers
                 }
                 else
                 {
+                    TempData["ErrorMessage"] = "No se encontró un usuario con ese correo electrónico.";
                     ModelState.AddModelError(string.Empty, "No se encontró un usuario con ese correo electrónico.");
                 }
             }
