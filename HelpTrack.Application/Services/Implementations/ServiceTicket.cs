@@ -65,5 +65,38 @@ namespace HelpTrack.Application.Services.Implementations
 
             await _repository.UpdateAsync(entity);
         }
+
+        public async Task AssignAsync(AsignacionTicketDTO dto)
+        {
+            // Check if assignment already exists
+            var existingAssignment = await _repository.GetAssignmentByTicketIdAsync(dto.IdTicket);
+
+            if (existingAssignment != null)
+            {
+                // Update existing assignment manually to avoid modifying the Key (IdAsignacion)
+                existingAssignment.IdTecnico = dto.IdTecnico;
+                existingAssignment.Metodo = dto.Metodo;
+                existingAssignment.Prioridad = dto.Prioridad;
+                existingAssignment.FechaAsignacion = DateTime.Now;
+                
+                await _repository.UpdateAssignmentAsync(existingAssignment);
+            }
+            else
+            {
+                // Create new assignment
+                var assignment = _mapper.Map<AsignacionesTicket>(dto);
+                assignment.FechaAsignacion = DateTime.Now;
+                await _repository.AddAssignmentAsync(assignment);
+            }
+
+            // Update ticket status to "Asignado" (ID 2)
+            var ticket = await _repository.FindByIdAsync(dto.IdTicket);
+            if (ticket != null)
+            {
+                ticket.IdEstadoActual = 2; // Asignado
+                ticket.FechaAsignacion = DateTime.Now;
+                await _repository.UpdateAsync(ticket);
+            }
+        }
     }
 }

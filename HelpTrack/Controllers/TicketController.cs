@@ -16,6 +16,7 @@ namespace HelpTrack.Web.Controllers
         private readonly IServiceEstadoTicket _serviceEstadoTicket;
         private readonly IServicePrioridades _servicePrioridades;
         private readonly IServiceCategoria _serviceCategoria;
+        private readonly IServiceTecnico _serviceTecnico;
         private readonly ILogger<TicketController> _logger;
         private readonly IWebHostEnvironment _hostEnvironment;
         private const int PageSize = 10;
@@ -25,6 +26,7 @@ namespace HelpTrack.Web.Controllers
             IServiceEstadoTicket serviceEstadoTicket,
             IServicePrioridades servicePrioridades,
             IServiceCategoria serviceCategoria,
+            IServiceTecnico serviceTecnico,
             ILogger<TicketController> logger,
             IWebHostEnvironment hostEnvironment)
         {
@@ -32,11 +34,12 @@ namespace HelpTrack.Web.Controllers
             _serviceEstadoTicket = serviceEstadoTicket;
             _servicePrioridades = servicePrioridades;
             _serviceCategoria = serviceCategoria;
+            _serviceTecnico = serviceTecnico;
             _logger = logger;
             _hostEnvironment = hostEnvironment;
         }
 
-        // Helper method to load priorities, categories, and states into ViewBag
+        // Método auxiliar para cargar prioridades, categorías y estados en ViewBag
         private async Task LoadFormDataAsync(int? selectedPrioridadId = null, int? selectedCategoriaId = null, int? selectedEstadoId = null)
         {
             var prioridades = await _servicePrioridades.ListAsync();
@@ -70,7 +73,7 @@ namespace HelpTrack.Web.Controllers
                 .ToList();
         }
 
-        // Helper method to save images
+        // Metodo de ayuda para guardar imagenes 
         private async Task<List<ImagenesTicket>> SaveImagesAsync(List<IFormFile>? images)
         {
             var savedImages = new List<ImagenesTicket>();
@@ -102,7 +105,7 @@ namespace HelpTrack.Web.Controllers
                         TipoContenido = file.ContentType,
                         UrlArchivo = $"/imagenes/tickets/{fileName}",
                         FechaCreacion = DateTime.Now,
-                        IdUsuario = 1 // Default user, replace with logged in user
+                        IdUsuario = 1 
                     });
                 }
             }
@@ -140,10 +143,10 @@ namespace HelpTrack.Web.Controllers
             {
                 try
                 {
-                    // Set default user if not provided
+                    // Establecer usuario predeterminado si no se proporciona
                     if (ticketDTO.IdUsuarioCreacion == 0) ticketDTO.IdUsuarioCreacion = 1;
 
-                    // Handle Images
+                    // Manejar imagenes 
                     if (ticketDTO.NuevasImagenes != null && ticketDTO.NuevasImagenes.Any())
                     {
                         var imagenes = await SaveImagesAsync(ticketDTO.NuevasImagenes);
@@ -192,17 +195,16 @@ namespace HelpTrack.Web.Controllers
             {
                 try
                 {
-                    // Handle New Images
+                    // Manejar nuevas imágenes
                     if (ticketDTO.NuevasImagenes != null && ticketDTO.NuevasImagenes.Any())
                     {
                         var imagenes = await SaveImagesAsync(ticketDTO.NuevasImagenes);
-                        // We need to add these to the existing ticket. 
-                        // Since UpdateAsync might replace the collection or merge, 
-                        // we should ensure the service handles adding new items to the collection.
-                        // For now, we add them to the DTO's collection.
+                        //Necesitamos agregarlos al ticket existente.
+                        //Dado que UpdateAsync podría reemplazar la colección o fusionarla, debemos asegurarnos de que el servicio gestione la adición de nuevos elementos a la colección.
+                        //Por ahora, los agregamos a la colección del DTO.
                         foreach (var img in imagenes)
                         {
-                            img.IdTicket = id; // Ensure ID is set
+                            img.IdTicket = id; 
                             ticketDTO.ImagenesTicket.Add(img);
                         }
                     }
@@ -248,6 +250,65 @@ namespace HelpTrack.Web.Controllers
                 ModelState.AddModelError("", "Error al cargar los tickets.");
                 return View(new PagedList<TicketDTO>(new List<TicketDTO>(), 1, 1));
             }
+        }
+
+        // GET: Ticket/Assign/5
+        [HttpGet]
+        public async Task<IActionResult> Assign(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var ticket = await _serviceTicket.FindByIdAsync(id.Value);
+            if (ticket == null) return NotFound();
+
+            var tecnicos = await _serviceTecnico.ListAsync();
+            var model = new AsignacionTicketDTO
+            {
+                IdTicket = ticket.IdTicket,
+                Ticket = ticket,
+                TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
+                {
+                    IdTecnico = t.IdTecnico,
+                    NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
+                }), "IdTecnico", "NombreCompleto")
+            };
+
+            return View(model);
+        }
+
+        // POST: Ticket/Assign
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Assign(AsignacionTicketDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                    try
+                    {
+                        await _serviceTicket.AssignAsync(model);
+                        TempData["SuccessMessage"] = "Ticket asignado exitosamente";
+                        return RedirectToAction(nameof(Details), new { id = model.IdTicket });
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error al asignar el ticket");
+                        var innerMessage = ex.InnerException != null ? ex.InnerException.Message : "";
+                        ModelState.AddModelError("", $"Error al asignar el ticket: {ex.Message} -> {innerMessage}");
+                    }
+            }
+
+                // Recargar datos si falla la validación
+                var ticket = await _serviceTicket.FindByIdAsync(model.IdTicket);
+                model.Ticket = ticket;
+                var tecnicos = await _serviceTecnico.ListAsync();
+                model.TecnicosDisponibles = new SelectList(tecnicos.Select(t => new
+                {
+                    IdTecnico = t.IdTecnico,
+                    NombreCompleto = $"{t.Usuario?.Nombre} ({t.Alias})"
+                }), "IdTecnico", "NombreCompleto");
+
+                return View(model);
+            
         }
     }
 }

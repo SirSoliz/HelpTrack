@@ -60,5 +60,23 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             
             await _context.SaveChangesAsync();
         }
+
+        public async Task AddAssignmentAsync(AsignacionesTicket assignment)
+        {
+            await _context.AsignacionesTicket.AddAsync(assignment);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<AsignacionesTicket?> GetAssignmentByTicketIdAsync(int ticketId)
+        {
+            return await _context.AsignacionesTicket
+                .FirstOrDefaultAsync(a => a.IdTicket == ticketId);
+        }
+
+        public async Task UpdateAssignmentAsync(AsignacionesTicket assignment)
+        {
+            _context.AsignacionesTicket.Update(assignment);
+            await _context.SaveChangesAsync();
+        }
     }
 }

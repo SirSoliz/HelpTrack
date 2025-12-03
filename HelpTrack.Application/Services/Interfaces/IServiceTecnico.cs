@@ -14,5 +14,8 @@ namespace HelpTrack.Application.Services.Interfaces
 
         Task<bool> ExisteEmailAsync(string email);
         Task<bool> DeleteAsync(int id);
+
+        //Task ActualizarEstadoTicketAsync(ActualizarEstadoTicketDTO dto);
+       // Task<ICollection<HistorialTicketDTO>> ObtenerHistorialTicketAsync(int idTicket);
     }
 }

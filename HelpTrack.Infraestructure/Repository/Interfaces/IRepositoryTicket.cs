@@ -14,5 +14,8 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
         Task<Tickets> FindByIdAsync(int id);
         Task<int> AddAsync(Tickets entity);
         Task UpdateAsync(Tickets entity);
+        Task AddAssignmentAsync(AsignacionesTicket assignment);
+        Task<AsignacionesTicket?> GetAssignmentByTicketIdAsync(int ticketId);
+        Task UpdateAssignmentAsync(AsignacionesTicket assignment);
     }
 }

@@ -13,6 +13,7 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<TicketDTO> FindByIdAsync(int id);
         Task<int> AddAsync(TicketDTO dto);
         Task UpdateAsync(int id, TicketDTO dto);
+        Task AssignAsync(AsignacionTicketDTO dto);
 
     }
 }
