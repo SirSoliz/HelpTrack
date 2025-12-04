@@ -191,6 +191,16 @@ public class RepositoryTecnico : IRepositoryTecnico
         }
     }
 
+    public async Task DecrementWorkloadAsync(int technicianId)
+    {
+        var tecnico = await _context.Tecnicos.FindAsync(technicianId);
+        if (tecnico != null && tecnico.NivelCarga > 0)
+        {
+            tecnico.NivelCarga -= 1;
+            await _context.SaveChangesAsync();
+        }
+    }
+
     public async Task RecalculateAllWorkloadsAsync()
     {
         // Get the "Cerrado" state ID to exclude closed tickets

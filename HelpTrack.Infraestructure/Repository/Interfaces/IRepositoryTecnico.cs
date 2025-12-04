@@ -9,5 +9,6 @@ public interface IRepositoryTecnico
     Task<ICollection<Tecnicos>> SearchAsync(string searchTerm);
     Task<bool> DeleteAsync(int id);
     Task IncrementWorkloadAsync(int technicianId);
+    Task DecrementWorkloadAsync(int technicianId);
     Task RecalculateAllWorkloadsAsync();
 }

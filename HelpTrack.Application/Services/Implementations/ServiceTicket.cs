@@ -104,6 +104,13 @@ namespace HelpTrack.Application.Services.Implementations
 
             if (existingAssignment != null)
             {
+                // If reassigning to a different technician, decrement the old technician's workload
+                int oldTechnicianId = existingAssignment.IdTecnico;
+                if (oldTechnicianId != dto.IdTecnico)
+                {
+                    await _repositoryTecnico.DecrementWorkloadAsync(oldTechnicianId);
+                }
+
                 // Update existing assignment manually to avoid modifying the Key (IdAsignacion)
                 existingAssignment.IdTecnico = dto.IdTecnico;
                 existingAssignment.Metodo = dto.Metodo;
@@ -111,6 +118,12 @@ namespace HelpTrack.Application.Services.Implementations
                 existingAssignment.FechaAsignacion = DateTime.Now;
                 
                 await _repository.UpdateAssignmentAsync(existingAssignment);
+
+                // Increment the new technician's workload (only if it's a different technician)
+                if (oldTechnicianId != dto.IdTecnico)
+                {
+                    await _repositoryTecnico.IncrementWorkloadAsync(dto.IdTecnico);
+                }
             }
             else
             {
@@ -118,6 +131,9 @@ namespace HelpTrack.Application.Services.Implementations
                 var assignment = _mapper.Map<AsignacionesTicket>(dto);
                 assignment.FechaAsignacion = DateTime.Now;
                 await _repository.AddAssignmentAsync(assignment);
+
+                // Increment the technician's workload for new assignment
+                await _repositoryTecnico.IncrementWorkloadAsync(dto.IdTecnico);
             }
 
             // Update ticket status to "Asignado" (ID 2)
@@ -127,9 +143,6 @@ namespace HelpTrack.Application.Services.Implementations
                 ticket.IdEstadoActual = 2; // Asignado
                 ticket.FechaAsignacion = DateTime.Now;
                 await _repository.UpdateAsync(ticket);
-
-                // Update technician workload
-                await _repositoryTecnico.IncrementWorkloadAsync(dto.IdTecnico);
             }
         }
     }
