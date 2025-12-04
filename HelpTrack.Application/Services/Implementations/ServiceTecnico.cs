@@ -151,5 +151,31 @@ namespace HelpTrack.Application.Services.Implementations
             }
         }
 
+        public async Task<Tecnicos?> GetTechnicianWithLeastWorkloadAsync()
+        {
+            // Buscar el estado "Cerrado" para excluir esos tickets del conteo
+            var estadoCerrado = await _context.EstadosTicket
+                .FirstOrDefaultAsync(e => e.Nombre == "Cerrado");
+            
+            int idEstadoCerrado = estadoCerrado?.IdEstado ?? -1;
+
+            var tecnicos = await _repositoryTecnico.ListAsync();
+            
+            // Filtrar solo técnicos disponibles
+            var tecnicosDisponibles = tecnicos.Where(t => t.Disponible).ToList();
+            
+            if (!tecnicosDisponibles.Any())
+                return null;
+
+            // Calcular carga de trabajo para cada técnico
+            // La carga es el número de tickets asignados que NO están cerrados
+            var tecnicoMenosCarga = tecnicosDisponibles
+                .OrderBy(t => t.AsignacionesTicket
+                    .Count(a => a.IdTicketNavigation.IdEstadoActual != idEstadoCerrado))
+                .FirstOrDefault();
+
+            return tecnicoMenosCarga;
+        }
+
     }
 }

@@ -156,8 +156,28 @@ namespace HelpTrack.Web.Controllers
                         }
                     }
 
-                    await _serviceTicket.AddAsync(ticketDTO);
-                    TempData["SuccessMessage"] = "Ticket creado exitosamente";
+                    var ticketId = await _serviceTicket.AddAsync(ticketDTO);
+                    
+                    // Intento de auto-asignación
+                    var tecnico = await _serviceTecnico.GetTechnicianWithLeastWorkloadAsync();
+                    if (tecnico != null)
+                    {
+                        var asignacion = new AsignacionTicketDTO
+                        {
+                            IdTicket = ticketId,
+                            IdTecnico = tecnico.IdTecnico,
+                            Metodo = "Manual",
+                            Prioridad = ticketDTO.IdPrioridad,
+                            FechaAsignacion = DateTime.Now
+                        };
+                        await _serviceTicket.AssignAsync(asignacion);
+                        TempData["SuccessMessage"] = $"Ticket creado y asignado automáticamente a {tecnico.IdTecnicoNavigation?.Nombre ?? tecnico.Alias}";
+                    }
+                    else
+                    {
+                        TempData["SuccessMessage"] = "Ticket creado exitosamente";
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
