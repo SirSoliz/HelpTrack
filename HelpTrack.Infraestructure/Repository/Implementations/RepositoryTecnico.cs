@@ -45,6 +45,15 @@ public class RepositoryTecnico : IRepositoryTecnico
             .ToListAsync();
     }
 
+    public async Task<ICollection<Tecnicos>> ListWithAssignmentsAsync()
+    {
+        return await _context.Tecnicos
+            .Include(t => t.IdTecnicoNavigation)
+            .Include(t => t.AsignacionesTicket)
+                .ThenInclude(a => a.IdTicketNavigation)
+            .ToListAsync();
+    }
+
     public async Task<int> AddAsync(Tecnicos entity)
     {
         await _context.Tecnicos.AddAsync(entity);

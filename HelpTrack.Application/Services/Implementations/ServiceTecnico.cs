@@ -159,7 +159,8 @@ namespace HelpTrack.Application.Services.Implementations
             
             int idEstadoCerrado = estadoCerrado?.IdEstado ?? -1;
 
-            var tecnicos = await _repositoryTecnico.ListAsync();
+            // Usar ListWithAssignmentsAsync para cargar las asignaciones
+            var tecnicos = await _repositoryTecnico.ListWithAssignmentsAsync();
             
             // Filtrar solo técnicos disponibles
             var tecnicosDisponibles = tecnicos.Where(t => t.Disponible).ToList();
