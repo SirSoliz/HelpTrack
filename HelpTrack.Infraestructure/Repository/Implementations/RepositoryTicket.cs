@@ -92,5 +92,53 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             _context.AsignacionesTicket.Update(assignment);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var ticket = await _context.Tickets
+                .Include(t => t.AsignacionesTicket)
+                .Include(t => t.ImagenesTicket)
+                .Include(t => t.HistorialTicket)
+                .FirstOrDefaultAsync(t => t.IdTicket == id);
+
+            if (ticket == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                // Delete related records first (due to foreign key constraints)
+                
+                // Delete assignment (singular)
+                if (ticket.AsignacionesTicket != null)
+                {
+                    _context.AsignacionesTicket.Remove(ticket.AsignacionesTicket);
+                }
+
+                // Delete images
+                if (ticket.ImagenesTicket.Any())
+                {
+                    _context.ImagenesTicket.RemoveRange(ticket.ImagenesTicket);
+                }
+
+                // Delete history
+                if (ticket.HistorialTicket.Any())
+                {
+                    _context.HistorialTicket.RemoveRange(ticket.HistorialTicket);
+                }
+
+                // Finally, delete the ticket
+                _context.Tickets.Remove(ticket);
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al eliminar el ticket: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

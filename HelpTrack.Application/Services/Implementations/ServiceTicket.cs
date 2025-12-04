@@ -145,5 +145,22 @@ namespace HelpTrack.Application.Services.Implementations
                 await _repository.UpdateAsync(ticket);
             }
         }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            // Get the assignment to know which technician to decrement workload from
+            var assignment = await _repository.GetAssignmentByTicketIdAsync(id);
+            
+            // Delete the ticket (this also deletes assignments, images, and history)
+            var result = await _repository.DeleteAsync(id);
+
+            // If deletion was successful and ticket was assigned, decrement technician's workload
+            if (result && assignment != null)
+            {
+                await _repositoryTecnico.DecrementWorkloadAsync(assignment.IdTecnico);
+            }
+
+            return result;
+        }
     }
 }

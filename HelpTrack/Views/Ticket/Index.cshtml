@@ -81,14 +81,16 @@
                             </a>
 
                             <!-- Botón Eliminar -->
-                            <button type="button"
-                                    class="btn btn-sm btn-danger"
-                                    data-toggle="tooltip"
-                                    title="Eliminar"
-                                    onclick="return false;"
-                                    data-placement="top">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <form asp-action="Delete" asp-route-id="@item.IdTicket" method="post" style="display:inline;" onsubmit="return confirm('¿Está seguro de eliminar este ticket?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        data-toggle="tooltip"
+                                        title="Eliminar"
+                                        data-placement="top">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

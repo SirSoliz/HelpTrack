@@ -16,6 +16,7 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<int> AddAsync(TicketDTO dto);
         Task UpdateAsync(int id, TicketDTO dto);
         Task AssignAsync(AsignacionTicketDTO dto);
+        Task<bool> DeleteAsync(int id);
 
     }
 }

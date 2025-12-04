@@ -1,4 +1,4 @@
-ï»¿using HelpTrack.Application.DTOs;
+using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ namespace HelpTrack.Web.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // MÃ©todo auxiliar para cargar prioridades, categorÃ­as y estados en ViewBag
+        // Método auxiliar para cargar prioridades, categorías y estados en ViewBag
         private async Task LoadFormDataAsync(int? selectedPrioridadId = null, int? selectedCategoriaId = null, int? selectedEstadoId = null)
         {
             var prioridades = await _servicePrioridades.ListAsync();
@@ -158,7 +158,7 @@ namespace HelpTrack.Web.Controllers
 
                     var ticketId = await _serviceTicket.AddAsync(ticketDTO);
                     
-                    // Intento de auto-asignaciÃ³n
+                    // Intento de auto-asignación
                     var tecnico = await _serviceTecnico.GetTechnicianWithLeastWorkloadAsync();
                     if (tecnico != null)
                     {
@@ -171,7 +171,7 @@ namespace HelpTrack.Web.Controllers
                             FechaAsignacion = DateTime.Now
                         };
                         await _serviceTicket.AssignAsync(asignacion);
-                        TempData["SuccessMessage"] = $"Ticket creado y asignado automÃ¡ticamente a {tecnico.IdTecnicoNavigation?.Nombre ?? tecnico.Alias}";
+                        TempData["SuccessMessage"] = $"Ticket creado y asignado automáticamente a {tecnico.IdTecnicoNavigation?.Nombre ?? tecnico.Alias}";
                     }
                     else
                     {
@@ -215,13 +215,13 @@ namespace HelpTrack.Web.Controllers
             {
                 try
                 {
-                    // Manejar nuevas imÃ¡genes
+                    // Manejar nuevas imágenes
                     if (ticketDTO.NuevasImagenes != null && ticketDTO.NuevasImagenes.Any())
                     {
                         var imagenes = await SaveImagesAsync(ticketDTO.NuevasImagenes);
                         //Necesitamos agregarlos al ticket existente.
-                        //Dado que UpdateAsync podrÃ­a reemplazar la colecciÃ³n o fusionarla, debemos asegurarnos de que el servicio gestione la adiciÃ³n de nuevos elementos a la colecciÃ³n.
-                        //Por ahora, los agregamos a la colecciÃ³n del DTO.
+                        //Dado que UpdateAsync podría reemplazar la colección o fusionarla, debemos asegurarnos de que el servicio gestione la adición de nuevos elementos a la colección.
+                        //Por ahora, los agregamos a la colección del DTO.
                         foreach (var img in imagenes)
                         {
                             img.IdTicket = id;
@@ -272,7 +272,7 @@ namespace HelpTrack.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al cerrar el ticket");
-                TempData["ErrorMessage"] = "OcurriÃ³ un error al intentar cerrar el ticket.";
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar cerrar el ticket.";
             }
 
             return RedirectToAction(nameof(Details), new { id = id });
@@ -330,7 +330,7 @@ namespace HelpTrack.Web.Controllers
 
             try
             {
-                // Obtener informaciÃ³n general del ticket (reutilizando el servicio existente)
+                // Obtener información general del ticket (reutilizando el servicio existente)
                 var allHistory = await _serviceTicket.GetHistoryAsync();
                 var ticketInfo = allHistory.FirstOrDefault(t => t.IdTicket == id.Value);
 
@@ -403,7 +403,7 @@ namespace HelpTrack.Web.Controllers
                 }
             }
 
-            // Recargar datos si falla la validaciÃ³n
+            // Recargar datos si falla la validación
             var ticket = await _serviceTicket.FindByIdAsync(model.IdTicket);
             model.Ticket = ticket;
             var tecnicos = await _serviceTecnico.ListAsync();
@@ -418,6 +418,32 @@ namespace HelpTrack.Web.Controllers
 
             return View(model);
 
+        }
+
+        // POST: Ticket/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _serviceTicket.DeleteAsync(id);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Ticket eliminado correctamente.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No se pudo eliminar el ticket. Puede que no exista.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar el ticket");
+                TempData["ErrorMessage"] = "Error al eliminar el ticket.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
