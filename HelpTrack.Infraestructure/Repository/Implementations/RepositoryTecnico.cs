@@ -15,7 +15,7 @@ public class RepositoryTecnico : IRepositoryTecnico
     public async Task<Tecnicos?> FindByIdAsync(int id)
     {
         return await _context.Tecnicos
-            .Include(t => t.IdTecnicoNavigation)  // Incluir datos del usuario
+            .Include(t =>t.IdTecnicoNavigation)  // Incluir datos del usuario
             .Include(t => t.IdEspecialidad)       // Incluir especialidades
             .FirstOrDefaultAsync(t => t.IdTecnico == id);
     }
@@ -181,4 +181,38 @@ public class RepositoryTecnico : IRepositoryTecnico
         }
     }
 
+    public async Task IncrementWorkloadAsync(int technicianId)
+    {
+        var tecnico = await _context.Tecnicos.FindAsync(technicianId);
+        if (tecnico != null)
+        {
+            tecnico.NivelCarga += 1;
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task RecalculateAllWorkloadsAsync()
+    {
+        // Get the "Cerrado" state ID to exclude closed tickets
+        var estadoCerrado = await _context.EstadosTicket
+            .FirstOrDefaultAsync(e => e.Nombre == "Cerrado");
+        int idEstadoCerrado = estadoCerrado?.IdEstado ?? -1;
+
+        // Get all technicians with their assignments
+        var tecnicos = await _context.Tecnicos
+            .Include(t => t.AsignacionesTicket)
+                .ThenInclude(a => a.IdTicketNavigation)
+            .ToListAsync();
+
+        foreach (var tecnico in tecnicos)
+        {
+            // Count active (non-closed) tickets assigned to this technician
+            int activeTickets = tecnico.AsignacionesTicket
+                .Count(a => a.IdTicketNavigation.IdEstadoActual != idEstadoCerrado);
+
+            tecnico.NivelCarga = activeTickets;
+        }
+
+        await _context.SaveChangesAsync();
+    }
 }

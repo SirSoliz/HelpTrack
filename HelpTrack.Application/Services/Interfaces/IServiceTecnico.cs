@@ -16,5 +16,6 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<bool> ExisteEmailAsync(string email);
         Task<bool> DeleteAsync(int id);
         Task<Tecnicos?> GetTechnicianWithLeastWorkloadAsync();
+        Task RecalculateAllWorkloadsAsync();
     }
 }

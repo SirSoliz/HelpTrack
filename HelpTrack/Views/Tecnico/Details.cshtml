@@ -56,9 +56,11 @@
 
                         <dt class="col-sm-5">Nivel de Carga:</dt>
                         <dd class="col-sm-7">
-                            <div class="progress" style="height: 20px;">
+                            <div class="progress" style="height: 25px;">
                                 @{
-                                    int cargaWidth = Math.Min(Model.NivelCarga * 10, 100);
+                                    // Maximum workload capacity (can be adjusted)
+                                    int maxCapacity = 10;
+                                    int cargaWidth = Math.Min((int)((Model.NivelCarga / (double)maxCapacity) * 100), 100);
                                     string progressBarClass = Model.NivelCarga switch
                                     {
                                         <= 3 => "bg-success",
@@ -67,14 +69,14 @@
                                     };
                                 }
                                 <div class="progress-bar @progressBarClass" role="progressbar"
-                                     style="width: @(cargaWidth)%;"
+                                     style="width: @(cargaWidth)%; color: #000000; font-weight: bold;"
                                      aria-valuenow="@Model.NivelCarga"
                                      aria-valuemin="0"
-                                     aria-valuemax="10">
-                                    @Model.NivelCarga/10
+                                     aria-valuemax="@maxCapacity">
+                                    @Model.NivelCarga/@maxCapacity
                                 </div>
                             </div>
-                            <small class="text-muted">@GetCargaTrabajoText(Model.NivelCarga)</small>
+                            <small class="text-muted">@GetCargaTrabajoText(Model.NivelCarga) (@Model.NivelCarga de @maxCapacity tickets)</small>
                         </dd>
                     </dl>
                 </div>

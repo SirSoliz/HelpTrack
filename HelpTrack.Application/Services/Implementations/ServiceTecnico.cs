@@ -177,5 +177,10 @@ namespace HelpTrack.Application.Services.Implementations
             return tecnicoMenosCarga;
         }
 
+        public async Task RecalculateAllWorkloadsAsync()
+        {
+            await _repositoryTecnico.RecalculateAllWorkloadsAsync();
+        }
+
     }
 }

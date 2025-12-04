@@ -15,10 +15,12 @@ namespace HelpTrack.Application.Services.Implementations
     public class ServiceTicket : IServiceTicket
     {
         private readonly IRepositoryTicket _repository;
+        private readonly IRepositoryTecnico _repositoryTecnico;
         private readonly IMapper _mapper;
-        public ServiceTicket(IRepositoryTicket repository, IMapper mapper)
+        public ServiceTicket(IRepositoryTicket repository, IRepositoryTecnico repositoryTecnico, IMapper mapper)
         {
             _repository = repository;
+            _repositoryTecnico = repositoryTecnico;
             _mapper = mapper;
         }
         public async Task<int> AddAsync(TicketDTO dto)
@@ -125,6 +127,9 @@ namespace HelpTrack.Application.Services.Implementations
                 ticket.IdEstadoActual = 2; // Asignado
                 ticket.FechaAsignacion = DateTime.Now;
                 await _repository.UpdateAsync(ticket);
+
+                // Update technician workload
+                await _repositoryTecnico.IncrementWorkloadAsync(dto.IdTecnico);
             }
         }
     }

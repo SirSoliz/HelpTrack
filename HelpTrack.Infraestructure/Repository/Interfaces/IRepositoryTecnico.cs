@@ -7,6 +7,7 @@ public interface IRepositoryTecnico
     Task<int> AddAsync(Tecnicos entity);
     Task UpdateAsync(Tecnicos entity, string[] selectedCategorias);
     Task<ICollection<Tecnicos>> SearchAsync(string searchTerm);
-    Task<bool> DeleteAsync(int id); 
-
+    Task<bool> DeleteAsync(int id);
+    Task IncrementWorkloadAsync(int technicianId);
+    Task RecalculateAllWorkloadsAsync();
 }
