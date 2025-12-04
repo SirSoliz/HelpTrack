@@ -24,6 +24,12 @@ namespace HelpTrack.Application.Services.Implementations
         public async Task<int> AddAsync(TicketDTO dto)
         {
             var entity = _mapper.Map<Tickets>(dto);
+
+            // Manually map images because AutoMapper ignores them
+            if (dto.ImagenesTicket != null && dto.ImagenesTicket.Any())
+            {
+                entity.ImagenesTicket = dto.ImagenesTicket;
+            }
             
             // Asignar valores por defecto y fechas
             entity.FechaCreacion = DateTime.Now;
@@ -76,6 +82,15 @@ namespace HelpTrack.Application.Services.Implementations
             var @object = await _repository.FindByIdAsync(id);
             //       source, destination
             var entity = _mapper.Map(dto, @object!);
+
+            // Manually add new images
+            if (dto.ImagenesTicket != null && dto.ImagenesTicket.Any())
+            {
+                foreach (var img in dto.ImagenesTicket)
+                {
+                    entity.ImagenesTicket.Add(img);
+                }
+            }
 
             await _repository.UpdateAsync(entity);
         }
