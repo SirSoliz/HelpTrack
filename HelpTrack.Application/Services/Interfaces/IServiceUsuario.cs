@@ -18,5 +18,8 @@ namespace HelpTrack.Application.Services.Interfaces
         Task<UsuarioDTO?> LoginAsync(string email, string password);
         Task<UsuarioDTO> RegisterAsync(UsuarioDTO user, string password);
         Task<bool> UpdatePasswordAsync(string email, string newPassword);
+        Task<ICollection<Roles>> GetUsuarioRolesAsync(int usuarioId);
+        Task<bool> AssignRoleToUsuarioAsync(int usuarioId, int rolId);
+        Task<bool> RemoveRoleFromUsuarioAsync(int usuarioId, int rolId);
     }
 }

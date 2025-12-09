@@ -1,0 +1,68 @@
+@using System.Globalization
+@using HelpTrack.Infraestructure.Models
+@model HelpTrack.Application.DTOs.UsuarioDTO
+
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Detalles del Usuario" : "User Details";
+    var userIdText = isEs ? "ID de Usuario" : "User ID";
+    var fullNameText = isEs ? "Nombre Completo" : "Full Name";
+    var emailText = isEs ? "Correo Electrónico" : "Email";
+    var activeText = isEs ? "Activo" : "Active";
+    var creationDateText = isEs ? "Fecha de Creación" : "Creation Date";
+    var lastLoginText = isEs ? "Último Inicio de Sesión" : "Last Login";
+    var rolesText = isEs ? "Roles" : "Roles";
+    var noRolesText = isEs ? "Sin roles asignados" : "No roles assigned";
+    var backText = isEs ? "Volver" : "Back";
+
+    ViewData["Title"] = title;
+}
+
+<h2>@title</h2>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <dl class="row">
+            <dt class="col-sm-4">@userIdText</dt>
+            <dd class="col-sm-8">@Model.IdUsuario</dd>
+            <dt class="col-sm-4">@fullNameText</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+            <dt class="col-sm-4">@emailText</dt>
+            <dd class="col-sm-8">@Model.Email</dd>
+            <dt class="col-sm-4">@activeText</dt>
+            <dd class="col-sm-8">
+                <span class="badge @(Model.Activo ? "bg-success" : "bg-danger")">
+                    @(Model.Activo ? (isEs ? "Sí" : "Yes") : (isEs ? "No" : "No"))
+                </span>
+            </dd>
+            <dt class="col-sm-4">@creationDateText</dt>
+            <dd class="col-sm-8">@Model.FechaCreacion.ToString("g")</dd>
+            <dt class="col-sm-4">@lastLoginText</dt>
+            <dd class="col-sm-8">@(Model.UltimoInicioSesion?.ToString("g") ?? "-")</dd>
+            <dt class="col-sm-4">@rolesText</dt>
+            <dd class="col-sm-8">
+                @if (ViewBag.Roles != null && ((List<Roles>)ViewBag.Roles).Any())
+                {
+                    @foreach (var rol in (List<Roles>)ViewBag.Roles)
+                    {
+                        <span class="badge bg-primary me-1" title="@rol.Descripcion">
+                            @rol.Nombre
+                        </span>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">@noRolesText</span>
+                }
+            </dd>
+        </dl>
+        <div class="mt-3">
+            <a asp-action="Index" class="btn btn-secondary">@backText</a>
+            <a asp-action="Edit" asp-route-id="@Model.IdUsuario" class="btn btn-primary">
+                <i class="fas fa-edit"></i> @(isEs ? "Editar" : "Edit")
+            </a>
+        </div>
+    </div>
+</div>

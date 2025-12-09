@@ -1,10 +1,13 @@
 using AutoMapper;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Application.Services.Interfaces;
+using HelpTrack.Infraestructure.Data;
 using HelpTrack.Infraestructure.Models;
 using HelpTrack.Infraestructure.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HelpTrack.Application.Services.Implementations
@@ -13,11 +16,13 @@ namespace HelpTrack.Application.Services.Implementations
     {
         private readonly IRepositoryUsuario _repositoryUsuario;
         private readonly IMapper _mapper;
+        private readonly HelpTrackContext _context;
 
-        public ServiceUsuario(IRepositoryUsuario repositoryUsuario, IMapper mapper)
+        public ServiceUsuario(IRepositoryUsuario repositoryUsuario, IMapper mapper, HelpTrackContext context)
         {
             _repositoryUsuario = repositoryUsuario ?? throw new ArgumentNullException(nameof(repositoryUsuario));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<UsuarioDTO> FindByIdAsync(int id)
@@ -44,7 +49,13 @@ namespace HelpTrack.Application.Services.Implementations
             if (usuario == null)
                 throw new KeyNotFoundException("Usuario no encontrado");
 
-            _mapper.Map(dto, usuario);
+            // Actualizar manualmente los campos para evitar problemas con AutoMapper
+            usuario.Nombre = dto.Nombre;
+            usuario.Email = dto.Email;
+            usuario.Activo = dto.Activo;
+            // No se actualiza FechaCreacion ni UltimoInicioSesion
+            // No se actualiza la contraseña aquí
+
             await _repositoryUsuario.UpdateAsync(usuario);
         }
 
@@ -119,6 +130,54 @@ namespace HelpTrack.Application.Services.Implementations
 
             usuario.Contrasena = HashPassword(newPassword);
             await _repositoryUsuario.UpdateAsync(usuario);
+            return true;
+        }
+
+        public async Task<ICollection<Roles>> GetUsuarioRolesAsync(int usuarioId)
+        {
+            var usuario = await _repositoryUsuario.FindByIdAsync(usuarioId);
+            if (usuario == null)
+                return new List<Roles>();
+
+            var roles = await _context.UsuarioRoles
+                .Where(ur => ur.IdUsuario == usuarioId)
+                .Include(ur => ur.IdRolNavigation)
+                .Select(ur => ur.IdRolNavigation)
+                .ToListAsync();
+
+            return roles;
+        }
+
+        public async Task<bool> AssignRoleToUsuarioAsync(int usuarioId, int rolId)
+        {
+            var existingAssignment = await _context.UsuarioRoles
+                .FirstOrDefaultAsync(ur => ur.IdUsuario == usuarioId && ur.IdRol == rolId);
+
+            if (existingAssignment != null)
+                return false;
+
+            var usuarioRol = new UsuarioRoles
+            {
+                IdUsuario = usuarioId,
+                IdRol = rolId,
+                FechaAsignacion = DateTime.Now
+            };
+
+            _context.UsuarioRoles.Add(usuarioRol);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveRoleFromUsuarioAsync(int usuarioId, int rolId)
+        {
+            var usuarioRol = await _context.UsuarioRoles
+                .FirstOrDefaultAsync(ur => ur.IdUsuario == usuarioId && ur.IdRol == rolId);
+
+            if (usuarioRol == null)
+                return false;
+
+            _context.UsuarioRoles.Remove(usuarioRol);
+            await _context.SaveChangesAsync();
             return true;
         }
     }

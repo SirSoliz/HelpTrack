@@ -1,0 +1,56 @@
+@using System.Globalization
+@model HelpTrack.Application.DTOs.UsuarioDTO
+
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Crear Usuario" : "Create User";
+    var fullNameText = isEs ? "Nombre Completo" : "Full Name";
+    var emailText = isEs ? "Correo Electrónico" : "Email";
+    var passwordText = isEs ? "Contraseña" : "Password";
+    var activeText = isEs ? "Activo" : "Active";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+    var saveText = isEs ? "Guardar" : "Save";
+    var requiredFieldText = " *";
+
+    ViewData["Title"] = title;
+}
+
+<h2>@title</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label">@fullNameText@requiredFieldText</label>
+                <input asp-for="Nombre" class="form-control" required />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">@emailText@requiredFieldText</label>
+                <input asp-for="Email" type="email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">@passwordText@requiredFieldText</label>
+                <input asp-for="Password" type="password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Activo" /> @activeText
+                </label>
+            </div>
+            <div class="form-group mt-3">
+                <a asp-action="Index" class="btn btn-secondary">@cancelText</a>
+                <button type="submit" class="btn btn-primary">@saveText</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -22,7 +22,11 @@ builder.Services.AddDbContext<HelpTrackContext>(options =>
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 // AutoMapper
-builder.Services.AddAutoMapper(typeof(HelpTrack.Application.Profiles.CategoriaProfile));
+builder.Services.AddAutoMapper(
+    typeof(HelpTrack.Application.Profiles.CategoriaProfile),
+    typeof(HelpTrack.Application.Profiles.RolProfile),
+    typeof(HelpTrack.Application.Profiles.UsuarioProfile)
+);
 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
@@ -37,6 +41,7 @@ builder.Services.AddScoped<IRepositoryEspecialidad, RepositoryEspecialidad>();
 builder.Services.AddScoped<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
 builder.Services.AddScoped<IRepositoryEtiqueta, RepositoryEtiqueta>();
 builder.Services.AddScoped<IRepositoryPrioridades, RepositoryPrioridades>();
+builder.Services.AddScoped<IRepositoryRol, RepositoryRol>();
 builder.Services.AddScoped<IRepositorySla, RepositorySla>();
 builder.Services.AddScoped<IRepositoryTecnico, RepositoryTecnico>();
 builder.Services.AddScoped<IRepositoryTicket, RepositoryTicket>();
@@ -48,6 +53,7 @@ builder.Services.AddScoped<IServiceEspecialidad, ServiceEspecialidad>();
 builder.Services.AddScoped<IServiceEstadoTicket, ServiceEstadoTicket>();
 builder.Services.AddScoped<IServiceEtiqueta, ServiceEtiqueta>();
 builder.Services.AddScoped<IServicePrioridades, ServicePrioridades>();
+builder.Services.AddScoped<IServiceRol, ServiceRol>();
 builder.Services.AddScoped<IServiceSla, ServiceSla>();
 builder.Services.AddScoped<IServiceTecnico, ServiceTecnico>();
 builder.Services.AddScoped<IServiceTicket, ServiceTicket>();

@@ -1,0 +1,97 @@
+@using System.Globalization
+@model HelpTrack.ViewModels.UsuarioEditViewModel
+
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Editar Usuario" : "Edit User";
+    var fullNameText = isEs ? "Nombre Completo" : "Full Name";
+    var emailText = isEs ? "Correo Electrónico" : "Email";
+    var activeText = isEs ? "Activo" : "Active";
+    var rolesText = isEs ? "Roles" : "Roles";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+    var saveText = isEs ? "Guardar" : "Save";
+    var requiredFieldText = " *";
+
+    ViewData["Title"] = title;
+}
+
+<h2>@title</h2>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdUsuario" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label">@fullNameText@requiredFieldText</label>
+                        <input asp-for="Nombre" class="form-control" required />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">@emailText@requiredFieldText</label>
+                        <input asp-for="Email" type="email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Activo" /> @activeText
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">@rolesText</label>
+                        <div class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                            @if (Model.Roles != null && Model.Roles.Any())
+                            {
+                                @for (int i = 0; i < Model.Roles.Count; i++)
+                                {
+                                    <div class="form-check mb-2">
+                                        <input type="hidden" asp-for="@Model.Roles[i].IdRol" />
+                                        <input type="hidden" asp-for="@Model.Roles[i].Nombre" />
+                                        <input type="hidden" asp-for="@Model.Roles[i].Descripcion" />
+                                        <input type="checkbox" asp-for="@Model.Roles[i].Seleccionado" class="form-check-input" />
+                                        <label class="form-check-label" for="@($"Roles_{i}__Seleccionado")">
+                                            <strong>@Model.Roles[i].Nombre</strong>
+                                            @if (!string.IsNullOrEmpty(Model.Roles[i].Descripcion))
+                                            {
+                                                <small class="text-muted">- @Model.Roles[i].Descripcion</small>
+                                            }
+                                        </label>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted mb-0">
+                                    @(isEs ? "No hay roles disponibles" : "No roles available")
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <a asp-action="Index" class="btn btn-secondary">@cancelText</a>
+                <button type="submit" class="btn btn-primary">@saveText</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
