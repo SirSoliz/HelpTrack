@@ -93,6 +93,12 @@ namespace HelpTrack.Infraestructure.Repository.Implementations
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddHistoryAsync(HistorialTicket history)
+        {
+            await _context.HistorialTicket.AddAsync(history);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var ticket = await _context.Tickets

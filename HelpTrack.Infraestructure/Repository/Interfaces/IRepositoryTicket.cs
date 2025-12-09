@@ -19,6 +19,7 @@ namespace HelpTrack.Infraestructure.Repository.Interfaces
         Task AddAssignmentAsync(AsignacionesTicket assignment);
         Task<AsignacionesTicket?> GetAssignmentByTicketIdAsync(int ticketId);
         Task UpdateAssignmentAsync(AsignacionesTicket assignment);
+        Task AddHistoryAsync(HistorialTicket history);
         Task<bool> DeleteAsync(int id);
     }
 }

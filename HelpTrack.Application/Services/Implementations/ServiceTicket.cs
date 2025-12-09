@@ -44,7 +44,20 @@ namespace HelpTrack.Application.Services.Implementations
             if (entity.IdEtiqueta == 0) entity.IdEtiqueta = 1; 
             
             // Return ID Generado
-            return await _repository.AddAsync(entity);
+            var ticketId = await _repository.AddAsync(entity);
+
+            var history = new HistorialTicket
+            {
+                IdTicket = ticketId,
+                IdEstado = entity.IdEstadoActual,
+                IdUsuarioAccion = entity.IdUsuarioCreacion,
+                Observacion = "Ticket creado",
+                FechaEvento = DateTime.Now
+            };
+
+            await _repository.AddHistoryAsync(history);
+
+            return ticketId;
         }
 
         public async Task<TicketDTO> FindByIdAsync(int id)
@@ -82,6 +95,9 @@ namespace HelpTrack.Application.Services.Implementations
         {
             //Obtenga el modelo original a actualizar
             var @object = await _repository.FindByIdAsync(id);
+
+            var originalEstado = @object.IdEstadoActual;
+
             //       source, destination
             var entity = _mapper.Map(dto, @object!);
 
@@ -95,6 +111,20 @@ namespace HelpTrack.Application.Services.Implementations
             }
 
             await _repository.UpdateAsync(entity);
+
+            if (originalEstado != entity.IdEstadoActual)
+            {
+                var history = new HistorialTicket
+                {
+                    IdTicket = entity.IdTicket,
+                    IdEstado = entity.IdEstadoActual,
+                    IdUsuarioAccion = entity.IdUsuarioCreacion,
+                    Observacion = "Estado del ticket actualizado",
+                    FechaEvento = DateTime.Now
+                };
+
+                await _repository.AddHistoryAsync(history);
+            }
         }
 
         public async Task AssignAsync(AsignacionTicketDTO dto)
@@ -143,6 +173,17 @@ namespace HelpTrack.Application.Services.Implementations
                 ticket.IdEstadoActual = 2; // Asignado
                 ticket.FechaAsignacion = DateTime.Now;
                 await _repository.UpdateAsync(ticket);
+
+                var history = new HistorialTicket
+                {
+                    IdTicket = ticket.IdTicket,
+                    IdEstado = ticket.IdEstadoActual,
+                    IdUsuarioAccion = ticket.IdUsuarioCreacion,
+                    Observacion = "Ticket asignado",
+                    FechaEvento = DateTime.Now
+                };
+
+                await _repository.AddHistoryAsync(history);
             }
         }
 
