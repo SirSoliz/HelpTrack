@@ -1,7 +1,7 @@
 ﻿// HelpTrack.Application/DTOs/CategoriaDTO.cs
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using HelpTrack.Resources;
+using HelpTrack.Application.Resources;
 
 namespace HelpTrack.Application.DTOs
 {

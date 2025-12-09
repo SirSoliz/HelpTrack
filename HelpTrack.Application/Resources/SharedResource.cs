@@ -1,4 +1,4 @@
-namespace HelpTrack.Resources
+namespace HelpTrack.Application.Resources
 {
     public class SharedResource
     {

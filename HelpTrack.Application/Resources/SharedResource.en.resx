@@ -501,4 +501,154 @@
   <data name="ErrorDeletingTechnician" xml:space="preserve">
     <value>An error occurred while trying to delete the technician.</value>
   </data>
+  <data name="Title Required" xml:space="preserve">
+    <value>The title is required.</value>
+  </data>
+  <data name="Description Required" xml:space="preserve">
+    <value>The description is required.</value>
+  </data>
+  <data name="Priority Required" xml:space="preserve">
+    <value>The priority is required.</value>
+  </data>
+  <data name="Category Required" xml:space="preserve">
+    <value>The category is required.</value>
+  </data>
+  <data name="Creator User" xml:space="preserve">
+    <value>Creator User</value>
+  </data>
+  <data name="Created By" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="New Images" xml:space="preserve">
+    <value>New Images</value>
+  </data>
+  <data name="Ticket Id Required" xml:space="preserve">
+    <value>Ticket ID is required</value>
+  </data>
+  <data name="Technician Required" xml:space="preserve">
+    <value>You must select a technician</value>
+  </data>
+  <data name="Method Required" xml:space="preserve">
+    <value>Assignment method is required</value>
+  </data>
+  <data name="Priority Range" xml:space="preserve">
+    <value>Priority must be between 1 and 5</value>
+  </data>
+  <data name="Justification Required" xml:space="preserve">
+    <value>Justification is required</value>
+  </data>
+  <data name="Category Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SLA Required" xml:space="preserve">
+    <value>The SLA field is required</value>
+  </data>
+  <data name="Max Response Time" xml:space="preserve">
+    <value>Max Response Time (hours)</value>
+  </data>
+  <data name="Max Resolution Time" xml:space="preserve">
+    <value>Max Resolution Time (hours)</value>
+  </data>
+  <data name="Email Required" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="Email Invalid" xml:space="preserve">
+    <value>Invalid email format</value>
+  </data>
+  <data name="Email Length" xml:space="preserve">
+    <value>Email cannot exceed 100 characters</value>
+  </data>
+  <data name="Name Required" xml:space="preserve">
+    <value>Full Name is required</value>
+  </data>
+  <data name="Name Length" xml:space="preserve">
+    <value>Name must be between 5 and 100 characters</value>
+  </data>
+  <data name="Name Regex" xml:space="preserve">
+    <value>Name can only contain letters and spaces</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Creation Date" xml:space="preserve">
+    <value>Creation Date</value>
+  </data>
+  <data name="Last Login" xml:space="preserve">
+    <value>Last Login</value>
+  </data>
+  <data name="Technician ID" xml:space="preserve">
+    <value>Technician ID</value>
+  </data>
+  <data name="Alias Required" xml:space="preserve">
+    <value>{0} is required</value>
+  </data>
+  <data name="Workload Level" xml:space="preserve">
+    <value>Workload Level</value>
+  </data>
+  <data name="Workload Range" xml:space="preserve">
+    <value>Workload level must be between 0 and 10</value>
+  </data>
+  <data name="TicketCreatedSuccess" xml:space="preserve">
+    <value>Ticket created successfully</value>
+  </data>
+  <data name="ErrorCreatingTicket" xml:space="preserve">
+    <value>Error creating ticket: {0}</value>
+  </data>
+  <data name="TicketUpdatedSuccess" xml:space="preserve">
+    <value>Ticket updated successfully</value>
+  </data>
+  <data name="ErrorUpdatingTicket" xml:space="preserve">
+    <value>Error updating ticket. Please try again.</value>
+  </data>
+  <data name="TicketDeletedSuccess" xml:space="preserve">
+    <value>Ticket deleted successfully.</value>
+  </data>
+  <data name="ErrorDeletingTicket" xml:space="preserve">
+    <value>An error occurred while trying to delete the ticket.</value>
+  </data>
+  <data name="ErrorLoadingTickets" xml:space="preserve">
+    <value>Error loading tickets.</value>
+  </data>
+  <data name="ErrorLoadingTicketDetails" xml:space="preserve">
+    <value>Error loading ticket details.</value>
+  </data>
+  <data name="TicketCreatedAndAssigned" xml:space="preserve">
+    <value>Ticket created and automatically assigned to {0}</value>
+  </data>
+  <data name="TicketClosedSuccess" xml:space="preserve">
+    <value>Ticket closed successfully</value>
+  </data>
+  <data name="ErrorClosingTicketStatusNotFound" xml:space="preserve">
+    <value>Could not find 'Closed' status in the system.</value>
+  </data>
+  <data name="ErrorClosingTicket" xml:space="preserve">
+    <value>An error occurred while trying to close the ticket.</value>
+  </data>
+  <data name="TicketAssignedSuccess" xml:space="preserve">
+    <value>Ticket assigned successfully</value>
+  </data>
+  <data name="ErrorAssigningTicket" xml:space="preserve">
+    <value>Error assigning ticket: {0}</value>
+  </data>
+  <data name="ErrorDeletingTicketNotFound" xml:space="preserve">
+    <value>Could not delete the ticket. It may not exist.</value>
+  </data>
+  <data name="Hardware" xml:space="preserve">
+    <value>Hardware</value>
+  </data>
+  <data name="Software" xml:space="preserve">
+    <value>Software</value>
+  </data>
+  <data name="Redes" xml:space="preserve">
+    <value>Networks</value>
+  </data>
+  <data name="Falla de impresora" xml:space="preserve">
+    <value>Printer Failure</value>
+  </data>
+  <data name="Problema de red" xml:space="preserve">
+    <value>Network Issue</value>
+  </data>
+  <data name="Error en aplicación interna" xml:space="preserve">
+    <value>Internal Application Error</value>
+  </data>
 </root>

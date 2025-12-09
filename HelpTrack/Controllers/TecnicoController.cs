@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using X.PagedList.Extensions;
 using Microsoft.Extensions.Localization;
-using HelpTrack.Resources;
+using HelpTrack.Application.Resources;
 
 namespace HelpTrack.Web.Controllers
 {

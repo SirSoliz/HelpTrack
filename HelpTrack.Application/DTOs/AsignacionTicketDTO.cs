@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using HelpTrack.Resources;
+using HelpTrack.Application.Resources;
 
 namespace HelpTrack.Application.DTOs
 {

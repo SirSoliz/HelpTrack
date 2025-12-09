@@ -25,7 +25,7 @@ builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization(options => {
         options.DataAnnotationLocalizerProvider = (type, factory) =>
-            factory.Create(typeof(HelpTrack.Resources.SharedResource));
+            factory.Create(typeof(HelpTrack.Application.Resources.SharedResource));
     });
 
 // Repositories
@@ -54,6 +54,16 @@ builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+// Configure supported cultures
+var supportedCultures = new[] { new CultureInfo("es"), new CultureInfo("en") };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("es");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,13 +78,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 // Localization Middleware
-var supportedCultures = new[] { new CultureInfo("es"), new CultureInfo("en") };
-app.UseRequestLocalization(new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture("es"),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
-});
+app.UseRequestLocalization();
 
 app.UseRouting();
 

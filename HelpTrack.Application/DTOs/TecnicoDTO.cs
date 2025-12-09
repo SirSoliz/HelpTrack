@@ -1,7 +1,7 @@
 ﻿using HelpTrack.Application.DTOs;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using HelpTrack.Resources;
+using HelpTrack.Application.Resources;
 
 namespace HelpTrack.Application.DTOs
 {

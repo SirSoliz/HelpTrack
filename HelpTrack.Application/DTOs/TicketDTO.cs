@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
 using Microsoft.AspNetCore.Http;
-using HelpTrack.Resources;
+using HelpTrack.Application.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
