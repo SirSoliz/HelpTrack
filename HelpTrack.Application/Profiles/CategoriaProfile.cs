@@ -3,10 +3,13 @@ using AutoMapper;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
 
-public class CategoriaProfile : Profile
+namespace HelpTrack.Application.Profiles
 {
-    // CategoriaProfile.cs
-        public CategoriaProfile() { 
+    public class CategoriaProfile : Profile
+    {
+        // CategoriaProfile.cs
+        public CategoriaProfile()
+        {
             // Mapeo de Categorias a CategoriaDTO
             CreateMap<Categorias, CategoriaDTO>()
                 .ForMember(dest => dest.TiempoMaxRespuestaHoras,
@@ -26,5 +29,6 @@ public class CategoriaProfile : Profile
                 .ForMember(dest => dest.IdEtiqueta, opt => opt.Ignore())
                 .ForMember(dest => dest.IdEspecialidad, opt => opt.Ignore());
         }
-    
+
+    }
 }

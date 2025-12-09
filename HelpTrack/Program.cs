@@ -3,67 +3,56 @@ using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Data;
 using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Events;
-using System.Text;
-using HelpTrackWeb.Middleware;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using AutoMapper;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Configurar Autenticación por Cookies
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.AccessDeniedPath = "/Account/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-    });
-
-//Configurar Automapper
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-//Configurar la conexion a la base de datos
 builder.Services.AddDbContext<HelpTrackContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDataBase")));
 
-//Inyeccion de dependencias
-builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
-builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
-builder.Services.AddScoped<IRepositoryTecnico, RepositoryTecnico>();
-builder.Services.AddScoped<IServiceTecnico, ServiceTecnico>();
+// Localization
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(HelpTrack.Application.Profiles.CategoriaProfile));
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization(options => {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(HelpTrack.Resources.SharedResource));
+    });
+
+// Repositories
 builder.Services.AddScoped<IRepositoryCategoria, RepositoryCategoria>();
-builder.Services.AddScoped<IServiceCategoria, ServiceCategoria>();
-builder.Services.AddScoped<IRepositoryTicket, RepositoryTicket>();
-builder.Services.AddScoped<IServiceTicket, ServiceTicket>();
-builder.Services.AddScoped<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
-builder.Services.AddScoped<IServiceEstadoTicket, ServiceEstadoTicket>();
-builder.Services.AddScoped<IRepositoryPrioridades, RepositoryPrioridades>();
-builder.Services.AddScoped<IServicePrioridades, ServicePrioridades>();
-builder.Services.AddScoped<IRepositorySla, RepositorySla>();
-builder.Services.AddScoped<IServiceSla, ServiceSla>();
 builder.Services.AddScoped<IRepositoryEspecialidad, RepositoryEspecialidad>();
+builder.Services.AddScoped<IRepositoryEstadoTicket, RepositoryEstadoTicket>();
 builder.Services.AddScoped<IRepositoryEtiqueta, RepositoryEtiqueta>();
+builder.Services.AddScoped<IRepositoryPrioridades, RepositoryPrioridades>();
+builder.Services.AddScoped<IRepositorySla, RepositorySla>();
+builder.Services.AddScoped<IRepositoryTecnico, RepositoryTecnico>();
+builder.Services.AddScoped<IRepositoryTicket, RepositoryTicket>();
+builder.Services.AddScoped<IRepositoryUsuario, RepositoryUsuario>();
+
+// Services
+builder.Services.AddScoped<IServiceCategoria, ServiceCategoria>();
 builder.Services.AddScoped<IServiceEspecialidad, ServiceEspecialidad>();
+builder.Services.AddScoped<IServiceEstadoTicket, ServiceEstadoTicket>();
+builder.Services.AddScoped<IServiceEtiqueta, ServiceEtiqueta>();
+builder.Services.AddScoped<IServicePrioridades, ServicePrioridades>();
+builder.Services.AddScoped<IServiceSla, ServiceSla>();
+builder.Services.AddScoped<IServiceTecnico, ServiceTecnico>();
+builder.Services.AddScoped<IServiceTicket, ServiceTicket>();
+builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 
-//Configuracion de Serilog
-var logger = new LoggerConfiguration()
-.ReadFrom.Configuration(builder.Configuration)
-.Enrich.FromLogContext()
-.WriteTo.Console()
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information).WriteTo.File(@"Logs\Info-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning).WriteTo.File(@"Logs\Warning-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error).WriteTo.File(@"Logs\Error-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Fatal).WriteTo.File(@"Logs\Fatal-.log", shared: true, encoding: Encoding.ASCII, rollingInterval: RollingInterval.Day))
-.CreateLogger();
-builder.Host.UseSerilog(logger);
-//***************************
-
+// Serilog
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 
@@ -74,26 +63,24 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-else
-{
-    // Error control Middleware
-    app.UseMiddleware<ErrorHandlingMiddleware>();
-
-
-}
-//Activar soporte a la solicitud de registro con SERILOG
-app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Localization Middleware
+var supportedCultures = new[] { new CultureInfo("es"), new CultureInfo("en") };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("es"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
+
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
-// Activar Antiforgery
-app.UseAntiforgery();
+app.UseSerilogRequestLogging();
 
 app.MapControllerRoute(
     name: "default",

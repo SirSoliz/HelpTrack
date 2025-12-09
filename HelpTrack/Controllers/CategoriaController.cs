@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
 using X.PagedList.Extensions;
+using Microsoft.Extensions.Localization;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Web.Controllers
 {
@@ -21,19 +23,21 @@ namespace HelpTrack.Web.Controllers
         private readonly IRepositoryEtiqueta _repositoryEtiqueta;
         private readonly IRepositoryEspecialidad _repositoryEspecialidad;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
 
 
 
         private const int PageSize = 10;
 
         public CategoriaController(IServiceCategoria serviceCategoria, IRepositorySla repositorySla, 
-           IRepositoryEtiqueta repositoryEtiqueta, IRepositoryEspecialidad repositoryEspecialidad, IMapper mapper)
+           IRepositoryEtiqueta repositoryEtiqueta, IRepositoryEspecialidad repositoryEspecialidad, IMapper mapper, IStringLocalizer<SharedResource> sharedLocalizer)
         {
             _serviceCategoria = serviceCategoria ?? throw new ArgumentNullException(nameof(serviceCategoria));
             _repositorySla = repositorySla ?? throw new ArgumentNullException(nameof(repositorySla));
             _repositoryEtiqueta = repositoryEtiqueta;
             _repositoryEspecialidad = repositoryEspecialidad;
             _mapper = mapper;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         [HttpGet]
@@ -58,7 +62,7 @@ namespace HelpTrack.Web.Controllers
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Error al cargar las categorías.");
+                ModelState.AddModelError("", _sharedLocalizer["ErrorLoadingCategories"]);
                 return View(new PagedList<CategoriaDTO>(new List<CategoriaDTO>(), 1, 1));
             }
         }
@@ -115,7 +119,7 @@ namespace HelpTrack.Web.Controllers
                 }
                 catch (Exception)
                 {
-                    ModelState.AddModelError("", "Ocurrió un error al actualizar la categoría.");
+                    ModelState.AddModelError("", _sharedLocalizer["ErrorUpdatingCategory"]);
                 }
             }
             return View(categoriaDTO);
@@ -159,13 +163,13 @@ namespace HelpTrack.Web.Controllers
                     }
 
                     await _serviceCategoria.AddAsync(categoriaDTO);
-                    TempData["SuccessMessage"] = "Categoría creada exitosamente";
+                    TempData["SuccessMessage"] = _sharedLocalizer["CategoryCreatedSuccess"].Value;
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
                     await CargarListasDesplegables();
-                    ModelState.AddModelError("", $"Error al crear la categoría: {ex.Message}");
+                    ModelState.AddModelError("", string.Format(_sharedLocalizer["ErrorCreatingCategory"], ex.Message));
                 }
             }
             else

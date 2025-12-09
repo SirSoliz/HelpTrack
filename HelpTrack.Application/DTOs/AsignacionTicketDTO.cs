@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
@@ -10,24 +11,24 @@ namespace HelpTrack.Application.DTOs
     {
         public int IdAsignacion { get; set; }
 
-        [Required(ErrorMessage = "El ID del ticket es requerido")]
+        [Required(ErrorMessage = "Ticket Id Required")]
         public int IdTicket { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar un técnico")]
-        [Display(Name = "Técnico")]
+        [Required(ErrorMessage = "Technician Required")]
+        [Display(Name = "Technician")]
         public int IdTecnico { get; set; }
 
-        [Required(ErrorMessage = "El método de asignación es requerido")]
-        [Display(Name = "Método")]
+        [Required(ErrorMessage = "Method Required")]
+        [Display(Name = "Method")]
         public string Metodo { get; set; } = "Manual";
 
-        [Display(Name = "Prioridad")]
-        [Range(1, 5, ErrorMessage = "La prioridad debe estar entre 1 y 5")]
+        [Display(Name = "Priority")]
+        [Range(1, 5, ErrorMessage = "Priority Range")]
         public int Prioridad { get; set; } = 3;
 
-        [Display(Name = "Justificación")]
-        [Required(ErrorMessage = "La justificación es obligatoria")]
-        [StringLength(500, ErrorMessage = "La justificación no puede exceder los 500 caracteres")]
+        [Display(Name = "Justification")]
+        [Required(ErrorMessage = "Justification Required")]
+        [StringLength(500, ErrorMessage = "JustificationLength")]
         public string Justificacion { get; set; } = string.Empty;
 
         public DateTime? FechaAsignacion { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
@@ -11,26 +12,25 @@ namespace HelpTrack.Application.DTOs
     {
         public int IdUsuario { get; set; }
 
-        [Required(ErrorMessage = "El correo electrónico es requerido")]
-        [EmailAddress(ErrorMessage = "El formato del correo electrónico no es válido")]
-        [StringLength(100, ErrorMessage = "El correo no puede tener más de 100 caracteres")]
-        [Display(Name = "Correo Electrónico")]
+        [Required(ErrorMessage = "Email Required")]
+        [EmailAddress(ErrorMessage = "Email Invalid")]
+        [StringLength(100, ErrorMessage = "Email Length")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El nombre completo es requerido")]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "El nombre debe tener entre 5 y 100 caracteres")]
-        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$",
-        ErrorMessage = "El nombre solo puede contener letras y espacios")]
-        [Display(Name = "Nombre Completo")]
+        [Required(ErrorMessage = "Name Required")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "Name Length")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$", ErrorMessage = "Name Regex")]
+        [Display(Name = "Full Name")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Display(Name = "Activo")]
+        [Display(Name = "Active")]
         public bool Activo { get; set; } = true;
 
-        [Display(Name = "Fecha de Creación")]
+        [Display(Name = "Creation Date")]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
-        [Display(Name = "Último Inicio de Sesión")]
+        [Display(Name = "Last Login")]
         public DateTime? UltimoInicioSesion { get; set; }
 
         public string? Password { get; set; }

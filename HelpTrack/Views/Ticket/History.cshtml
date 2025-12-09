@@ -1,20 +1,20 @@
 @model IEnumerable<HelpTrack.Application.DTOs.TicketHistoryDTO>
 
 @{
-    ViewData["Title"] = "Historial de Tickets";
+    ViewData["Title"] = SharedLocalizer["TicketHistory"];
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Historial de Tickets</h1>
+    <h1 class="mt-4">@SharedLocalizer["TicketHistory"]</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-action="Index">Tickets</a></li>
-        <li class="breadcrumb-item active">Historial</li>
+        <li class="breadcrumb-item active">@SharedLocalizer["TicketHistory"]</li>
     </ol>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Listado Completo de Tickets
+            @SharedLocalizer["FullTicketList"]
         </div>
         <div class="card-body">
             <table class="table table-striped table-bordered" id="datatablesSimple">
@@ -22,11 +22,11 @@
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.IdTicket)</th>
                         <th>@Html.DisplayNameFor(model => model.Titulo)</th>
-                        <th>@Html.DisplayNameFor(model => model.FechaCreacion)</th>
-                        <th>@Html.DisplayNameFor(model => model.FechaAsignacion)</th>
-                        <th>@Html.DisplayNameFor(model => model.NombreTecnico)</th>
-                        <th>@Html.DisplayNameFor(model => model.Estado)</th>
-                        <th>Acciones</th>
+                        <th>@SharedLocalizer["CreationDate"]</th>
+                        <th>@SharedLocalizer["AssignmentDate"]</th>
+                        <th>@SharedLocalizer["TechnicianName"]</th>
+                        <th>@SharedLocalizer["Status"]</th>
+                        <th>@SharedLocalizer["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +43,7 @@
                                 }
                                 else
                                 {
-                                    <span class="text-muted">Pendiente</span>
+                                    <span class="text-muted">@SharedLocalizer["Pending"]</span>
                                 }
                             </td>
                             <td>
@@ -53,7 +53,7 @@
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">Sin Asignar</span>
+                                    <span class="badge bg-secondary">@SharedLocalizer["Unassigned"]</span>
                                 }
                             </td>
                             <td>
@@ -75,7 +75,7 @@
                                 }
                             </td>
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.IdTicket" class="btn btn-sm btn-info" title="Ver Detalles">
+                                <a asp-action="Details" asp-route-id="@item.IdTicket" class="btn btn-sm btn-info" title="@SharedLocalizer["ViewDetails"]">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>

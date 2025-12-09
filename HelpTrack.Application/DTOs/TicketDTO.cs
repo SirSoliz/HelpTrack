@@ -3,38 +3,40 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using HelpTrack.Application.DTOs;
 using HelpTrack.Infraestructure.Models;
 using Microsoft.AspNetCore.Http;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
     public record TicketDTO
     {
-        [Display(Name = "Id Ticket")]
+        [Display(Name = "TicketID")]
         [ValidateNever]
         public int IdTicket { get; set; }
 
-        [Required(ErrorMessage = "El título es obligatorio.")]
+        [Required(ErrorMessage = "Title Required")]
         [StringLength(150)]
+        [Display(Name = "Title")]
         public string Titulo { get; set; } = null!;
 
-        [Display(Name = "Descripción")]
-        [Required(ErrorMessage = "La descripción es obligatoria.")]
+        [Display(Name = "Description")]
+        [Required(ErrorMessage = "Description Required")]
         public string Descripcion { get; set; } = null!;
 
-        [Display(Name = "Prioridad")]
-        [Required(ErrorMessage = "La prioridad es obligatoria.")]
+        [Display(Name = "Priority")]
+        [Required(ErrorMessage = "Priority Required")]
         public int IdPrioridad { get; set; }
 
-        [Display(Name = "Categoría")]
-        [Required(ErrorMessage = "La categoría es obligatoria.")]
+        [Display(Name = "Category")] 
+        [Required(ErrorMessage = "Category Required")]
         public int IdCategoria { get; set; }
 
-        [Display(Name = "Usuario creador")]
+        [Display(Name = "Creator User")]
         public int IdUsuarioCreacion { get; set; }
 
-        [Display(Name = "Creado por")]
+        [Display(Name = "Created By")]
         public string? NombreUsuarioCreacion { get; set; }
 
-        [Display(Name = "Estado")]
+        [Display(Name = "Status")]
         public int IdEstadoActual { get; set; }
 
         [ValidateNever]
@@ -46,7 +48,7 @@ namespace HelpTrack.Application.DTOs
         [ValidateNever]
         public virtual TecnicoDTO? Tecnico { get; set; }
 
-        [Display(Name = "Nuevas Imágenes")]
+        [Display(Name = "New Images")]
         [ValidateNever]
         public List<IFormFile>? NuevasImagenes { get; set; }
     }

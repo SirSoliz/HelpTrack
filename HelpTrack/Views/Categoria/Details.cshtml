@@ -1,7 +1,7 @@
 ﻿@model HelpTrack.Application.DTOs.CategoriaDTO
 
 @{
-    ViewData["Title"] = "Detalles de Categoría";
+    ViewData["Title"] = SharedLocalizer["CategoryDetails"];
 }
 
 <div class="container mt-4">
@@ -12,23 +12,23 @@
         <div class="card-body">
             <!-- Información Básica -->
             <div class="mb-4">
-                <h4>Información General</h4>
+                <h4>@SharedLocalizer["GeneralInfo"]</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</dt>
                     <dd class="col-sm-9">@Html.DisplayFor(model => model.Descripcion)</dd>
 
-                    <dt class="col-sm-3">Tiempo máximo de respuesta</dt>
+                    <dt class="col-sm-3">@SharedLocalizer["MaxResponseTime"]</dt>
                     <dd class="col-sm-9">@Model.TiempoMaxRespuestaHoras horas</dd>
 
-                    <dt class="col-sm-3">Tiempo máximo de resolución</dt>
+                    <dt class="col-sm-3">@SharedLocalizer["MaxResolutionTime"]</dt>
                     <dd class="col-sm-9">@Model.TiempoMaxResolucionHoras horas</dd>
                 </dl>
             </div>
 
             <!-- Especialidades -->
             <div class="mb-4">
-                <h4>Especialidades</h4>
+                <h4>@SharedLocalizer["Specialties"]</h4>
                 <hr />
                 @if (Model.Especialidades != null && Model.Especialidades.Any())
                 {
@@ -41,13 +41,13 @@
                 }
                 else
                 {
-                    <div class="alert alert-warning">No hay especialidades asignadas a esta categoría.</div>
+                    <div class="alert alert-warning">@SharedLocalizer["NoSpecialties"]</div>
                 }
             </div>
 
             <!-- Etiquetas -->
             <div class="mb-4">
-                <h4>Etiquetas</h4>
+                <h4>@SharedLocalizer["Tags"]</h4>
                 <hr />
                 @if (Model.Etiquetas != null && Model.Etiquetas.Any())
                 {
@@ -60,13 +60,13 @@
                 }
                 else
                 {
-                    <div class="alert alert-warning">No hay etiquetas asignadas a esta categoría.</div>
+                    <div class="alert alert-warning">@SharedLocalizer["NoTags"]</div>
                 }
             </div>
         </div>
         <div class="card-footer">
-            <a asp-action="Edit" asp-route-id="@Model.IdCategoria" class="btn btn-primary">Editar</a>
-            <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+            <a asp-action="Edit" asp-route-id="@Model.IdCategoria" class="btn btn-primary">@SharedLocalizer["Edit"]</a>
+            <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["BackToList"]</a>
         </div>
     </div>
 </div>

@@ -1,10 +1,10 @@
 ﻿@model HelpTrack.Application.DTOs.CategoriaDTO
 
 @{
-    ViewData["Title"] = "Crear Categoría";
+    ViewData["Title"] = SharedLocalizer["CreateCategory"];
 }
 
-<h1>Crear Categoría</h1>
+<h1>@SharedLocalizer["CreateCategory"]</h1>
 
 <hr />
 <div class="row">
@@ -12,32 +12,32 @@
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" placeholder="Nombre de la categoría" />
+                <label asp-for="Nombre" class="control-label">@SharedLocalizer["CategoryName"]</label>
+                <input asp-for="Nombre" class="form-control" placeholder="@SharedLocalizer["CategoryName"]" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" placeholder="Descripción (opcional)" />
+                <label asp-for="Descripcion" class="control-label">@SharedLocalizer["DescriptionOptional"]</label>
+                <input asp-for="Descripcion" class="form-control" placeholder="@SharedLocalizer["DescriptionOptional"]" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdSla" class="control-label">SLA</label>
                 <select asp-for="IdSla" class="form-control" asp-items="ViewBag.SLAs">
-                    <option value="">-- Seleccionar SLA --</option>
+                    <option value="">@SharedLocalizer["SelectSLA"]</option>
                 </select>
                 <span asp-validation-for="IdSla" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="EtiquetasSeleccionadas" class="control-label">Etiquetas</label>
+                <label asp-for="EtiquetasSeleccionadas" class="control-label">@SharedLocalizer["Tags"]</label>
                 <select asp-for="EtiquetasSeleccionadas" class="form-control" multiple="multiple"
                         asp-items="ViewBag.Etiquetas"></select>
                 <span asp-validation-for="EtiquetasSeleccionadas" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="EspecialidadesSeleccionadas" class="control-label">Especialidades</label>
+                <label asp-for="EspecialidadesSeleccionadas" class="control-label">@SharedLocalizer["Specialties"]</label>
                 <select asp-for="EspecialidadesSeleccionadas" class="form-control" multiple="multiple"
                         asp-items="ViewBag.Especialidades"></select>
                 <span asp-validation-for="EspecialidadesSeleccionadas" class="text-danger"></span>
@@ -45,8 +45,8 @@
             
 
             <div class="form-group mt-3">
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Cancel"]</a>
+                <button type="submit" class="btn btn-primary">@SharedLocalizer["Save"]</button>
             </div>
 
         </form>

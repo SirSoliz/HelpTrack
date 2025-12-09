@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Home" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categorías</value>
+  </data>
+  <data name="Tickets" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Cerrar Sesión</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bienvenido</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Volver a la lista</value>
+  </data>
+  <data name="CategoryManagement" xml:space="preserve">
+    <value>Gestión de Categorías</value>
+  </data>
+  <data name="NewCategory" xml:space="preserve">
+    <value>Nueva Categoría</value>
+  </data>
+  <data name="SearchFilters" xml:space="preserve">
+    <value>Filtros de Búsqueda</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Buscar categoría...</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="NoResults" xml:space="preserve">
+    <value>No se encontraron resultados</value>
+  </data>
+  <data name="NoResultsMessage" xml:space="preserve">
+    <value>Intenta con otros términos de búsqueda</value>
+  </data>
+  <data name="IncidentManagementSystem" xml:space="preserve">
+    <value>Sistema de Gestión de Incidentes</value>
+  </data>
+  <data name="IncidentManagementDesc" xml:space="preserve">
+    <value>Optimiza la respuesta técnica a fallos y garantiza la restauración ágil de tus servicios críticos.</value>
+  </data>
+  <data name="ViewTechnicians" xml:space="preserve">
+    <value>Ver Técnicos</value>
+  </data>
+  <data name="NewTechnician" xml:space="preserve">
+    <value>Nuevo Técnico</value>
+  </data>
+  <data name="QuickAccess" xml:space="preserve">
+    <value>Acceso Rápido</value>
+  </data>
+  <data name="TechniciansList" xml:space="preserve">
+    <value>Lista de Técnicos</value>
+  </data>
+  <data name="AddNewTechnician" xml:space="preserve">
+    <value>Agregar Nuevo Técnico</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reportes</value>
+  </data>
+  <data name="GeneralSummary" xml:space="preserve">
+    <value>Resumen General</value>
+  </data>
+  <data name="ViewAll" xml:space="preserve">
+    <value>Ver todo</value>
+  </data>
+  <data name="Technicians" xml:space="preserve">
+    <value>Técnicos</value>
+  </data>
+  <data name="ActiveTasks" xml:space="preserve">
+    <value>Tareas Activas</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>En Progreso</value>
+  </data>
+  <data name="Efficiency" xml:space="preserve">
+    <value>Eficiencia</value>
+  </data>
+  <data name="CreateCategory" xml:space="preserve">
+    <value>Crear Categoría</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Nombre de la categoría</value>
+  </data>
+  <data name="DescriptionOptional" xml:space="preserve">
+    <value>Descripción (opcional)</value>
+  </data>
+  <data name="SelectSLA" xml:space="preserve">
+    <value>-- Seleccionar SLA --</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="Specialties" xml:space="preserve">
+    <value>Especialidades</value>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>Editar Categoría</value>
+  </data>
+  <data name="GeneralInfo" xml:space="preserve">
+    <value>Información General</value>
+  </data>
+  <data name="MaxResponseTime" xml:space="preserve">
+    <value>Tiempo máximo de respuesta</value>
+  </data>
+  <data name="MaxResolutionTime" xml:space="preserve">
+    <value>Tiempo máximo de resolución</value>
+  </data>
+  <data name="SelectSpecialties" xml:space="preserve">
+    <value>Seleccionar especialidades</value>
+  </data>
+  <data name="SelectTags" xml:space="preserve">
+    <value>Seleccionar etiquetas</value>
+  </data>
+  <data name="MultiSelectHelp" xml:space="preserve">
+    <value>Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar múltiples opciones.</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Guardar cambios</value>
+  </data>
+  <data name="CategoryDetails" xml:space="preserve">
+    <value>Detalles de Categoría</value>
+  </data>
+  <data name="NoSpecialties" xml:space="preserve">
+    <value>No hay especialidades asignadas a esta categoría.</value>
+  </data>
+  <data name="NoTags" xml:space="preserve">
+    <value>No hay etiquetas asignadas a esta categoría.</value>
+  </data>
+  <data name="TechnicianManagement" xml:space="preserve">
+    <value>Gestión de Técnicos</value>
+  </data>
+  <data name="SearchTechnicianPlaceholder" xml:space="preserve">
+    <value>Buscar por alias, nombre o email...</value>
+  </data>
+  <data name="Technician" xml:space="preserve">
+    <value>Técnico</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Nivel</value>
+  </data>
+  <data name="DeleteTechnicianConfirm" xml:space="preserve">
+    <value>¿Está seguro de que desea eliminar este técnico?</value>
+  </data>
+  <data name="CreateTechnician" xml:space="preserve">
+    <value>Crear Nuevo Técnico</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>Información del Usuario</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Nombre Completo</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo Electrónico</value>
+  </data>
+  <data name="TechnicianInfo" xml:space="preserve">
+    <value>Información del Técnico</value>
+  </data>
+  <data name="Alias" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="WorkloadLevel" xml:space="preserve">
+    <value>Nivel de Carga</value>
+  </data>
+  <data name="ReadOnlyField" xml:space="preserve">
+    <value>Este campo es de solo lectura</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Disponible</value>
+  </data>
+  <data name="EditTechnician" xml:space="preserve">
+    <value>Editar Técnico</value>
+  </data>
+  <data name="UserData" xml:space="preserve">
+    <value>Datos del Usuario</value>
+  </data>
+  <data name="Names" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Información Personal</value>
+  </data>
+  <data name="TechnicianID" xml:space="preserve">
+    <value>ID Técnico</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>No Disponible</value>
+  </data>
+  <data name="WorkloadLow" xml:space="preserve">
+    <value>Carga de trabajo baja</value>
+  </data>
+  <data name="WorkloadMedium" xml:space="preserve">
+    <value>Carga de trabajo media</value>
+  </data>
+  <data name="WorkloadHigh" xml:space="preserve">
+    <value>Carga de trabajo alta</value>
+  </data>
+  <data name="NoSpecialtiesAssigned" xml:space="preserve">
+    <value>Este técnico no tiene especialidades asignadas.</value>
+  </data>
+  <data name="NoSpecialtiesAvailable" xml:space="preserve">
+    <value>No hay especialidades disponibles.</value>
+  </data>
+  <data name="TicketManagement" xml:space="preserve">
+    <value>Gestión de Tickets</value>
+  </data>
+  <data name="NewTicket" xml:space="preserve">
+    <value>Nuevo Ticket</value>
+  </data>
+  <data name="SearchTicketPlaceholder" xml:space="preserve">
+    <value>Buscar ticket...</value>
+  </data>
+  <data name="TicketHistory" xml:space="preserve">
+    <value>Historial de Tickets</value>
+  </data>
+  <data name="Ticket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Creado por</value>
+  </data>
+  <data name="DeleteTicketConfirm" xml:space="preserve">
+    <value>¿Está seguro de eliminar este ticket?</value>
+  </data>
+  <data name="NoResultsFound" xml:space="preserve">
+    <value>No se encontraron resultados</value>
+  </data>
+  <data name="TryOtherTerms" xml:space="preserve">
+    <value>Intenta con otros términos de búsqueda</value>
+  </data>
+  <data name="CreateTicket" xml:space="preserve">
+    <value>Crear Ticket</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Prioridad</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="SelectPriority" xml:space="preserve">
+    <value>-- Seleccione una prioridad --</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>-- Seleccione una categoría --</value>
+  </data>
+  <data name="AddImages" xml:space="preserve">
+    <value>Agregar imágenes</value>
+  </data>
+  <data name="TicketImages" xml:space="preserve">
+    <value>Imágenes del Ticket</value>
+  </data>
+  <data name="AddNewImages" xml:space="preserve">
+    <value>Agregar nuevas imágenes</value>
+  </data>
+  <data name="NoImagesAttached" xml:space="preserve">
+    <value>Este ticket no tiene imágenes adjuntas.</value>
+  </data>
+  <data name="TicketDetails" xml:space="preserve">
+    <value>Detalles de Ticket</value>
+  </data>
+  <data name="CurrentStatus" xml:space="preserve">
+    <value>Estado Actual</value>
+  </data>
+  <data name="NoImages" xml:space="preserve">
+    <value>Sin imágenes</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Asignar</value>
+  </data>
+  <data name="CloseTicket" xml:space="preserve">
+    <value>Cerrar Ticket</value>
+  </data>
+  <data name="CloseTicketConfirm" xml:space="preserve">
+    <value>¿Está seguro de que desea cerrar este ticket?</value>
+  </data>
+  <data name="ViewHistory" xml:space="preserve">
+    <value>Ver Historial</value>
+  </data>
+  <data name="AssignTicket" xml:space="preserve">
+    <value>Asignar Ticket</value>
+  </data>
+  <data name="SelectTechnician" xml:space="preserve">
+    <value>-- Seleccione un Técnico --</value>
+  </data>
+  <data name="Justification" xml:space="preserve">
+    <value>Justificación</value>
+  </data>
+  <data name="AssignTicketButton" xml:space="preserve">
+    <value>Asignar Ticket</value>
+  </data>
+  <data name="FullTicketList" xml:space="preserve">
+    <value>Listado Completo de Tickets</value>
+  </data>
+  <data name="CreationDate" xml:space="preserve">
+    <value>Fecha de Creación</value>
+  </data>
+  <data name="AssignmentDate" xml:space="preserve">
+    <value>Fecha de Asignación</value>
+  </data>
+  <data name="TechnicianName" xml:space="preserve">
+    <value>Nombre Técnico</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Sin Asignar</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>Ver Detalles</value>
+  </data>
+  <data name="TicketHistoryDetails" xml:space="preserve">
+    <value>Historial del Ticket</value>
+  </data>
+  <data name="ChangeHistory" xml:space="preserve">
+    <value>Historial de Cambios</value>
+  </data>
+  <data name="UserAction" xml:space="preserve">
+    <value>Usuario Acción</value>
+  </data>
+  <data name="EventDate" xml:space="preserve">
+    <value>Fecha Evento</value>
+  </data>
+  <data name="Observation" xml:space="preserve">
+    <value>Observación</value>
+  </data>
+  <data name="NoHistoryRecords" xml:space="preserve">
+    <value>No hay registros de historial para este ticket.</value>
+  </data>
+  <data name="EditTicket" xml:space="preserve">
+    <value>Editar Ticket</value>
+  </data>
+  <data name="SLARequired" xml:space="preserve">
+    <value>El campo SLA es obligatorio</value>
+  </data>
+  <data name="MaxResponseTime" xml:space="preserve">
+    <value>Tiempo máximo de respuesta (horas)</value>
+  </data>
+  <data name="MaxResolutionTime" xml:space="preserve">
+    <value>Tiempo máximo de resolución (horas)</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="Specialties" xml:space="preserve">
+    <value>Especialidades</value>
+  </data>
+  <data name="AliasRequired" xml:space="preserve">
+    <value>{0} es un dato requerido</value>
+  </data>
+  <data name="WorkloadRange" xml:space="preserve">
+    <value>El nivel de carga debe estar entre 0 y 10</value>
+  </data>
+  <data name="TitleRequired" xml:space="preserve">
+    <value>El título es obligatorio.</value>
+  </data>
+  <data name="DescriptionRequired" xml:space="preserve">
+    <value>La descripción es obligatoria.</value>
+  </data>
+  <data name="PriorityRequired" xml:space="preserve">
+    <value>La prioridad es obligatoria.</value>
+  </data>
+  <data name="CategoryRequired" xml:space="preserve">
+    <value>La categoría es obligatoria.</value>
+  </data>
+  <data name="CreatorUser" xml:space="preserve">
+    <value>Usuario creador</value>
+  </data>
+  <data name="NewImages" xml:space="preserve">
+    <value>Nuevas Imágenes</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>El correo electrónico es requerido</value>
+  </data>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>El formato del correo electrónico no es válido</value>
+  </data>
+  <data name="EmailLength" xml:space="preserve">
+    <value>El correo no puede tener más de 100 caracteres</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>El nombre completo es requerido</value>
+  </data>
+  <data name="NameLength" xml:space="preserve">
+    <value>El nombre debe tener entre 5 y 100 caracteres</value>
+  </data>
+  <data name="NameRegex" xml:space="preserve">
+    <value>El nombre solo puede contener letras y espacios</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="LastLogin" xml:space="preserve">
+    <value>Último Inicio de Sesión</value>
+  </data>
+  <data name="TicketIdRequired" xml:space="preserve">
+    <value>El ID del ticket es requerido</value>
+  </data>
+  <data name="TechnicianRequired" xml:space="preserve">
+    <value>Debe seleccionar un técnico</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Método</value>
+  </data>
+  <data name="MethodRequired" xml:space="preserve">
+    <value>El método de asignación es requerido</value>
+  </data>
+  <data name="PriorityRange" xml:space="preserve">
+    <value>La prioridad debe estar entre 1 y 5</value>
+  </data>
+  <data name="JustificationRequired" xml:space="preserve">
+    <value>La justificación es obligatoria</value>
+  </data>
+  <data name="JustificationLength" xml:space="preserve">
+    <value>La justificación no puede exceder los 500 caracteres</value>
+  </data>
+  <data name="SLA" xml:space="preserve">
+    <value>SLA</value>
+  </data>
+  <data name="TicketID" xml:space="preserve">
+    <value>ID Ticket</value>
+  </data>
+  <data name="ErrorLoadingCategories" xml:space="preserve">
+    <value>Error al cargar las categorías.</value>
+  </data>
+  <data name="ErrorUpdatingCategory" xml:space="preserve">
+    <value>Ocurrió un error al actualizar la categoría.</value>
+  </data>
+  <data name="CategoryCreatedSuccess" xml:space="preserve">
+    <value>Categoría creada exitosamente</value>
+  </data>
+  <data name="ErrorCreatingCategory" xml:space="preserve">
+    <value>Error al crear la categoría: {0}</value>
+  </data>
+  <data name="ErrorLoadingTechnicians" xml:space="preserve">
+    <value>Error al cargar los técnicos.</value>
+  </data>
+  <data name="ErrorUpdatingTechnician" xml:space="preserve">
+    <value>Error al actualizar el técnico. Por favor, intente nuevamente.</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>Ya existe un usuario con este correo electrónico</value>
+  </data>
+  <data name="TechnicianCreatedSuccess" xml:space="preserve">
+    <value>Técnico creado exitosamente</value>
+  </data>
+  <data name="ErrorCreatingTechnician" xml:space="preserve">
+    <value>Error al crear el técnico: {0}</value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>Detalles: {0}</value>
+  </data>
+  <data name="ErrorDeletingTechnicianNotFound" xml:space="preserve">
+    <value>No se pudo eliminar el técnico o no se encontró.</value>
+  </data>
+  <data name="TechnicianDeletedSuccess" xml:space="preserve">
+    <value>Técnico eliminado correctamente.</value>
+  </data>
+  <data name="ErrorDeletingTechnician" xml:space="preserve">
+    <value>Ocurrió un error al intentar eliminar el técnico.</value>
+  </data>
+</root>

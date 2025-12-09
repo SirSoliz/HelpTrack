@@ -1,6 +1,7 @@
 ﻿// HelpTrack.Application/DTOs/CategoriaDTO.cs
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
@@ -8,26 +9,26 @@ namespace HelpTrack.Application.DTOs
     {
         public int IdCategoria { get; set; }
 
-        [Display(Name = "Nombre")]
+        [Display(Name = "Category Name")]
         public string Nombre { get; set; } = null!;
 
-        [Display(Name = "Descripción")]
+        [Display(Name = "Description")]
         public string? Descripcion { get; set; }
 
-        [Required(ErrorMessage = "El campo SLA es obligatorio")]
+        [Required(ErrorMessage = "SLA Required")]
         [Display(Name = "SLA")]
         public short IdSla { get; set; }
 
-        [Display(Name = "Tiempo máximo de respuesta (horas)")]
+        [Display(Name = "Max Response Time")]
         public int TiempoMaxRespuestaHoras { get; set; }
 
-        [Display(Name = "Tiempo máximo de resolución (horas)")]
+        [Display(Name = "Max Resolution Time")]
         public int TiempoMaxResolucionHoras { get; set; }
 
-        [Display(Name = "Etiquetas")]
+        [Display(Name = "Tags")]
         public List<int> EtiquetasSeleccionadas { get; set; } = new List<int>();
 
-        [Display(Name = "Especialidades")]
+        [Display(Name = "Specialties")]
         public List<int> EspecialidadesSeleccionadas { get; set; } = new List<int>();
 
         // Relaciones

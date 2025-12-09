@@ -1,13 +1,13 @@
 @model HelpTrack.Web.ViewModels.TicketHistoryDetailsViewModel
 
 @{
-    ViewData["Title"] = "Historial del Ticket";
+    ViewData["Title"] = SharedLocalizer["TicketHistoryDetails"];
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            <i class="fas fa-history"></i> Historial del Ticket
+            <i class="fas fa-history"></i> @SharedLocalizer["TicketHistoryDetails"]
         </h1>
     </div>
 
@@ -16,7 +16,7 @@
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Información del Ticket</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["TicketDetails"]</h6>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -30,7 +30,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-heading text-primary"></i> Título:</strong>
+                            <strong><i class="fas fa-heading text-primary"></i> @SharedLocalizer["Title"]:</strong>
                         </div>
                         <div class="col-md-8">
                             @Model.TicketInfo.Titulo
@@ -39,7 +39,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-calendar-plus text-primary"></i> Fecha de Creación:</strong>
+                            <strong><i class="fas fa-calendar-plus text-primary"></i> @SharedLocalizer["CreationDate"]:</strong>
                         </div>
                         <div class="col-md-8">
                             @Model.TicketInfo.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
@@ -50,7 +50,7 @@
                     {
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <strong><i class="fas fa-user-check text-primary"></i> Fecha de Asignación:</strong>
+                                <strong><i class="fas fa-user-check text-primary"></i> @SharedLocalizer["AssignmentDate"]:</strong>
                             </div>
                             <div class="col-md-8">
                                 @Model.TicketInfo.FechaAsignacion.Value.ToString("dd/MM/yyyy HH:mm")
@@ -60,7 +60,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-user-tie text-primary"></i> Técnico Asignado:</strong>
+                            <strong><i class="fas fa-user-tie text-primary"></i> @SharedLocalizer["TechnicianName"]:</strong>
                         </div>
                         <div class="col-md-8">
                             @if (!string.IsNullOrEmpty(Model.TicketInfo.NombreTecnico) && Model.TicketInfo.NombreTecnico != "Sin Asignar")
@@ -69,14 +69,14 @@
                             }
                             else
                             {
-                                <span class="badge bg-secondary">Sin Asignar</span>
+                                <span class="badge bg-secondary">@SharedLocalizer["Unassigned"]</span>
                             }
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-toggle-on text-primary"></i> Estado Actual:</strong>
+                            <strong><i class="fas fa-toggle-on text-primary"></i> @SharedLocalizer["CurrentStatus"]:</strong>
                         </div>
                         <div class="col-md-8">
                             @if (Model.TicketInfo.Estado == "Abierto" || Model.TicketInfo.Estado == "Nuevo")
@@ -105,7 +105,7 @@
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Historial de Cambios</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["ChangeHistory"]</h6>
                 </div>
                 <div class="card-body" style="max-height: 500px; overflow-y: auto;">
                     @if (Model.HistoryLog != null && Model.HistoryLog.Any())
@@ -139,7 +139,7 @@
                     {
                         <p class="small text-muted mb-0">
                             <i class="fas fa-info-circle"></i>
-                            No hay registros de historial para este ticket.
+                            @SharedLocalizer["NoHistoryRecords"]
                         </p>
                     }
                 </div>
@@ -148,7 +148,7 @@
             <!-- Acciones Card -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Acciones</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["Actions"]</h6>
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
@@ -156,13 +156,13 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-eye"></i>
                             </span>
-                            <span class="text">Ver Detalles</span>
+                            <span class="text">@SharedLocalizer["ViewDetails"]</span>
                         </a>
                         <a asp-action="Index" class="btn btn-secondary btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-left"></i>
                             </span>
-                            <span class="text">Volver al Listado</span>
+                            <span class="text">@SharedLocalizer["BackToList"]</span>
                         </a>
                     </div>
                 </div>

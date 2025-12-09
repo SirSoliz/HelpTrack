@@ -3,6 +3,8 @@ using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using X.PagedList.Extensions;
+using Microsoft.Extensions.Localization;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Web.Controllers
 {
@@ -10,12 +12,14 @@ namespace HelpTrack.Web.Controllers
     {
         private readonly IServiceTecnico _serviceTecnico;
         private readonly IServiceEspecialidad _especialidadService;  
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
         private const int PageSize = 10; // Número de elementos por página
 
-        public TecnicoController(IServiceTecnico serviceTecnico, IServiceEspecialidad especialidadService)
+        public TecnicoController(IServiceTecnico serviceTecnico, IServiceEspecialidad especialidadService, IStringLocalizer<SharedResource> sharedLocalizer)
         {
             _serviceTecnico = serviceTecnico;
             _especialidadService = especialidadService;
+            _sharedLocalizer = sharedLocalizer;
 
         }
 
@@ -43,7 +47,7 @@ namespace HelpTrack.Web.Controllers
             catch (Exception ex)
             {
                 // Manejar el error apropiadamente
-                ModelState.AddModelError("", "Error al cargar los técnicos.");
+                ModelState.AddModelError("", _sharedLocalizer["ErrorLoadingTechnicians"]);
                 return View(new PagedList<TecnicoDTO>(new List<TecnicoDTO>(), 1, 1));
             }
         }
@@ -117,7 +121,7 @@ namespace HelpTrack.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Error al actualizar el técnico. Por favor, intente nuevamente.");
+                    ModelState.AddModelError("", _sharedLocalizer["ErrorUpdatingTechnician"]);
                     // Log the error
                     Console.WriteLine($"Error al actualizar técnico: {ex.Message}");
                 }
@@ -153,7 +157,7 @@ namespace HelpTrack.Web.Controllers
                     // Validar que el usuario y su email no sean nulos
                     if (tecnico.Usuario == null || string.IsNullOrWhiteSpace(tecnico.Usuario.Email))
                     {
-                        ModelState.AddModelError("", "El correo electrónico es requerido");
+                        ModelState.AddModelError("", _sharedLocalizer["EmailRequired"]);
                         ViewBag.Especialidades = await _especialidadService.ListAsync();
                         return View(tecnico);
                     }
@@ -162,7 +166,7 @@ namespace HelpTrack.Web.Controllers
                     var emailExiste = await _serviceTecnico.ExisteEmailAsync(tecnico.Usuario.Email);
                     if (emailExiste)
                     {
-                        ModelState.AddModelError("Usuario.Email", "Ya existe un usuario con este correo electrónico");
+                        ModelState.AddModelError("Usuario.Email", _sharedLocalizer["EmailExists"]);
                         ViewBag.Especialidades = await _especialidadService.ListAsync();
                         return View(tecnico);
                     }
@@ -176,15 +180,15 @@ namespace HelpTrack.Web.Controllers
                     }
 
                     // Agregar mensaje de éxito
-                    TempData["SuccessMessage"] = "Técnico creado exitosamente";
+                    TempData["SuccessMessage"] = _sharedLocalizer["TechnicianCreatedSuccess"].Value;
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", $"Error al crear el técnico: {ex.Message}");
+                    ModelState.AddModelError("", string.Format(_sharedLocalizer["ErrorCreatingTechnician"], ex.Message));
                     if (ex.InnerException != null)
                     {
-                        ModelState.AddModelError("", $"Detalles: {ex.InnerException.Message}");
+                        ModelState.AddModelError("", string.Format(_sharedLocalizer["ErrorDetails"], ex.InnerException.Message));
                     }
                 }
             }
@@ -204,17 +208,17 @@ namespace HelpTrack.Web.Controllers
                 var result = await _serviceTecnico.DeleteAsync(id);
                 if (!result)
                 {
-                    TempData["Error"] = "No se pudo eliminar el técnico o no se encontró.";
+                    TempData["Error"] = _sharedLocalizer["ErrorDeletingTechnicianNotFound"].Value;
                     return RedirectToAction(nameof(Index));
                 }
 
-                TempData["Success"] = "Técnico eliminado correctamente.";
+                TempData["Success"] = _sharedLocalizer["TechnicianDeletedSuccess"].Value;
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 // Log the error
-                TempData["Error"] = "Ocurrió un error al intentar eliminar el técnico.";
+                TempData["Error"] = _sharedLocalizer["ErrorDeletingTechnician"].Value;
                 return RedirectToAction(nameof(Index));
             }
         }

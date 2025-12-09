@@ -1,23 +1,24 @@
 ﻿using HelpTrack.Application.DTOs;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using HelpTrack.Resources;
 
 namespace HelpTrack.Application.DTOs
 {
     public record TecnicoDTO
     {
-        [Display(Name = "Id Tecnico")]
+        [Display(Name = "Technician ID")]
         [ValidateNever]
         public int IdTecnico { get; set; }
 
-        [Display(Name = "Alias")]
-        [Required(ErrorMessage = "{0} es un dato requerido")]
+        [Display(Name = "Alias")] 
+        [Required(ErrorMessage = "Alias Required")]
         public string? Alias { get; set; }
 
         public bool Disponible { get; set; }
 
-        [Display(Name = "Nivel de Carga")]
-        [Range(0, 10, ErrorMessage = "El nivel de carga debe estar entre 0 y 10")]
+        [Display(Name = "Workload Level")]
+        [Range(0, 10, ErrorMessage = "Workload Range")]
         public byte NivelCarga { get; set; } = 0;
 
       

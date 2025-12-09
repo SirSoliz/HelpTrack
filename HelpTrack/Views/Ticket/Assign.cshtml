@@ -1,26 +1,26 @@
 @model HelpTrack.Application.DTOs.AsignacionTicketDTO
 
 @{
-    ViewData["Title"] = "Asignar Ticket";
+    ViewData["Title"] = SharedLocalizer["AssignTicket"];
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Asignar Ticket</h1>
+    <h1 class="mt-4">@SharedLocalizer["AssignTicket"]</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-action="Index">Tickets</a></li>
-        <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.IdTicket">Detalles</a></li>
-        <li class="breadcrumb-item active">Asignar</li>
+        <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.IdTicket">@SharedLocalizer["Details"]</a></li>
+        <li class="breadcrumb-item active">@SharedLocalizer["Assign"]</li>
     </ol>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-user-plus me-1"></i>
-            Asignar Ticket #@Model.IdTicket
+            @SharedLocalizer["AssignTicket"] #@Model.IdTicket
         </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5>Ticket: @Model.Ticket?.Titulo</h5>
+                    <h5>@SharedLocalizer["Ticket"]: @Model.Ticket?.Titulo</h5>
                     <p class="text-muted">@Model.Ticket?.Descripcion</p>
                 </div>
             </div>
@@ -34,18 +34,18 @@
                     <div class="col-md-6">
                         <div class="form-floating mb-3 mb-md-0">
                             <select asp-for="IdTecnico" class="form-select" asp-items="Model.TecnicosDisponibles">
-                                <option value="">-- Seleccione un Técnico --</option>
+                                <option value="">@SharedLocalizer["SelectTechnician"]</option>
                             </select>
-                            <label asp-for="IdTecnico"></label>
+                            <label asp-for="IdTecnico">@SharedLocalizer["Technician"]</label>
                             <span asp-validation-for="IdTecnico" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
                             <select asp-for="Prioridad" class="form-select" asp-items="Model.PrioridadesDisponibles">
-                                <option value="">-- Seleccione una Prioridad --</option>
+                                <option value="">@SharedLocalizer["SelectPriority"]</option>
                             </select>
-                            <label asp-for="Prioridad"></label>
+                            <label asp-for="Prioridad">@SharedLocalizer["Priority"]</label>
                             <span asp-validation-for="Prioridad" class="text-danger"></span>
                         </div>
                     </div>
@@ -53,14 +53,14 @@
 
                 <div class="form-floating mb-3">
                     <textarea asp-for="Justificacion" class="form-control" style="height: 100px"></textarea>
-                    <label asp-for="Justificacion"></label>
+                    <label asp-for="Justificacion">@SharedLocalizer["Justificacion"]</label>
                     <span asp-validation-for="Justificacion" class="text-danger"></span>
                 </div>
 
                 <div class="mt-4 mb-0">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a asp-action="Details" asp-route-id="@Model.IdTicket" class="btn btn-secondary me-md-2">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Asignar Ticket</button>
+                        <a asp-action="Details" asp-route-id="@Model.IdTicket" class="btn btn-secondary me-md-2">@SharedLocalizer["Cancel"]</a>
+                        <button type="submit" class="btn btn-primary">@SharedLocalizer["AssignTicketButton"]</button>
                     </div>
                 </div>
             </form>

@@ -3,15 +3,15 @@
 @model IPagedList<HelpTrack.Application.DTOs.TecnicoDTO>
 
 @{
-    ViewData["Title"] = "Gestión de Técnicos";
+    ViewData["Title"] = SharedLocalizer["TechnicianManagement"];
     var currentFilter = ViewData["CurrentFilter"] as string;
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Gestión de Técnicos</h1>
+        <h1 class="h3 mb-0 text-gray-800">@SharedLocalizer["TechnicianManagement"]</h1>
         <a asp-action="Create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo Técnico
+            <i class="fas fa-plus fa-sm text-white-50"></i> @SharedLocalizer["NewTechnician"]
         </a>
     </div>
     @if (TempData["Success"] != null)
@@ -46,7 +46,7 @@
     <!-- Filtros -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Filtros de Búsqueda</h6>
+            <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["SearchFilters"]</h6>
         </div>
         <div class="card-body">
             <div class="row">
@@ -56,16 +56,16 @@
                             <input type="text"
                                    name="searchString"
                                    class="form-control"
-                                   placeholder="Buscar por alias, nombre o email..."
+                                   placeholder="@SharedLocalizer["SearchTechnicianPlaceholder"]"
                                    value="@currentFilter" />
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search"></i> Buscar
+                                    <i class="fas fa-search"></i> @SharedLocalizer["Search"]
                                 </button>
                                 @if (!string.IsNullOrEmpty(currentFilter))
                                 {
                                     <a asp-action="Index" class="btn btn-secondary btn-clear-search">
-                                        <i class="fas fa-times"></i> Limpiar
+                                        <i class="fas fa-times"></i> @SharedLocalizer["Clear"]
                                     </a>
                                 }
                             </div>
@@ -86,7 +86,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Técnico #@item.IdTecnico
+                                    @SharedLocalizer["Technician"] #@item.IdTecnico
                                 </div>
                                 <div class="h5 mb-1 font-weight-bold text-gray-800">@item.Alias</div>
                                 @if (item.Usuario != null && !string.IsNullOrEmpty(item.Usuario.Nombre))
@@ -96,7 +96,7 @@
                                 <div class="mt-2">
 
                                     <span class="badge badge-info ml-1">
-                                        <i class="fas fa-tasks mr-1"></i> Nivel: @item.NivelCarga
+                                        <i class="fas fa-tasks mr-1"></i> @SharedLocalizer["Level"]: @item.NivelCarga
                                     </span>
                                 </div>
                             </div>
@@ -108,30 +108,30 @@
                             <!-- Botón Ver Detalles -->
                             <a href="@Url.Action("Details", new { id = item.IdTecnico })"
                                class="btn btn-sm btn-info mr-2"
-                               title="Ver detalles"
+                               title="@SharedLocalizer["Details"]"
                                data-toggle="tooltip"
                                data-placement="top">
-                                <i class="fas fa-eye"></i> Detalles
+                                <i class="fas fa-eye"></i> @SharedLocalizer["Details"]
                             </a>
 
                             <!-- Botón Editar -->
                             <a href="@Url.Action("Edit", new { id = item.IdTecnico })"
                                class="btn btn-sm btn-primary mr-2"
-                               title="Editar"
+                               title="@SharedLocalizer["Edit"]"
                                data-toggle="tooltip"
                                data-placement="top">
-                                <i class="fas fa-edit"></i> Editar
+                                <i class="fas fa-edit"></i> @SharedLocalizer["Edit"]
                             </a>
 
                             <!-- Botón Eliminar -->
-                            <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea eliminar este técnico?');">
+                            <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('@SharedLocalizer["DeleteTechnicianConfirm"]');">
                                 <input type="hidden" name="id" value="@item.IdTecnico" />
                                 <button type="submit"
                                         class="btn btn-sm btn-danger"
-                                        title="Eliminar"
+                                        title="@SharedLocalizer["Delete"]"
                                         data-toggle="tooltip"
                                         data-placement="top">
-                                    <i class="fas fa-trash"></i> Eliminar
+                                    <i class="fas fa-trash"></i> @SharedLocalizer["Delete"]
                                 </button>
                             </form>
                         </div>
