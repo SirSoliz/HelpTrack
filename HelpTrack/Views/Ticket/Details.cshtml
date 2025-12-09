@@ -1,9 +1,30 @@
-﻿@model HelpTrack.Application.DTOs.TicketDTO
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.TicketDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["TicketDetails"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Detalles del Ticket" : "Ticket Details";
+    var generalInfoText = isEs ? "Información General" : "General Information";
+    var priorityText = isEs ? "Prioridad" : "Priority";
+    var categoryText = isEs ? "Categoría" : "Category";
+    var currentStatusText = isEs ? "Estado Actual" : "Current Status";
+    var createdByText = isEs ? "Creado Por" : "Created By";
+    var ticketImagesText = isEs ? "Imágenes del Ticket" : "Ticket Images";
+    var noImagesText = isEs ? "Sin imágenes" : "No images";
+    var editText = isEs ? "Editar" : "Edit";
+    var assignText = isEs ? "Asignar" : "Assign";
+    var closeTicketText = isEs ? "Cerrar Ticket" : "Close Ticket";
+    var closeConfirmText = isEs ? "¿Está seguro de que desea cerrar este ticket?" : "Are you sure you want to close this ticket?";
+    var viewHistoryText = isEs ? "Ver Historial" : "View History";
+    var backToListText = isEs ? "Volver al Listado" : "Back to List";
+    var unknownText = isEs ? "Desconocida" : "Unknown";
+
+    ViewData["Title"] = title;
+    
     var categorias = ViewBag.Categorias as List<SelectListItem>;
-    var categoriaNombre = categorias?.FirstOrDefault(c => c.Value == Model.IdCategoria.ToString())?.Text ?? "Desconocida";
+    var categoriaNombre = categorias?.FirstOrDefault(c => c.Value == Model.IdCategoria.ToString())?.Text ?? unknownText;
 }
 
 <div class="container mt-4">
@@ -14,13 +35,13 @@
         <div class="card-body">
             <!-- Información Básica -->
             <div class="mb-4">
-                <h4>@SharedLocalizer["GeneralInfo"]</h4>
+                <h4>@generalInfoText</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</dt>
                     <dd class="col-sm-9">@Html.DisplayFor(model => model.Descripcion)</dd>
 
-                    <dt class="col-sm-3">@SharedLocalizer["Priority"]</dt>
+                    <dt class="col-sm-3">@priorityText</dt>
                     <dd class="col-sm-9">
                         <select class="form-control" disabled>
                             @if (ViewBag.Prioridades != null)
@@ -33,16 +54,16 @@
                         </select>
                     </dd>
 
-                    <dt class="col-sm-3">@SharedLocalizer["Category"]</dt>
+                    <dt class="col-sm-3">@categoryText</dt>
                     <dd class="col-sm-9">@categoriaNombre</dd>
 
-                    <dt class="col-sm-3">@SharedLocalizer["CurrentStatus"]</dt>
+                    <dt class="col-sm-3">@currentStatusText</dt>
                     <dd class="col-sm-9">@Model.EstadoActual?.Nombre</dd>
 
-                    <dt class="col-sm-3">@SharedLocalizer["CreatedBy"]</dt>
+                    <dt class="col-sm-3">@createdByText</dt>
                     <dd class="col-sm-9">@Model.NombreUsuarioCreacion</dd>
 
-                    <dt class="col-sm-3">@SharedLocalizer["TicketImages"]</dt>
+                    <dt class="col-sm-3">@ticketImagesText</dt>
                     <dd class="col-sm-9">
                         <div class="d-flex flex-wrap gap-2">
                             @if (Model.ImagenesTicket != null && Model.ImagenesTicket.Any())
@@ -56,7 +77,7 @@
                             }
                             else
                             {
-                                <span class="text-muted">@SharedLocalizer["NoImages"]</span>
+                                <span class="text-muted">@noImagesText</span>
                             }
                         </div>
                     </dd>
@@ -64,19 +85,19 @@
             </div>
         </div>
         <div class="card-footer">
-            <a asp-action="Edit" asp-route-id="@Model.IdTicket" class="btn btn-primary">@SharedLocalizer["Edit"]</a>
-            <a asp-action="Assign" asp-route-id="@Model.IdTicket" class="btn btn-info text-white ml-2">@SharedLocalizer["Assign"]</a>
+            <a asp-action="Edit" asp-route-id="@Model.IdTicket" class="btn btn-primary">@editText</a>
+            <a asp-action="Assign" asp-route-id="@Model.IdTicket" class="btn btn-info text-white ml-2">@assignText</a>
             
             @if (Model.EstadoActual?.Nombre != "Cerrado" && Model.EstadoActual?.Nombre != "Resuelto")
             {
-                <form asp-action="Close" asp-route-id="@Model.IdTicket" method="post" class="d-inline ms-2" onsubmit="return confirm('@SharedLocalizer["CloseTicketConfirm"]');">
+                <form asp-action="Close" asp-route-id="@Model.IdTicket" method="post" class="d-inline ms-2" onsubmit="return confirm('@closeConfirmText');">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">@SharedLocalizer["CloseTicket"]</button>
+                    <button type="submit" class="btn btn-danger">@closeTicketText</button>
                 </form>
             }
 
-            <a asp-action="HistoryDetails" asp-route-id="@Model.IdTicket" class="btn btn-secondary ms-2">@SharedLocalizer["ViewHistory"]</a>
-            <a asp-action="Index" class="btn btn-secondary ms-2">@SharedLocalizer["BackToList"]</a>
+            <a asp-action="HistoryDetails" asp-route-id="@Model.IdTicket" class="btn btn-secondary ms-2">@viewHistoryText</a>
+            <a asp-action="Index" class="btn btn-secondary ms-2">@backToListText</a>
         </div>
     </div>
 </div>

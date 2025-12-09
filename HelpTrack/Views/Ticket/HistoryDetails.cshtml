@@ -1,14 +1,39 @@
+@using System.Globalization
 @using HelpTrack.Application.DTOs
 @model HelpTrack.Web.ViewModels.TicketHistoryDetailsViewModel
 
 @{
-    ViewData["Title"] = SharedLocalizer["TicketHistoryDetails"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    // Títulos y encabezados
+    var title = isEs ? "Detalles del Historial del Ticket" : "Ticket History Details";
+    var ticketDetailsText = isEs ? "Detalles del Ticket" : "Ticket Details";
+    var idTicketText = isEs ? "ID Ticket" : "Ticket ID";
+    var titleText = isEs ? "Título" : "Title";
+    var creationDateText = isEs ? "Fecha de Creación" : "Creation Date";
+    var assignmentDateText = isEs ? "Fecha de Asignación" : "Assignment Date";
+    var technicianNameText = isEs ? "Técnico Asignado" : "Assigned Technician";
+    var currentStatusText = isEs ? "Estado Actual" : "Current Status";
+    var unassignedText = isEs ? "Sin Asignar" : "Unassigned";
+    var actionsText = isEs ? "Acciones" : "Actions";
+    var viewDetailsText = isEs ? "Ver Detalles" : "View Details";
+    var backToListText = isEs ? "Volver al Listado" : "Back to List";
+    var changeHistoryText = isEs ? "Historial de Cambios" : "Change History";
+    var userActionText = isEs ? "Usuario" : "User Action";
+    var eventDateText = isEs ? "Fecha del Evento" : "Event Date";
+    var statusText = isEs ? "Estado" : "Status";
+    var observationText = isEs ? "Observación" : "Observation";
+    var noHistoryRecordsText = isEs ? "No hay registros de historial disponibles" : "No history records available";
+    var noDataText = isEs ? "Sin datos" : "No data";
+
+    ViewData["Title"] = title;
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            <i class="fas fa-history"></i> @SharedLocalizer["TicketHistoryDetails"]
+            <i class="fas fa-history"></i> @title
         </h1>
     </div>
 
@@ -17,12 +42,12 @@
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["TicketDetails"]</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@ticketDetailsText</h6>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-id-badge text-primary"></i> ID Ticket:</strong>
+                            <strong><i class="fas fa-id-badge text-primary"></i> @idTicketText:</strong>
                         </div>
                         <div class="col-md-8">
                             <span class="badge bg-secondary">#@Model.TicketInfo.IdTicket</span>
@@ -31,7 +56,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-heading text-primary"></i> @SharedLocalizer["Title"]:</strong>
+                            <strong><i class="fas fa-heading text-primary"></i> @titleText:</strong>
                         </div>
                         <div class="col-md-8">
                             @Model.TicketInfo.Titulo
@@ -40,7 +65,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-calendar-plus text-primary"></i> @SharedLocalizer["CreationDate"]:</strong>
+                            <strong><i class="fas fa-calendar-plus text-primary"></i> @creationDateText:</strong>
                         </div>
                         <div class="col-md-8">
                             @Model.TicketInfo.FechaCreacion.ToString("g")
@@ -51,7 +76,7 @@
                     {
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <strong><i class="fas fa-user-check text-primary"></i> @SharedLocalizer["AssignmentDate"]:</strong>
+                                <strong><i class="fas fa-user-check text-primary"></i> @assignmentDateText:</strong>
                             </div>
                             <div class="col-md-8">
                                 @Model.TicketInfo.FechaAsignacion.Value.ToString("g")
@@ -61,7 +86,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-user-tie text-primary"></i> @SharedLocalizer["TechnicianName"]:</strong>
+                            <strong><i class="fas fa-user-tie text-primary"></i> @technicianNameText:</strong>
                         </div>
                         <div class="col-md-8">
                             @if (!string.IsNullOrEmpty(Model.TicketInfo.NombreTecnico) && Model.TicketInfo.NombreTecnico != "Sin Asignar")
@@ -70,14 +95,14 @@
                             }
                             else
                             {
-                                <span class="badge bg-secondary">@SharedLocalizer["Unassigned"]</span>
+                                <span class="badge bg-secondary">@unassignedText</span>
                             }
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <strong><i class="fas fa-toggle-on text-primary"></i> @SharedLocalizer["CurrentStatus"]:</strong>
+                            <strong><i class="fas fa-toggle-on text-primary"></i> @currentStatusText:</strong>
                         </div>
                         <div class="col-md-8">
                             @if (Model.TicketInfo.Estado == "Abierto" || Model.TicketInfo.Estado == "Nuevo")
@@ -106,7 +131,7 @@
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["Actions"]</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@actionsText</h6>
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
@@ -114,13 +139,13 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-eye"></i>
                             </span>
-                            <span class="text">@SharedLocalizer["ViewDetails"]</span>
+                            <span class="text">@viewDetailsText</span>
                         </a>
                         <a asp-action="Index" class="btn btn-secondary btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-left"></i>
                             </span>
-                            <span class="text">@SharedLocalizer["BackToList"]</span>
+                            <span class="text">@backToListText</span>
                         </a>
                     </div>
                 </div>
@@ -133,7 +158,7 @@
         <div class="col-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["ChangeHistory"]</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">@changeHistoryText</h6>
                 </div>
                 <div class="card-body">
                     @if (Model.HistoryLog != null && Model.HistoryLog.Any())
@@ -142,10 +167,10 @@
                             <table class="table table-bordered table-hover" width="100%" cellspacing="0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>@SharedLocalizer["UserAction"]</th>
-                                        <th>@SharedLocalizer["EventDate"]</th>
-                                        <th>@SharedLocalizer["Status"]</th>
-                                        <th>@SharedLocalizer["Observation"]</th>
+                                        <th>@userActionText</th>
+                                        <th>@eventDateText</th>
+                                        <th>@statusText</th>
+                                        <th>@observationText</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -168,7 +193,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <span class="text-muted font-italic">-</span>
+                                                    <span class="text-muted font-italic">@noDataText</span>
                                                 }
                                             </td>
                                         </tr>
@@ -182,7 +207,7 @@
                         <div class="text-center py-4">
                             <p class="text-muted mb-0">
                                 <i class="fas fa-info-circle mr-2"></i>
-                                @SharedLocalizer["NoHistoryRecords"]
+                                @noHistoryRecordsText
                             </p>
                         </div>
                     }

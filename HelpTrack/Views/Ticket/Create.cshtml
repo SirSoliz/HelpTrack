@@ -1,10 +1,25 @@
-﻿@model HelpTrack.Application.DTOs.TicketDTO
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.TicketDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["CreateTicket"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Crear Ticket" : "Create Ticket";
+    var titleLabel = isEs ? "Título" : "Title";
+    var descriptionLabel = isEs ? "Descripción" : "Description";
+    var priorityLabel = isEs ? "Prioridad" : "Priority";
+    var selectPriorityText = isEs ? "Seleccione una prioridad" : "Select priority";
+    var categoryLabel = isEs ? "Categoría" : "Category";
+    var selectCategoryText = isEs ? "Seleccione una categoría" : "Select category";
+    var addImagesText = isEs ? "Agregar imágenes" : "Add images";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+    var saveText = isEs ? "Guardar" : "Save";
+
+    ViewData["Title"] = title;
 }
 
-<h1>@SharedLocalizer["CreateTicket"]</h1>
+<h1>@title</h1>
 
 <hr />
 <div class="row">
@@ -14,37 +29,37 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Titulo" class="control-label">@SharedLocalizer["Title"]</label>
+                <label asp-for="Titulo" class="control-label">@titleLabel</label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label">@SharedLocalizer["Description"]</label>
+                <label asp-for="Descripcion" class="control-label">@descriptionLabel</label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdPrioridad" class="control-label">@SharedLocalizer["Priority"]</label>
+                <label asp-for="IdPrioridad" class="control-label">@priorityLabel</label>
                 <select asp-for="IdPrioridad" class="form-control" asp-items="ViewBag.Prioridades">
-                    <option value="">@SharedLocalizer["SelectPriority"]</option>
+                    <option value="">@selectPriorityText</option>
                 </select>
                 <span asp-validation-for="IdPrioridad" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdCategoria" class="control-label">@SharedLocalizer["Category"]</label>
+                <label asp-for="IdCategoria" class="control-label">@categoryLabel</label>
                 <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.Categorias">
-                    <option value="">@SharedLocalizer["SelectCategory"]</option>
+                    <option value="">@selectCategoryText</option>
                 </select>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
             </div>
             
             <div class="form-group mt-3">
-                <label for="newImages">@SharedLocalizer["AddImages"]</label>
+                <label for="newImages">@addImagesText</label>
                 <input type="file" id="newImages" name="NuevasImagenes" multiple class="form-control" accept="image/*" />
             </div>
             <div class="form-group mt-3">
-                <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Cancel"]</a>
-                <button type="submit" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+                <a asp-action="Index" class="btn btn-secondary">@cancelText</a>
+                <button type="submit" class="btn btn-primary">@saveText</button>
             </div>
         </form>
     </div>

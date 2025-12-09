@@ -1,26 +1,43 @@
+@using System.Globalization
 @model HelpTrack.Application.DTOs.AsignacionTicketDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["AssignTicket"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Asignar Ticket" : "Assign Ticket";
+    var detailsText = isEs ? "Detalles" : "Details";
+    var assignText = isEs ? "Asignar" : "Assign";
+    var ticketText = isEs ? "Ticket" : "Ticket";
+    var selectTechnicianText = isEs ? "Seleccionar Técnico" : "Select Technician";
+    var technicianText = isEs ? "Técnico" : "Technician";
+    var selectPriorityText = isEs ? "Seleccionar Prioridad" : "Select Priority";
+    var priorityText = isEs ? "Prioridad" : "Priority";
+    var justificationText = isEs ? "Justificación" : "Justification";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+    var assignButtonText = isEs ? "Asignar Ticket" : "Assign Ticket";
+    var ticketsBreadcrumb = isEs ? "Tickets" : "Tickets";
+
+    ViewData["Title"] = title;
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">@SharedLocalizer["AssignTicket"]</h1>
+    <h1 class="mt-4">@title</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a asp-action="Index">Tickets</a></li>
-        <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.IdTicket">@SharedLocalizer["Details"]</a></li>
-        <li class="breadcrumb-item active">@SharedLocalizer["Assign"]</li>
+        <li class="breadcrumb-item"><a asp-action="Index">@ticketsBreadcrumb</a></li>
+        <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.IdTicket">@detailsText</a></li>
+        <li class="breadcrumb-item active">@assignText</li>
     </ol>
 
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-user-plus me-1"></i>
-            @SharedLocalizer["AssignTicket"] #@Model.IdTicket
+            @title #@Model.IdTicket
         </div>
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5>@SharedLocalizer["Ticket"]: @Model.Ticket?.Titulo</h5>
+                    <h5>@ticketText: @Model.Ticket?.Titulo</h5>
                     <p class="text-muted">@Model.Ticket?.Descripcion</p>
                 </div>
             </div>
@@ -34,18 +51,18 @@
                     <div class="col-md-6">
                         <div class="form-floating mb-3 mb-md-0">
                             <select asp-for="IdTecnico" class="form-select" asp-items="Model.TecnicosDisponibles">
-                                <option value="">@SharedLocalizer["SelectTechnician"]</option>
+                                <option value="">@selectTechnicianText</option>
                             </select>
-                            <label asp-for="IdTecnico">@SharedLocalizer["Technician"]</label>
+                            <label asp-for="IdTecnico">@technicianText</label>
                             <span asp-validation-for="IdTecnico" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
                             <select asp-for="Prioridad" class="form-select" asp-items="Model.PrioridadesDisponibles">
-                                <option value="">@SharedLocalizer["SelectPriority"]</option>
+                                <option value="">@selectPriorityText</option>
                             </select>
-                            <label asp-for="Prioridad">@SharedLocalizer["Priority"]</label>
+                            <label asp-for="Prioridad">@priorityText</label>
                             <span asp-validation-for="Prioridad" class="text-danger"></span>
                         </div>
                     </div>
@@ -53,14 +70,14 @@
 
                 <div class="form-floating mb-3">
                     <textarea asp-for="Justificacion" class="form-control" style="height: 100px"></textarea>
-                    <label asp-for="Justificacion">@SharedLocalizer["Justificacion"]</label>
+                    <label asp-for="Justificacion">@justificationText</label>
                     <span asp-validation-for="Justificacion" class="text-danger"></span>
                 </div>
 
                 <div class="mt-4 mb-0">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a asp-action="Details" asp-route-id="@Model.IdTicket" class="btn btn-secondary me-md-2">@SharedLocalizer["Cancel"]</a>
-                        <button type="submit" class="btn btn-primary">@SharedLocalizer["AssignTicketButton"]</button>
+                        <a asp-action="Details" asp-route-id="@Model.IdTicket" class="btn btn-secondary me-md-2">@cancelText</a>
+                        <button type="submit" class="btn btn-primary">@assignButtonText</button>
                     </div>
                 </div>
             </form>

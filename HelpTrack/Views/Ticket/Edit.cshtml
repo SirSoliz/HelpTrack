@@ -1,7 +1,24 @@
-﻿@model HelpTrack.Application.DTOs.TicketDTO
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.TicketDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["EditTicket"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Editar Ticket" : "Edit Ticket";
+    var titleLabel = isEs ? "Título" : "Title";
+    var descriptionLabel = isEs ? "Descripción" : "Description";
+    var priorityLabel = isEs ? "Prioridad" : "Priority";
+    var categoryLabel = isEs ? "Categoría" : "Category";
+    var currentStatusLabel = isEs ? "Estado Actual" : "Current Status";
+    var createdByLabel = isEs ? "Creado Por" : "Created By";
+    var ticketImagesLabel = isEs ? "Imágenes del Ticket" : "Ticket Images";
+    var noImagesText = isEs ? "No hay imágenes adjuntas" : "No images attached";
+    var addNewImagesText = isEs ? "Agregar Nuevas Imágenes" : "Add New Images";
+    var saveChangesText = isEs ? "Guardar Cambios" : "Save Changes";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+
+    ViewData["Title"] = title;
 }
 
 <hr />
@@ -15,42 +32,42 @@
                 <span asp-validation-for="IdTicket" class="text-danger" ></span>
             </div>
             <div class="form-group">
-                <label asp-for="Titulo" class="control-label">@SharedLocalizer["Title"]</label>
+                <label asp-for="Titulo" class="control-label">@titleLabel</label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Descripcion" class="control-label">@SharedLocalizer["Description"]</label>
+                <label asp-for="Descripcion" class="control-label">@descriptionLabel</label>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdPrioridad" class="control-label">@SharedLocalizer["Priority"]</label>
+                <label asp-for="IdPrioridad" class="control-label">@priorityLabel</label>
                 <select asp-for="IdPrioridad" class="form-control" asp-items="ViewBag.Prioridades">
                 </select>
                 <span asp-validation-for="IdPrioridad" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdCategoria" class="control-label">@SharedLocalizer["Category"]</label>
+                <label asp-for="IdCategoria" class="control-label">@categoryLabel</label>
                 <select asp-for="IdCategoria" class="form-control" asp-items="ViewBag.Categorias">
                 </select>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdEstadoActual" class="control-label">@SharedLocalizer["CurrentStatus"]</label>
+                <label asp-for="IdEstadoActual" class="control-label">@currentStatusLabel</label>
                 <select asp-for="IdEstadoActual" class="form-control" asp-items="ViewBag.Estados">
                 </select>
                 <span asp-validation-for="IdEstadoActual" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NombreUsuarioCreacion" class="control-label">@SharedLocalizer["CreatedBy"]</label>
+                <label asp-for="NombreUsuarioCreacion" class="control-label">@createdByLabel</label>
                 <input asp-for="NombreUsuarioCreacion" class="form-control" readonly/>
             </div>
             <!-- Hidden field to keep ID for postback -->
             <input type="hidden" asp-for="IdUsuarioCreacion" />
             
             <div class="form-group">
-                <label>@SharedLocalizer["TicketImages"]</label>
+                <label>@ticketImagesLabel</label>
 
                 <div class="d-flex flex-wrap gap-2">
                     @if (Model.ImagenesTicket != null && Model.ImagenesTicket.Any())
@@ -64,20 +81,20 @@
                     }
                     else
                     {
-                        <p class="text-muted">@SharedLocalizer["NoImagesAttached"]</p>
+                        <p class="text-muted">@noImagesText</p>
                     }
                 </div>
             </div>
             <div class="form-group mt-3">
-                <label for="newImages">@SharedLocalizer["AddNewImages"]</label>
+                <label for="newImages">@addNewImagesText</label>
                 <input type="file" id="newImages" name="NuevasImagenes" multiple class="form-control" accept="image/*" />
             </div>
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> @SharedLocalizer["SaveChanges"]
+                    <i class="fas fa-save"></i> @saveChangesText
                 </button>
                 <a asp-action="Details" asp-route-id="@Model.IdTicket" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> @SharedLocalizer["Cancel"]
+                    <i class="fas fa-arrow-left"></i> @cancelText
                 </a>
             </div>
         </form>
