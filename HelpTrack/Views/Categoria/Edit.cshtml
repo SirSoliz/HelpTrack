@@ -1,48 +1,72 @@
-﻿@model HelpTrack.Application.DTOs.CategoriaDTO
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.CategoriaDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["EditCategory"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Editar categoría" : "Edit category";
+    var headerTitlePrefix = isEs ? "Editar categoría" : "Edit category";
+    var generalInfoTitle = isEs ? "Información general" : "General information";
+    var categoryNameLabel = isEs ? "Nombre de la categoría" : "Category name";
+    var descriptionLabel = isEs ? "Descripción (opcional)" : "Description (optional)";
+    var maxResponseTimeLabel = isEs ? "Tiempo máximo de respuesta (horas)" : "Maximum response time (hours)";
+    var maxResolutionTimeLabel = isEs ? "Tiempo máximo de resolución (horas)" : "Maximum resolution time (hours)";
+    var specialtiesTitle = isEs ? "Especialidades" : "Specialties";
+    var selectSpecialtiesLabel = isEs ? "Seleccione especialidades" : "Select specialties";
+    var multiSelectHelpText = isEs ? "Mantenga presionada la tecla Ctrl (o Cmd en Mac) para seleccionar múltiples opciones." : "Hold Ctrl (or Cmd on Mac) to select multiple options.";
+    var tagsTitle = isEs ? "Etiquetas" : "Tags";
+    var selectTagsLabel = isEs ? "Seleccione etiquetas" : "Select tags";
+    var saveChangesText = isEs ? "Guardar cambios" : "Save changes";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+
+    ViewData["Title"] = title;
 }
 
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h2>@SharedLocalizer["EditCategory"]: @Model.Nombre</h2>
+            <h2>@headerTitlePrefix: @Model.Nombre</h2>
         </div>
         <div class="card-body">
+
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="IdCategoria" />
 
                 <!-- Información Básica -->
                 <div class="mb-4">
-                    <h4>@SharedLocalizer["GeneralInfo"]</h4>
+                    <h4>@generalInfoTitle</h4>
                     <hr />
                     <div class="form-group mb-3">
-                        <label asp-for="Nombre" class="control-label fw-bold">@SharedLocalizer["CategoryName"]</label>
+                        <label asp-for="Nombre" class="control-label fw-bold">@categoryNameLabel</label>
                         <input asp-for="Nombre" class="form-control" />
                         <span asp-validation-for="Nombre" class="text-danger"></span>
+
                     </div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="Descripcion" class="control-label fw-bold">@SharedLocalizer["DescriptionOptional"]</label>
+                        <label asp-for="Descripcion" class="control-label fw-bold">@descriptionLabel</label>
                         <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
+
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="TiempoMaxRespuestaHoras" class="control-label fw-bold">@SharedLocalizer["MaxResponseTime"]</label>
+                                <label asp-for="TiempoMaxRespuestaHoras" class="control-label fw-bold">@maxResponseTimeLabel</label>
                                 <input asp-for="TiempoMaxRespuestaHoras" class="form-control" type="number" min="1" />
                                 <span asp-validation-for="TiempoMaxRespuestaHoras" class="text-danger"></span>
+
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="TiempoMaxResolucionHoras" class="control-label fw-bold">@SharedLocalizer["MaxResolutionTime"]</label>
+                                <label asp-for="TiempoMaxResolucionHoras" class="control-label fw-bold">@maxResolutionTimeLabel</label>
                                 <input asp-for="TiempoMaxResolucionHoras" class="form-control" type="number" min="1" />
                                 <span asp-validation-for="TiempoMaxResolucionHoras" class="text-danger"></span>
+
                             </div>
                         </div>
                     </div>
@@ -50,40 +74,43 @@
 
                 <!-- Especialidades -->
                 <div class="mb-4">
-                    <h4>@SharedLocalizer["Specialties"]</h4>
+                    <h4>@specialtiesTitle</h4>
                     <hr />
                     <div class="form-group mb-3">
-                        <label class="control-label fw-bold">@SharedLocalizer["SelectSpecialties"]</label>
+                        <label class="control-label fw-bold">@selectSpecialtiesLabel</label>
                         <select asp-for="EspecialidadesSeleccionadas" class="form-control" multiple="multiple" 
                                 asp-items="ViewBag.Especialidades">
                         </select>
-                        <small class="form-text text-muted">@SharedLocalizer["MultiSelectHelp"]</small>
+                        <small class="form-text text-muted">@multiSelectHelpText</small>
                         <span asp-validation-for="EspecialidadesSeleccionadas" class="text-danger"></span>
                     </div>
+
                 </div>
 
                 <!-- Etiquetas -->
                 <div class="mb-4">
-                    <h4>@SharedLocalizer["Tags"]</h4>
+                    <h4>@tagsTitle</h4>
                     <hr />
                     <div class="form-group mb-3">
-                        <label class="control-label fw-bold">@SharedLocalizer["SelectTags"]</label>
+                        <label class="control-label fw-bold">@selectTagsLabel</label>
                         <select asp-for="EtiquetasSeleccionadas" class="form-control" multiple="multiple"
                                 asp-items="ViewBag.Etiquetas">
                         </select>
-                        <small class="form-text text-muted">@SharedLocalizer["MultiSelectHelp"]</small>
+                        <small class="form-text text-muted">@multiSelectHelpText</small>
+
                         <span asp-validation-for="EtiquetasSeleccionadas" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group mt-4">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> @SharedLocalizer["SaveChanges"]
+                        <i class="fas fa-save"></i> @saveChangesText
                     </button>
                     <a asp-action="Details" asp-route-id="@Model.IdCategoria" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> @SharedLocalizer["Cancel"]
+                        <i class="fas fa-arrow-left"></i> @cancelText
                     </a>
                 </div>
+
             </form>
         </div>
     </div>

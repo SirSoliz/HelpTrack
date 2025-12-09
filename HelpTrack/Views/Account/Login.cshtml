@@ -1,6 +1,17 @@
+@using System.Globalization
 @model HelpTrack.Models.LoginViewModel
 @{
-    ViewData["Title"] = "Iniciar Sesión";
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    ViewData["Title"] = isEs ? "Iniciar Sesión" : "Login";
+
+    var loginTitle = isEs ? "¡Bienvenido de nuevo!" : "Welcome back!";
+    var emailPlaceholder = isEs ? "Ingrese su correo electrónico..." : "Enter your email address...";
+    var passwordPlaceholder = isEs ? "Contraseña" : "Password";
+    var loginButtonText = isEs ? "Iniciar Sesión" : "Sign In";
+    var forgotPasswordText = isEs ? "¿Olvidaste tu contraseña?" : "Forgot your password?";
+    var registerPromptText = isEs ? "¿No tienes una cuenta? ¡Regístrate!" : "Don't have an account? Sign up!";
 }
 
 <div class="row justify-content-center">
@@ -10,7 +21,7 @@
 
                         <div class="p-4">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">¡Bienvenido de nuevo!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">@loginTitle</h1>
                             </div>
 
 
@@ -18,24 +29,24 @@
                             <form asp-action="Login" method="post" class="user">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group mb-3">
-                                    <input asp-for="Email" class="form-control form-control-user" placeholder="Ingrese su correo electrónico..." />
+                                    <input asp-for="Email" class="form-control form-control-user" placeholder="@emailPlaceholder" />
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input asp-for="Password" class="form-control form-control-user" placeholder="Contraseña" />
+                                    <input asp-for="Password" class="form-control form-control-user" placeholder="@passwordPlaceholder" />
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block w-100">
-                                    Iniciar Sesión
+                                    @loginButtonText
                                 </button>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" asp-action="ResetPassword">¿Olvidaste tu contraseña?</a>
+                                <a class="small" asp-action="ResetPassword">@forgotPasswordText</a>
                             </div>
                             <hr>
                             <div class="text-center">
-                                <a class="small" asp-action="Register">¿No tienes una cuenta? ¡Regístrate!</a>
+                                <a class="small" asp-action="Register">@registerPromptText</a>
                             </div>
                         </div>
 

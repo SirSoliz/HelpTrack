@@ -43,7 +43,7 @@
                             <strong><i class="fas fa-calendar-plus text-primary"></i> @SharedLocalizer["CreationDate"]:</strong>
                         </div>
                         <div class="col-md-8">
-                            @Model.TicketInfo.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+                            @Model.TicketInfo.FechaCreacion.ToString("g")
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                                 <strong><i class="fas fa-user-check text-primary"></i> @SharedLocalizer["AssignmentDate"]:</strong>
                             </div>
                             <div class="col-md-8">
-                                @Model.TicketInfo.FechaAsignacion.Value.ToString("dd/MM/yyyy HH:mm")
+                                @Model.TicketInfo.FechaAsignacion.Value.ToString("g")
                             </div>
                         </div>
                     }
@@ -156,7 +156,7 @@
                                                 <i class="fas fa-user mr-2 text-gray-400"></i> @item.UsuarioAccion
                                             </td>
                                             <td>
-                                                <i class="fas fa-clock mr-2 text-gray-400"></i> @item.FechaEvento.ToString("dd/MM/yyyy HH:mm:ss")
+                                                <i class="fas fa-clock mr-2 text-gray-400"></i> @item.FechaEvento.ToString("g")
                                             </td>
                                             <td>
                                                 <span class="badge bg-info text-dark">@item.Estado</span>

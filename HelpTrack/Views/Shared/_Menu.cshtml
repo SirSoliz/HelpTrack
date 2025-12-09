@@ -1,4 +1,23 @@
-﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-secondary bg-white border-bottom box-shadow mb-3">
+﻿@using System.Globalization
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var homeText = isEs ? "Inicio" : "Home";
+    var privacyText = isEs ? "Privacidad" : "Privacy";
+    var maintenanceText = isEs ? "Mantenimientos" : "Maintenance";
+    var techniciansText = isEs ? "Técnicos" : "Technicians";
+    var categoriesText = isEs ? "Categorías" : "Categories";
+    var ticketsText = isEs ? "Tickets" : "Tickets";
+    var slaText = isEs ? "SLA" : "SLA";
+    var welcomeText = isEs ? "Bienvenido" : "Welcome";
+    var myProfileText = isEs ? "Mi Perfil" : "My Profile";
+    var logoutText = isEs ? "Cerrar Sesión" : "Logout";
+    var loginText = isEs ? "Iniciar Sesión" : "Login";
+    var registerText = isEs ? "Registrarse" : "Register";
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-secondary bg-white border-bottom box-shadow mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HelpTrack</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -8,21 +27,21 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@SharedLocalizer["Home"]</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@homeText</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@privacyText</a>
                 </li>
               
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-wrench"></i> Mantenimientos
+                        <i class="bi bi-wrench"></i> @maintenanceText
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-controller="Tecnico" asp-action="Index">Tecnicos</a></li>
-                        <li><a class="dropdown-item" asp-controller="Categoria" asp-action="Index">@SharedLocalizer["Categories"]</a></li>
-                        <li><a class="dropdown-item" asp-controller="Ticket" asp-action="Index">@SharedLocalizer["Tickets"]</a></li>
-                        <li><a class="dropdown-item" asp-controller="Sla" asp-action="Index">SLA</a></li>
+                        <li><a class="dropdown-item" asp-controller="Tecnico" asp-action="Index">@techniciansText</a></li>
+                        <li><a class="dropdown-item" asp-controller="Categoria" asp-action="Index">@categoriesText</a></li>
+                        <li><a class="dropdown-item" asp-controller="Ticket" asp-action="Index">@ticketsText</a></li>
+                        <li><a class="dropdown-item" asp-controller="Sla" asp-action="Index">@slaText</a></li>
                     </ul>
                 </li>
             </ul>
@@ -34,22 +53,22 @@
                 {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle"></i> @SharedLocalizer["Welcome"], @User.Identity.Name
+                            <i class="fas fa-user-circle"></i> @welcomeText, @User.Identity.Name
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="fas fa-user"></i> Mi Perfil</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="fas fa-user"></i> @myProfileText</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> @SharedLocalizer["Logout"]</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> @logoutText</a></li>
                         </ul>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">@loginText</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Registrarse</a>
+                        <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">@registerText</a>
                     </li>
                 }
             </ul>

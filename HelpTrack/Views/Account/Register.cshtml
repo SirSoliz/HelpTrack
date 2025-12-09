@@ -1,6 +1,18 @@
+@using System.Globalization
 @model HelpTrack.Models.RegisterViewModel
 @{
-    ViewData["Title"] = "Registrarse";
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    ViewData["Title"] = isEs ? "Registrarse" : "Register";
+
+    var registerTitle = isEs ? "¡Crea una cuenta!" : "Create an account!";
+    var fullNamePlaceholder = isEs ? "Nombre Completo" : "Full Name";
+    var emailPlaceholder = isEs ? "Correo Electrónico" : "Email";
+    var passwordPlaceholder = isEs ? "Contraseña" : "Password";
+    var confirmPasswordPlaceholder = isEs ? "Repetir Contraseña" : "Repeat Password";
+    var registerButtonText = isEs ? "Registrar Cuenta" : "Register Account";
+    var loginPromptText = isEs ? "¿Ya tienes una cuenta? ¡Inicia Sesión!" : "Already have an account? Sign in!";
 }
 
 <div class="row justify-content-center">
@@ -9,35 +21,35 @@
             <div class="card-body p-0">
                 <div class="p-4">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">¡Crea una cuenta!</h1>
+                        <h1 class="h4 text-gray-900 mb-4">@registerTitle</h1>
                     </div>
                     <form asp-action="Register" method="post" class="user">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
-                            <input asp-for="Nombre" class="form-control form-control-user" placeholder="Nombre Completo" />
+                            <input asp-for="Nombre" class="form-control form-control-user" placeholder="@fullNamePlaceholder" />
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <input asp-for="Email" class="form-control form-control-user" placeholder="Correo Electrónico" />
+                            <input asp-for="Email" class="form-control form-control-user" placeholder="@emailPlaceholder" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group row mb-3">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input asp-for="Password" class="form-control form-control-user" placeholder="Contraseña" />
+                                <input asp-for="Password" class="form-control form-control-user" placeholder="@passwordPlaceholder" />
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="col-sm-6">
-                                <input asp-for="ConfirmPassword" class="form-control form-control-user" placeholder="Repetir Contraseña" />
+                                <input asp-for="ConfirmPassword" class="form-control form-control-user" placeholder="@confirmPasswordPlaceholder" />
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block w-100">
-                            Registrar Cuenta
+                            @registerButtonText
                         </button>
                     </form>
                     <hr>
                     <div class="text-center">
-                        <a class="small" asp-action="Login">¿Ya tienes una cuenta? ¡Inicia Sesión!</a>
+                        <a class="small" asp-action="Login">@loginPromptText</a>
                     </div>
                 </div>
             </div>

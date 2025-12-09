@@ -651,4 +651,67 @@
   <data name="Error en aplicación interna" xml:space="preserve">
     <value>Internal Application Error</value>
   </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>My Profile</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Password Required" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="Password Length" xml:space="preserve">
+    <value>The {0} must be at least {2} characters long.</value>
+  </data>
+  <data name="Password Mismatch" xml:space="preserve">
+    <value>The passwords do not match.</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="LoginWelcomeTitle" xml:space="preserve">
+    <value>Welcome back!</value>
+  </data>
+  <data name="LoginEmailPlaceholder" xml:space="preserve">
+    <value>Enter your email address...</value>
+  </data>
+  <data name="LoginPasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="RegisterPrompt" xml:space="preserve">
+    <value>Don't have an account? Sign up!</value>
+  </data>
+  <data name="RegisterWelcomeTitle" xml:space="preserve">
+    <value>Create an account!</value>
+  </data>
+  <data name="RegisterPasswordPlaceholder" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RegisterConfirmPasswordPlaceholder" xml:space="preserve">
+    <value>Repeat Password</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Register Account</value>
+  </data>
+  <data name="LoginPrompt" xml:space="preserve">
+    <value>Already have an account? Sign in!</value>
+  </data>
 </root>

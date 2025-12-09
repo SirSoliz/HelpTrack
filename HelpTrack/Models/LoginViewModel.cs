@@ -4,11 +4,11 @@ namespace HelpTrack.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "El correo electrónico es requerido")]
-        [EmailAddress(ErrorMessage = "Formato de correo inválido")]
+        [Required(ErrorMessage = "Email Required")]
+        [EmailAddress(ErrorMessage = "Email Invalid")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es requerida")]
+        [Required(ErrorMessage = "Password Required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

@@ -1,32 +1,48 @@
 ﻿@using X.PagedList
 @using X.PagedList.Mvc.Core
+@using System.Globalization
 @model IPagedList<HelpTrack.Application.DTOs.CategoriaDTO>
 
 @{
-    ViewData["Title"] = SharedLocalizer["CategoryManagement"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Gestión de Categorías" : "Category Management";
+    var newCategoryText = isEs ? "Nueva Categoría" : "New Category";
+    var searchFiltersText = isEs ? "Filtros de búsqueda" : "Search Filters";
+    var searchPlaceholderText = isEs ? "Buscar por nombre o descripción..." : "Search by name or description...";
+    var searchButtonText = isEs ? "Buscar" : "Search";
+    var categoryLabelPrefix = isEs ? "Categoría" : "Category";
+    var detailsTooltip = isEs ? "Ver detalles" : "Details";
+    var editTooltip = isEs ? "Editar" : "Edit";
+    var deleteTooltip = isEs ? "Eliminar" : "Delete";
+    var noResultsTitle = isEs ? "Sin resultados" : "No results";
+    var noResultsMessage = isEs ? "No se encontraron categorías que coincidan con los filtros." : "No categories match your filters.";
+
+    ViewData["Title"] = title;
 }
 
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
         <a asp-action="Create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> @SharedLocalizer["NewCategory"]
+            <i class="fas fa-plus fa-sm text-white-50"></i> @newCategoryText
         </a>
     </div>
 
     <!-- Filtros -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">@SharedLocalizer["SearchFilters"]</h6>
+            <h6 class="m-0 font-weight-bold text-primary">@searchFiltersText</h6>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group mb-3">
-                        <input type="text" id="searchInput" class="form-control" placeholder="@SharedLocalizer["SearchPlaceholder"]">
+                        <input type="text" id="searchInput" class="form-control" placeholder="@searchPlaceholderText">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" id="searchButton">
-                                <i class="fas fa-search"></i> @SharedLocalizer["Search"]
+                                <i class="fas fa-search"></i> @searchButtonText
                             </button>
                         </div>
                     </div>
@@ -45,9 +61,10 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Categoría #@item.IdCategoria
+                                    @categoryLabelPrefix #@item.IdCategoria
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@SharedLocalizer[item.Nombre.Trim()]</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@item.Nombre</div>
+
                                 @if (!string.IsNullOrEmpty(item.Descripcion))
                                 {
                                     <div class="text-muted small mt-1">@item.Descripcion</div>
@@ -62,7 +79,7 @@
                             <a href="@Url.Action("Details", new { id = item.IdCategoria })"
                                class="btn btn-sm btn-info mr-1"
                                data-toggle="tooltip"
-                               title="@SharedLocalizer["Details"]">
+                               title="@detailsTooltip">
                                 <i class="fas fa-eye"></i>
                             </a>
 
@@ -70,7 +87,7 @@
                             <a href="@Url.Action("Edit", new { id = item.IdCategoria })"
                                class="btn btn-sm btn-primary mr-1"
                                data-toggle="tooltip"
-                               title="@SharedLocalizer["Edit"]">
+                               title="@editTooltip">
                                 <i class="fas fa-edit"></i>
                             </a>
 
@@ -78,7 +95,7 @@
                             <button type="button"
                                     class="btn btn-sm btn-danger"
                                     data-toggle="tooltip"
-                                    title="@SharedLocalizer["Delete"]"
+                                    title="@deleteTooltip"
                                     onclick="return false;">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
@@ -92,8 +109,8 @@
     <!-- Mensaje cuando no hay resultados -->
     <div id="noResults" class="col-12 text-center py-4" style="display: none;">
         <i class="fas fa-search fa-3x mb-3 text-gray-400"></i>
-        <h5 class="text-gray-500">@SharedLocalizer["NoResults"]</h5>
-        <p class="text-muted">@SharedLocalizer["NoResultsMessage"]</p>
+        <h5 class="text-gray-500">@noResultsTitle</h5>
+        <p class="text-muted">@noResultsMessage</p>
     </div>
 
     <!-- Paginación -->

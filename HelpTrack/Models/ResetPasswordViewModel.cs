@@ -4,20 +4,20 @@ namespace HelpTrack.Models
 {
     public class ResetPasswordViewModel
     {
-        [Required(ErrorMessage = "El correo electrónico es requerido")]
-        [EmailAddress(ErrorMessage = "Formato de correo inválido")]
-        [Display(Name = "Correo Electrónico")]
+        [Required(ErrorMessage = "Email Required")]
+        [EmailAddress(ErrorMessage = "Email Invalid")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La nueva contraseña es requerida")]
+        [Required(ErrorMessage = "Password Required")]
         [DataType(DataType.Password)]
-        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres.", MinimumLength = 6)]
-        [Display(Name = "Nueva Contraseña")]
+        [StringLength(100, ErrorMessage = "Password Length", MinimumLength = 6)]
+        [Display(Name = "NewPassword")]
         public string NewPassword { get; set; } = string.Empty;
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar Contraseña")]
-        [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden.")]
+        [Display(Name = "ConfirmPassword")]
+        [Compare("NewPassword", ErrorMessage = "Password Mismatch")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

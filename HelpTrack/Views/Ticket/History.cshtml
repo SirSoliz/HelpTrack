@@ -35,11 +35,11 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.IdTicket)</td>
                             <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
-                            <td>@item.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@item.FechaCreacion.ToString("g")</td>
                             <td>
                                 @if (item.FechaAsignacion.HasValue)
                                 {
-                                    @item.FechaAsignacion.Value.ToString("dd/MM/yyyy HH:mm")
+                                    @item.FechaAsignacion.Value.ToString("g")
                                 }
                                 else
                                 {

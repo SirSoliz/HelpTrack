@@ -651,4 +651,67 @@
   <data name="Error en aplicación interna" xml:space="preserve">
     <value>Error en aplicación interna</value>
   </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacidad</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Mantenimientos</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>Mi Perfil</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar Sesión</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Password Required" xml:space="preserve">
+    <value>La contraseña es requerida</value>
+  </data>
+  <data name="Password Length" xml:space="preserve">
+    <value>La {0} debe tener al menos {2} caracteres.</value>
+  </data>
+  <data name="Password Mismatch" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nueva Contraseña</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmar Contraseña</value>
+  </data>
+  <data name="LoginWelcomeTitle" xml:space="preserve">
+    <value>¡Bienvenido de nuevo!</value>
+  </data>
+  <data name="LoginEmailPlaceholder" xml:space="preserve">
+    <value>Ingrese su correo electrónico...</value>
+  </data>
+  <data name="LoginPasswordPlaceholder" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Iniciar Sesión</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="RegisterPrompt" xml:space="preserve">
+    <value>¿No tienes una cuenta? ¡Regístrate!</value>
+  </data>
+  <data name="RegisterWelcomeTitle" xml:space="preserve">
+    <value>¡Crea una cuenta!</value>
+  </data>
+  <data name="RegisterPasswordPlaceholder" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="RegisterConfirmPasswordPlaceholder" xml:space="preserve">
+    <value>Repetir Contraseña</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Registrar Cuenta</value>
+  </data>
+  <data name="LoginPrompt" xml:space="preserve">
+    <value>¿Ya tienes una cuenta? ¡Inicia Sesión!</value>
+  </data>
 </root>

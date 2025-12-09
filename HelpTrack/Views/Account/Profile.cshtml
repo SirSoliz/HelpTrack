@@ -66,7 +66,7 @@
                             <strong><i class="fas fa-calendar-plus text-primary"></i> Fecha de Creación:</strong>
                         </div>
                         <div class="col-md-8">
-                            @Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+                            @Model.FechaCreacion.ToString("g")
                         </div>
                     </div>
 
@@ -77,7 +77,7 @@
                                 <strong><i class="fas fa-sign-in-alt text-primary"></i> Último Inicio de Sesión:</strong>
                             </div>
                             <div class="col-md-8">
-                                @Model.UltimoInicioSesion.Value.ToString("dd/MM/yyyy HH:mm")
+                                @Model.UltimoInicioSesion.Value.ToString("g")
                             </div>
                         </div>
                     }
