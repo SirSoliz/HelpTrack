@@ -1,7 +1,31 @@
-﻿@model HelpTrack.Application.DTOs.TecnicoDTO
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.TecnicoDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["TechnicianDetails"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    // Títulos y encabezados
+    var title = isEs ? "Detalles del Técnico" : "Technician Details";
+    var personalInfoText = isEs ? "Información Personal" : "Personal Information";
+    var technicianIdText = isEs ? "ID de Técnico" : "Technician ID";
+    var aliasText = isEs ? "Alias" : "Alias";
+    var fullNameText = isEs ? "Nombre Completo" : "Full Name";
+    var emailText = isEs ? "Correo Electrónico" : "Email";
+    var statusText = isEs ? "Estado" : "Status";
+    var workloadLevelText = isEs ? "Nivel de Carga" : "Workload Level";
+    var availableText = isEs ? "Disponible" : "Available";
+    var notAvailableText = isEs ? "No Disponible" : "Not Available";
+    var specialtiesText = isEs ? "Especialidades" : "Specialties";
+    var noSpecialtiesAssignedText = isEs ? "No se han asignado especialidades a este técnico" : "No specialties assigned to this technician";
+    var editText = isEs ? "Editar" : "Edit";
+    var backToListText = isEs ? "Volver al Listado" : "Back to List";
+    var workloadLowText = isEs ? "Baja Carga" : "Low Workload";
+    var workloadMediumText = isEs ? "Carga Media" : "Medium Workload";
+    var workloadHighText = isEs ? "Alta Carga" : "High Workload";
+    var ticketsText = isEs ? "tickets" : "tickets";
+
+    ViewData["Title"] = title;
 }
 
 <div class="container mt-4">
@@ -12,49 +36,45 @@
         <div class="card-body">
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <h4>@SharedLocalizer["PersonalInfo"]</h4>
+                    <h4>@personalInfoText</h4>
                     <hr />
                     <dl class="row">
-                        <dt class="col-sm-4">@SharedLocalizer["TechnicianID"]:</dt>
+                        <dt class="col-sm-4">@technicianIdText:</dt>
                         <dd class="col-sm-8">@Model.IdTecnico</dd>
 
-                        <dt class="col-sm-4">@SharedLocalizer["Alias"]:</dt>
+                        <dt class="col-sm-4">@aliasText:</dt>
                         <dd class="col-sm-8">@Model.Alias</dd>
 
-                       
                         @if (Model.Usuario != null)
                         {
                             <div class="form-group">
-                                <dt class="col-sm-4">@SharedLocalizer["FullName"]:</dt>
+                                <dt class="col-sm-4">@fullNameText:</dt>
                                 <dd class="col-sm-8">@Model.Usuario.Nombre</dd>
-                              
                             </div>
                             <div class="form-group">
-                                <dt class="col-sm-4">@SharedLocalizer["Email"]:</dt>
+                                <dt class="col-sm-4">@emailText:</dt>
                                 <dd class="col-sm-8">@Model.Usuario.Email</dd>
-
                             </div>
                         }
-                        
                     </dl>
                 </div>
                 <div class="col-md-6">
-                    <h4>@SharedLocalizer["Status"] y @SharedLocalizer["WorkloadLevel"]</h4>
+                    <h4>@statusText y @workloadLevelText</h4>
                     <hr />
                     <dl class="row">
-                        <dt class="col-sm-5">@SharedLocalizer["Status"]:</dt>
+                        <dt class="col-sm-5">@statusText:</dt>
                         <dd class="col-sm-7">
                             @if (Model.Disponible)
                             {
-                                <span class="badge bg-success">@SharedLocalizer["Available"]</span>
+                                <span class="badge bg-success">@availableText</span>
                             }
                             else
                             {
-                                <span class="badge bg-danger">@SharedLocalizer["NotAvailable"]</span>
+                                <span class="badge bg-danger">@notAvailableText</span>
                             }
                         </dd>
 
-                        <dt class="col-sm-5">@SharedLocalizer["WorkloadLevel"]:</dt>
+                        <dt class="col-sm-5">@workloadLevelText:</dt>
                         <dd class="col-sm-7">
                             <div class="progress" style="height: 25px;">
                                 @{
@@ -76,7 +96,7 @@
                                     @Model.NivelCarga/@maxCapacity
                                 </div>
                             </div>
-                            <small class="text-muted">@GetCargaTrabajoText(Model.NivelCarga) (@Model.NivelCarga de @maxCapacity tickets)</small>
+                            <small class="text-muted">@GetCargaTrabajoText(Model.NivelCarga, isEs) (@Model.NivelCarga @ticketsText)</small>
                         </dd>
                     </dl>
                 </div>
@@ -84,7 +104,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <h4>@SharedLocalizer["Specialties"]</h4>
+                    <h4>@specialtiesText</h4>
                     <hr />
                     @if (Model.Especialidades != null && Model.Especialidades.Any())
                     {
@@ -98,27 +118,37 @@
                     else
                     {
                         <div class="alert alert-warning" role="alert">
-                            @SharedLocalizer["NoSpecialtiesAssigned"]
+                            @noSpecialtiesAssignedText
                         </div>
                     }
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            <a asp-action="Edit" asp-route-id="@Model.IdTecnico" class="btn btn-primary">@SharedLocalizer["Edit"]</a>
-            <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["BackToList"]</a>
+            <a asp-action="Edit" asp-route-id="@Model.IdTecnico" class="btn btn-primary">@editText</a>
+            <a asp-action="Index" class="btn btn-secondary">@backToListText</a>
         </div>
     </div>
 </div>
 
 @functions {
-    private string GetCargaTrabajoText(byte nivelCarga)
+    private string GetCargaTrabajoText(byte nivelCarga, bool isEs)
     {
         return nivelCarga switch
         {
-            <= 3 => SharedLocalizer["WorkloadLow"],
-            <= 7 => SharedLocalizer["WorkloadMedium"],
-            _ => SharedLocalizer["WorkloadHigh"]
+            <= 3 => isEs ? "Baja Carga" : "Low Workload",
+            <= 7 => isEs ? "Carga Media" : "Medium Workload",
+            _ => isEs ? "Alta Carga" : "High Workload"
+        };
+    }
+
+    private string GetCargaTrabajoClass(byte nivelCarga)
+    {
+        return nivelCarga switch
+        {
+            <= 3 => "bg-success",
+            <= 7 => "bg-warning",
+            _ => "bg-danger"
         };
     }
 }

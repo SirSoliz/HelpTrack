@@ -1,11 +1,28 @@
-﻿@model HelpTrack.Application.DTOs.TecnicoDTO
-
+﻿@using System.Globalization
+@model HelpTrack.Application.DTOs.TecnicoDTO
 
 @{
-    ViewData["Title"] = SharedLocalizer["CreateTechnician"];
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Crear Técnico" : "Create Technician";
+    var userInfoText = isEs ? "Información del Usuario" : "User Information";
+    var fullNameText = isEs ? "Nombre Completo" : "Full Name";
+    var emailText = isEs ? "Correo Electrónico" : "Email";
+    var technicianInfoText = isEs ? "Información del Técnico" : "Technician Information";
+    var aliasText = isEs ? "Alias" : "Alias";
+    var workloadLevelText = isEs ? "Nivel de Carga de Trabajo" : "Workload Level";
+    var readOnlyFieldText = isEs ? "Campo de solo lectura" : "Read-only field";
+    var availableText = isEs ? "Disponible" : "Available";
+    var specialtiesText = isEs ? "Especialidades" : "Specialties";
+    var cancelText = isEs ? "Cancelar" : "Cancel";
+    var saveText = isEs ? "Guardar" : "Save";
+    var requiredFieldText = isEs ? " *" : " *";
+
+    ViewData["Title"] = title;
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>@title</h2>
 
 <hr />
 <div class="row">
@@ -13,41 +30,41 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <h4>@SharedLocalizer["UserInfo"]</h4>
+            <h4>@userInfoText</h4>
             <div class="form-group">
-                <label asp-for="Usuario.Nombre" class="control-label">@SharedLocalizer["FullName"] *</label>
+                <label asp-for="Usuario.Nombre" class="control-label">@fullNameText@requiredFieldText</label>
                 <input asp-for="Usuario.Nombre" class="form-control" required />
                 <span asp-validation-for="Usuario.Nombre" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Usuario.Email" class="control-label">@SharedLocalizer["Email"] *</label>
+                <label asp-for="Usuario.Email" class="control-label">@emailText@requiredFieldText</label>
                 <input asp-for="Usuario.Email" type="email" class="form-control" required />
                 <span asp-validation-for="Usuario.Email" class="text-danger"></span>
             </div>
 
-            <h4>@SharedLocalizer["TechnicianInfo"]</h4>
+            <h4>@technicianInfoText</h4>
             <div class="form-group">
-                <label asp-for="Alias" class="control-label">@SharedLocalizer["Alias"]</label>
+                <label asp-for="Alias" class="control-label">@aliasText</label>
                 <input asp-for="Alias" class="form-control" />
                 <span asp-validation-for="Alias" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="NivelCarga" class="control-label">@SharedLocalizer["WorkloadLevel"]</label>
+                <label asp-for="NivelCarga" class="control-label">@workloadLevelText</label>
                 <input asp-for="NivelCarga" class="form-control" value="0" readonly />
-                <small class="form-text text-muted">@SharedLocalizer["ReadOnlyField"]</small>
+                <small class="form-text text-muted">@readOnlyFieldText</small>
                 <span asp-validation-for="NivelCarga" class="text-danger"></span>
             </div>
 
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Disponible" /> @SharedLocalizer["Available"]
+                    <input class="form-check-input" asp-for="Disponible" /> @availableText
                 </label>
             </div>
 
             <div class="form-group">
-                <label class="control-label">@SharedLocalizer["Specialties"]</label>
+                <label class="control-label">@specialtiesText</label>
                 <div class="row">
                     @foreach (var especialidad in ViewBag.Especialidades)
                     {
@@ -68,13 +85,12 @@
             </div>
 
             <div class="form-group mt-3">
-                <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Cancel"]</a>
-                <button type="submit" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+                <a asp-action="Index" class="btn btn-secondary">@cancelText</a>
+                <button type="submit" class="btn btn-primary">@saveText</button>
             </div>
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     @{

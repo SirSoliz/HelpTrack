@@ -1,36 +1,56 @@
-﻿@{
-    ViewData["Title"] = "HelpTrack - " + SharedLocalizer["IncidentManagementSystem"];
+﻿@using System.Globalization
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    // Títulos y encabezados
+    var incidentManagementSystemText = isEs ? "Sistema de Gestión de Incidentes" : "Incident Management System";
+    var incidentManagementDescText = isEs ? "Sistema integral para la gestión eficiente de incidentes técnicos, asignación de tareas y seguimiento de SLAs. Optimiza el flujo de trabajo y mejora la productividad de tu equipo de soporte técnico." : "Comprehensive system for efficient incident management, task assignment, and SLA tracking. Optimize workflow and improve your technical support team's productivity.";
+    var viewTechniciansText = isEs ? "Ver Técnicos" : "View Technicians";
+    var newTechnicianText = isEs ? "Nuevo Técnico" : "New Technician";
+    var quickAccessText = isEs ? "Acceso Rápido" : "Quick Access";
+    var techniciansListText = isEs ? "Lista de Técnicos" : "Technicians List";
+    var addNewTechnicianText = isEs ? "Agregar Nuevo Técnico" : "Add New Technician";
+    var reportsText = isEs ? "Reportes" : "Reports";
+    var generalSummaryText = isEs ? "Resumen General" : "General Summary";
+    var viewAllText = isEs ? "Ver Todo" : "View All";
+    var techniciansText = isEs ? "Técnicos" : "Technicians";
+    var activeTasksText = isEs ? "Tareas Activas" : "Active Tasks";
+    var inProgressText = isEs ? "En Progreso" : "In Progress";
+    var efficiencyText = isEs ? "Eficiencia" : "Efficiency";
+
+    ViewData["Title"] = "HelpTrack - " + incidentManagementSystemText;
 }
 
 <div class="container my-5">
     <div class="row align-items-center">
         <div class="col-lg-6">
-            <h1 class="display-5 fw-bold mb-4">@SharedLocalizer["IncidentManagementSystem"]</h1>
-            <p class="lead mb-4">@SharedLocalizer["IncidentManagementDesc"]</p>
+            <h1 class="display-5 fw-bold mb-4">@incidentManagementSystemText</h1>
+            <p class="lead mb-4">@incidentManagementDescText</p>
             <div class="d-grid gap-2 d-md-flex">
                 <a href="/Tecnico" class="btn btn-primary px-4 me-2">
-                    <i class="fas fa-users me-2"></i>@SharedLocalizer["ViewTechnicians"]
+                    <i class="fas fa-users me-2"></i>@viewTechniciansText
                 </a>
                 <a href="/Tecnico/Create" class="btn btn-outline-secondary px-4">
-                    <i class="fas fa-plus me-2"></i>@SharedLocalizer["NewTechnician"]
+                    <i class="fas fa-plus me-2"></i>@newTechnicianText
                 </a>
             </div>
         </div>
         <div class="col-lg-6 mt-4 mt-lg-0">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-4">
-                    <h5 class="card-title text-primary mb-4">@SharedLocalizer["QuickAccess"]</h5>
+                    <h5 class="card-title text-primary mb-4">@quickAccessText</h5>
                     <div class="list-group list-group-flush">
                         <a href="/Tecnico" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-list-ul text-muted me-2"></i>@SharedLocalizer["TechniciansList"]</span>
+                            <span><i class="fas fa-list-ul text-muted me-2"></i>@techniciansListText</span>
                             <i class="fas fa-chevron-right text-muted"></i>
                         </a>
                         <a href="/Tecnico/Create" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-user-plus text-muted me-2"></i>@SharedLocalizer["AddNewTechnician"]</span>
+                            <span><i class="fas fa-user-plus text-muted me-2"></i>@addNewTechnicianText</span>
                             <i class="fas fa-chevron-right text-muted"></i>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-chart-bar text-muted me-2"></i>@SharedLocalizer["Reports"]</span>
+                            <span><i class="fas fa-chart-bar text-muted me-2"></i>@reportsText</span>
                             <i class="fas fa-chevron-right text-muted"></i>
                         </a>
                     </div>
@@ -44,32 +64,32 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="card-title mb-0">@SharedLocalizer["GeneralSummary"]</h5>
-                        <a href="#" class="btn btn-sm btn-outline-primary">@SharedLocalizer["ViewAll"]</a>
+                        <h5 class="card-title mb-0">@generalSummaryText</h5>
+                        <a href="#" class="btn btn-sm btn-outline-primary">@viewAllText</a>
                     </div>
                     <div class="row text-center">
                         <div class="col-6 col-md-3 mb-3 mb-md-0">
                             <div class="p-3 border rounded">
                                 <h3 class="text-primary">25</h3>
-                                <p class="text-muted mb-0">@SharedLocalizer["Technicians"]</p>
+                                <p class="text-muted mb-0">@techniciansText</p>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 mb-3 mb-md-0">
                             <div class="p-3 border rounded">
                                 <h3 class="text-success">128</h3>
-                                <p class="text-muted mb-0">@SharedLocalizer["ActiveTasks"]</p>
+                                <p class="text-muted mb-0">@activeTasksText</p>
                             </div>
                         </div>
                         <div class="col-6 col-md-3">
                             <div class="p-3 border rounded">
                                 <h3 class="text-warning">14</h3>
-                                <p class="text-muted mb-0">@SharedLocalizer["InProgress"]</p>
+                                <p class="text-muted mb-0">@inProgressText</p>
                             </div>
                         </div>
                         <div class="col-6 col-md-3">
                             <div class="p-3 border rounded">
                                 <h3 class="text-info">87%</h3>
-                                <p class="text-muted mb-0">@SharedLocalizer["Efficiency"]</p>
+                                <p class="text-muted mb-0">@efficiencyText</p>
                             </div>
                         </div>
                     </div>
