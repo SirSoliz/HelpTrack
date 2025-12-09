@@ -5,9 +5,11 @@ using X.PagedList;
 using X.PagedList.Extensions;
 using Microsoft.Extensions.Localization;
 using HelpTrack.Application.Resources;
+using HelpTrack.Helpers;
 
 namespace HelpTrack.Web.Controllers
 {
+    [RequireAdmin]
     public class TecnicoController : Controller
     {
         private readonly IServiceTecnico _serviceTecnico;

@@ -45,11 +45,15 @@ namespace HelpTrack.Controllers
                         return View(model);
                     }
 
+                    // Determinar si es administrador (por ahora basado en email)
+                    var isAdmin = user.Email.Equals("admin@gmail.com", StringComparison.OrdinalIgnoreCase);
+                    
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.Nombre),
                         new Claim(ClaimTypes.Email, user.Email),
-                        new Claim("IdUsuario", user.IdUsuario.ToString())
+                        new Claim("IdUsuario", user.IdUsuario.ToString()),
+                        new Claim(ClaimTypes.Role, isAdmin ? "Administrador" : "Usuario")
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -173,6 +177,7 @@ namespace HelpTrack.Controllers
             return View(userDto);
         }
         
+        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();

@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using HelpTrack.Models;
 using Microsoft.AspNetCore.Mvc;
+using HelpTrack.Helpers;
 
 namespace HelpTrack.Controllers
 {
+    [RequireAdmin]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

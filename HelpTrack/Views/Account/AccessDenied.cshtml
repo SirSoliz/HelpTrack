@@ -1,0 +1,41 @@
+@using System.Globalization
+@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isEs = lang == "es";
+
+    var title = isEs ? "Acceso Denegado" : "Access Denied";
+    var message = isEs ? "No tienes permisos para acceder a esta página. Esta área está restringida solo para administradores." : "You don't have permission to access this page. This area is restricted to administrators only.";
+    var backToHomeText = isEs ? "Volver al Inicio" : "Back to Home";
+    var loginText = isEs ? "Iniciar Sesión" : "Login";
+
+    ViewData["Title"] = title;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>@title
+                    </h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-lock fa-4x text-danger"></i>
+                    </div>
+                    <p class="lead">@message</p>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <a href="/" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>@backToHomeText
+                        </a>
+                        <a href="/Account/Login" class="btn btn-outline-secondary">
+                            <i class="fas fa-sign-in-alt me-2"></i>@loginText
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

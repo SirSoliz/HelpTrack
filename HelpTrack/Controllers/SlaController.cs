@@ -3,9 +3,11 @@ using HelpTrack.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using X.PagedList.Extensions;
+using HelpTrack.Helpers;
 
 namespace HelpTrackWeb.Controllers
 {
+    [RequireAdmin]
     public class SlaController : Controller
     {
         private readonly IServiceSla _serviceSla;

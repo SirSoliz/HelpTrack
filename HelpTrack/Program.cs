@@ -3,9 +3,12 @@ using HelpTrack.Application.Services.Interfaces;
 using HelpTrack.Infraestructure.Data;
 using HelpTrack.Infraestructure.Repository.Implementations;
 using HelpTrack.Infraestructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using HelpTrack.Helpers;
 using Serilog;
 using System.Globalization;
 
@@ -50,6 +53,22 @@ builder.Services.AddScoped<IServiceTecnico, ServiceTecnico>();
 builder.Services.AddScoped<IServiceTicket, ServiceTicket>();
 builder.Services.AddScoped<IServiceUsuario, ServiceUsuario>();
 
+// Authentication and Authorization
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(24);
+        options.SlidingExpiration = true;
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => 
+        policy.RequireRole("Administrador"));
+});
+
 // Serilog
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
@@ -82,6 +101,7 @@ app.UseRequestLocalization();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSerilogRequestLogging();
