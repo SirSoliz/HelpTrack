@@ -23,8 +23,8 @@ namespace HelpTrack.Helpers
                 return Task.CompletedTask;
             }
 
-            var roleClaim = context.User.FindFirst(ClaimTypes.Role);
-            if (roleClaim != null && roleClaim.Value == "Administrador")
+            var emailClaim = context.User.FindFirst(ClaimTypes.Email);
+            if (emailClaim != null && emailClaim.Value.Equals("admin@gmail.com", StringComparison.OrdinalIgnoreCase))
             {
                 context.Succeed(requirement);
             }

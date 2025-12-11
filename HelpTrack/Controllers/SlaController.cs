@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 using X.PagedList.Extensions;
 using HelpTrack.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HelpTrackWeb.Controllers
 {
+    [Authorize]
     [RequireAdmin]
     public class SlaController : Controller
     {

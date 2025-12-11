@@ -33,22 +33,25 @@
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@privacyText</a>
                 </li>
               
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-wrench"></i> @maintenanceText
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" asp-controller="Tecnico" asp-action="Index">@techniciansText</a></li>
-                        <li><a class="dropdown-item" asp-controller="Categoria" asp-action="Index">@categoriesText</a></li>
-                        <li><a class="dropdown-item" asp-controller="Ticket" asp-action="Index">@ticketsText</a></li>
-                        <li><a class="dropdown-item" asp-controller="Sla" asp-action="Index">@slaText</a></li>
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> @(isEs ? "Usuarios" : "Users")</a></li>
-                        }
-                    </ul>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-wrench"></i> @maintenanceText
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Tecnico" asp-action="Index">@techniciansText</a></li>
+                            <li><a class="dropdown-item" asp-controller="Categoria" asp-action="Index">@categoriesText</a></li>
+                            <li><a class="dropdown-item" asp-controller="Ticket" asp-action="Index">@ticketsText</a></li>
+                            <li><a class="dropdown-item" asp-controller="Sla" asp-action="Index">@slaText</a></li>
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Index"><i class="fas fa-users"></i> @(isEs ? "Usuarios" : "Users")</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">

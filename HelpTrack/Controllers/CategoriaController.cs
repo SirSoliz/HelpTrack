@@ -14,9 +14,11 @@ using X.PagedList.Extensions;
 using Microsoft.Extensions.Localization;
 using HelpTrack.Application.Resources;
 using HelpTrack.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HelpTrack.Web.Controllers
 {
+    [Authorize]
     [RequireAdmin]
     public class CategoriaController : Controller
     {

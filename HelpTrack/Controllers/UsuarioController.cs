@@ -8,9 +8,11 @@ using Microsoft.Extensions.Localization;
 using X.PagedList;
 using X.PagedList.Extensions;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HelpTrack.Web.Controllers
 {
+    [Authorize]
     [RequireAdmin]
     public class UsuarioController : Controller
     {
