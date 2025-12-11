@@ -114,7 +114,16 @@ namespace HelpTrack.Application.Services.Implementations
         public async Task<CategoriaDTO> GetByIdWithDetailsAsync(int id)
         {
             var categoria = await _repository.FindByIdAsync(id);
-            return _mapper.Map<CategoriaDTO>(categoria);
+            if (categoria == null)
+                return null;
+
+            var dto = _mapper.Map<CategoriaDTO>(categoria);
+            
+            // Mapear explícitamente las colecciones
+            dto.Especialidades = _mapper.Map<ICollection<EspecialidadDTO>>(categoria.IdEspecialidad);
+            dto.Etiquetas = _mapper.Map<ICollection<EtiquetaDTO>>(categoria.IdEtiqueta);
+            
+            return dto;
         }
     }
 }
